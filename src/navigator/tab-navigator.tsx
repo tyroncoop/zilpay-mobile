@@ -12,6 +12,7 @@ import { useTheme } from '@react-navigation/native';
 
 import HomeIconSVG from 'app/assets/icons/home.svg';
 import TimerIconSVG from 'app/assets/icons/timer.svg';
+import TyronIconSVG from 'app/assets/icons/tyron.svg';
 import BrowserIconSVG from 'app/assets/icons/browser.svg';
 import SettingsIconSVG from 'app/assets/icons/settings.svg';
 
@@ -19,12 +20,14 @@ import HomePage from 'app/pages/home';
 import { browserNav, BrwoserStackParamList } from 'app/navigator/browser';
 import { SettingsPage } from 'app/pages/settings';
 import { HistoryPage } from 'app/pages/history';
+import { Tyron } from 'app/pages/tyron';
 
 import I18n from 'app/lib/i18n';
 
 export type TabStackParamList = {
   Home: undefined;
   History: undefined;
+  Tyron: undefined;
   Browser: BrwoserStackParamList;
   Settings: undefined;
 };
@@ -67,6 +70,16 @@ export const TabNavigator: React.FC = () => {
           tabBarLabel: I18n.t('history'),
           tabBarIcon: ({ color }) => (
             <TimerIconSVG fill={color} />
+          )
+        }}
+      />
+      <TabStack.Screen
+        name="Tyron"
+        component={Tyron}
+        options={{
+          tabBarLabel: 'TYRON',
+          tabBarIcon: () => (
+            <TyronIconSVG />
           )
         }}
       />
