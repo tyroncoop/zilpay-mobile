@@ -72,7 +72,36 @@
     "react-navigation": "^4.4.4",
     "react-ridge-state": "^4.2.2",
     "url-parse": "^1.5.1",
-    "websocket": "^1.0.34"
+    "websocket": "^1.0.34",
+    "@swc/core": "^1.2.192",
+    "@swc/wasm": "^1.2.189",
+    "@types/node": "*",
+    "@zilliqa-js/account": "^3.3.4",
+    "arweave": "^1.11.6",
+    "assert": "^1.1.1",
+    "axios": "^0.26.1",
+    "bufferutil": "^4.0.1",
+    "canvas": "^2.5.0",
+    "constants-browserify": "^1.0.0",
+    "encoding": "^0.1.0",
+    "i18next": "^21.9.1",
+    "react-i18next": "^11.18.4",
+    "react-native-crypto": "^2.1.0",
+    "react-native-dropdown-picker": "^5.4.2",
+    "react-native-encrypted-storage": "^4.0.2",
+    "react-native-randombytes": "^3.0.0",
+    "react-redux": "^7.2.6",
+    "readable-stream": "1.0.33",
+    "redux": "^4.1.2",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
+    "redux-promise-middleware": "^6.1.2",
+    "rn-nodeify": "^10.3.0",
+    "stream-browserify": "^1.0.0",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2",
+    "tyron": "^4.4.0",
+    "utf-8-validate": "^5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",
@@ -115,5 +144,25 @@
       "json",
       "node"
     ]
+  },
+  "react-native": {
+    "constants": "constants-browserify",
+    "crypto": "react-native-crypto",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify"
+  },
+  "browser": {
+    "constants": "constants-browserify",
+    "crypto": "react-native-crypto",
+    "_stream_transform": "readable-stream/transform",
+    "_stream_readable": "readable-stream/readable",
+    "_stream_writable": "readable-stream/writable",
+    "_stream_duplex": "readable-stream/duplex",
+    "_stream_passthrough": "readable-stream/passthrough",
+    "stream": "stream-browserify"
   }
 }

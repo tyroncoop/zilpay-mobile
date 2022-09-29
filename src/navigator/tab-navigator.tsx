@@ -18,9 +18,10 @@ import SettingsIconSVG from 'app/assets/icons/settings.svg';
 
 import HomePage from 'app/pages/home';
 import { browserNav, BrwoserStackParamList } from 'app/navigator/browser';
+import { tyronNav } from 'app/navigator/tyron';
 import { SettingsPage } from 'app/pages/settings';
 import { HistoryPage } from 'app/pages/history';
-import { Tyron } from 'app/pages/tyron';
+// import { Tyron } from 'app/pages/tyron';
 
 import I18n from 'app/lib/i18n';
 
@@ -75,7 +76,7 @@ export const TabNavigator: React.FC = () => {
       />
       <TabStack.Screen
         name="Tyron"
-        component={Tyron}
+        component={tyronNav}
         options={{
           tabBarLabel: 'TYRON',
           tabBarIcon: () => (
