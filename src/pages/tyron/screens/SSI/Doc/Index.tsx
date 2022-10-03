@@ -11,6 +11,8 @@ import DIDLayout from '../../../components/Layout/DID/Index';
 import Headline from '../../../components/Headline/Index';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userDoc, userName } from 'app/lib/controller/tyron/user';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -31,9 +33,9 @@ export default Doc;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const name = useSelector((state: any) => state.user.name);
-  const doc = useSelector((state: any) => state.user.doc);
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const name = userName.useValue()
+  const doc = userDoc.useValue()
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const net = 'mainnet';
   let exists = false;

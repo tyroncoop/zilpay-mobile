@@ -1,3 +1,4 @@
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Image} from 'react-native';
@@ -19,7 +20,7 @@ export type Props = {
 
 const SSNSelector: React.FC<Props> = ({onChange, title, value}) => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
 
   const optionMainnet = [

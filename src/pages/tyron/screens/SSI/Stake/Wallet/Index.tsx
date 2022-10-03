@@ -30,6 +30,8 @@ import {TextInput} from 'react-native';
 import SSNSelector from './SSNSelector/Index';
 import DelegatorSwap from './DelegatorSwap/Index';
 import DashboardStake from './DashboardStake/Index';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userDomain, userName } from 'app/lib/controller/tyron/user';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -50,9 +52,9 @@ export default StakeWallet;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const name = useSelector((state: any) => state.user.name);
-  const domain = useSelector((state: any) => state.user.domain);
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const name = userName.useValue()
+  const domain = userDomain.useValue()
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
 
   const [active, setActive] = useState('');

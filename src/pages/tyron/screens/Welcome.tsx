@@ -19,7 +19,7 @@ import Menu from '../components/Menu/Index';
 import Modal from '../components/Modal/Index';
 import GetStarted from '../components/GetStarted/Index';
 import Dashboard from '../components/Dashboard/Index';
-// import {useSelector} from 'react-redux';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 export type Props = {
   navigation: any;
@@ -29,8 +29,7 @@ const Welcome: React.FC<Props> = ({navigation}) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showConnect, setShowConnect] = useState(false);
   const [showGetStarted, setShowGetStarted] = useState(false);
-  // const isDark = useSelector((state: any) => state.user.isDark);
-  const isDark = true
+  const isDark = tyronThemeDark.useValue()
   const [loginState, setLoginState] = useState('');
   const lightning_ = isDark ? lightning : lightning_light;
 

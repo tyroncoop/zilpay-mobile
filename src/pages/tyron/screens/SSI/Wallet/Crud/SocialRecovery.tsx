@@ -13,6 +13,7 @@ import {useSelector} from 'react-redux';
 import {TextInput} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import ContinueArrow from '../../../../assets/icons/continue_arrow.svg';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -33,7 +34,7 @@ export default SocialRecovery;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
 
   const dataHeadline = [

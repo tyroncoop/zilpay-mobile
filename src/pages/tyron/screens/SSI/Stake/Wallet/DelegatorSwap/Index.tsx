@@ -13,6 +13,7 @@ import RevokeIco from '../../../../../assets/img/swap_revoke.png';
 import RejectIco from '../../../../../assets/img/swap_reject.png';
 import Donate from '../../../../../components/Donate/Index';
 import Selector from '../../../../../components/Selector/Index';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 const deviceWidth = Dimensions.get('screen').width;
 const deviceHeight = Dimensions.get('screen').height;
@@ -21,7 +22,7 @@ export type Props = {};
 
 const DelegatorSwap: React.FC<Props> = () => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const [active, setActive] = useState('');
   const [recipient, setRecipient] = useState('');

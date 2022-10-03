@@ -1,10 +1,10 @@
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Image} from 'react-native';
 import {Linking} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import {Text, StyleSheet, View, Dimensions, TextInput} from 'react-native';
-import {useSelector} from 'react-redux';
 import upDown from '../../assets/img/up_down_arrow.png';
 
 const deviceWidth = Dimensions.get('screen').width;
@@ -18,7 +18,7 @@ export type Props = {
 
 const Selector: React.FC<Props> = ({data, selectedData, setData}) => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
 
   const [showDropdown, setShowDropdown] = useState(false);

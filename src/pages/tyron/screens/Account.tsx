@@ -19,7 +19,7 @@ import * as tyron from '../../../../node_modules/tyron';
 import lightning from '../assets/img/lightning.jpg';
 import lightning_light from '../assets/img/lightning_gris.jpg';
 import EncryptedStorage from 'react-native-encrypted-storage';
-import {useSelector} from 'react-redux';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 export type Props = {
   navigation: any;
@@ -32,7 +32,7 @@ const Account: React.FC<Props> = ({navigation}) => {
   const [secretPhrase, setSecretPhrase] = useState('');
   const [privKey, setPrivKey] = useState('');
   const [loading, setLoading] = useState(false);
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const lightning_ = isDark ? lightning : lightning_light;
 
   const submitSecretPhrase = async () => {

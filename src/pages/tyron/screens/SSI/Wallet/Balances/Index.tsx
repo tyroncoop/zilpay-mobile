@@ -12,6 +12,7 @@ import DIDLayout from '../../../../components/Layout/DID/Index';
 import ArrowDown from '../../../../assets/img/arrow_down_icon.png';
 import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -32,7 +33,7 @@ export default Balances;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const [showDropdown, setShowDropdown] = useState(false);
 

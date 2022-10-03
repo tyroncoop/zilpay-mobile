@@ -20,6 +20,8 @@ import github from '../../../../assets/img/github.png';
 import twitter from '../../../../assets/img/twitter.png';
 import other from '../../../../assets/img/other.png';
 import {useTranslation} from 'react-i18next';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userDoc, userName } from 'app/lib/controller/tyron/user';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -40,19 +42,16 @@ export default Services;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const name = 'bagasi';
-  const doc:any = null
-  // const name = useSelector((state: any) => state.user.name);
-  // const doc = useSelector((state: any) => state.user.doc);
-  const isDark = true
-  // const isDark = useSelector((state: any) => state.user.isDark);
+  const name = userName.useValue();
+  const doc: any = userDoc.useValue()
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const net = 'mainnet';
   let available = false;
 
   return (
     <View style={styles.wrapper}>
-      {/* <Headline navigation={navigation} data={[]} /> */}
+      <Headline navigation={navigation} data={[]} />
       <View style={styles.textHeaderWrapper}>
         <View style={styles.txtHeaderYellowWrapper}>
           <Text style={styles.txtHeaderWhite}>{t('SOCIAL TREE')}</Text>

@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DIDLayout from '../../../components/Layout/DID/Index';
-import search from '../../../assets/img/search.png';
 import Headline from '../../../components/Headline/Index';
 import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
 import ContinueArrow from '../../../assets/icons/continue_arrow.svg';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userName } from 'app/lib/controller/tyron/user';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -36,8 +36,8 @@ export default AddFunds;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const name = useSelector((state: any) => state.user.name);
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const name = userName.useValue()
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const [openOriginator, setOpenOriginator] = useState(false);
   const [valueOriginator, setValueOriginator] = useState('');

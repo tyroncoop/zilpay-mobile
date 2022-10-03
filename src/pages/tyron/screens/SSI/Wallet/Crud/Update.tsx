@@ -14,9 +14,9 @@ import replaceIco from '../../../../assets/img/retweet.png';
 import trashIco from '../../../../assets/img/trash.png';
 import arrowDownIco from '../../../../assets/img/arrow_down_icon.png';
 import {Image} from 'react-native';
-import {useSelector} from 'react-redux';
-import {TouchableWithoutFeedback} from 'react-native';
 import {useTranslation} from 'react-i18next';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userDoc } from 'app/lib/controller/tyron/user';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -37,11 +37,11 @@ export default Crud;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-  const doc = useSelector((state: any) => state.user.doc);
+  const doc = userDoc.useValue()
 
   const items = [
     {label: t('Select document element'), value: ''},

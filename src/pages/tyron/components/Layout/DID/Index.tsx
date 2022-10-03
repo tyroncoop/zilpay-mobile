@@ -22,6 +22,7 @@ import Menu from '../../../components/Menu/Index';
 import Modal from '../../../components/Modal/Index';
 import GetStarted from '../../../components/GetStarted/Index';
 import Dashboard from '../../Dashboard/Index';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 // import {useSelector} from 'react-redux';
 
 const deviceWidth = Dimensions.get('screen').width;
@@ -36,8 +37,7 @@ const DIDLayout: React.FC<Props> = ({navigation, child}) => {
   const [showConnect, setShowConnect] = useState(false);
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [loginState, setLoginState] = useState('');
-  const isDark = true
-  // const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const lightning_ = isDark ? lightning : lightning_light;
 
   return (

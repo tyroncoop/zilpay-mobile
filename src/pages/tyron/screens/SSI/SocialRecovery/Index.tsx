@@ -1,3 +1,5 @@
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userName } from 'app/lib/controller/tyron/user';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -30,8 +32,8 @@ export default SocialRecovery;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const name = useSelector((state: any) => state.user.name);
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const name = userName.useValue()
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   return (
     <View style={styles.wrapper}>

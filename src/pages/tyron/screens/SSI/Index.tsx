@@ -10,7 +10,6 @@ import {
   Dimensions,
   Animated,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import DropDownPicker from 'react-native-dropdown-picker';
 import SearchBar from '../../components/SearchBar/Index';
 import Footer from '../../components/Footer/Index';
@@ -26,6 +25,8 @@ import GetStarted from '../../components/GetStarted/Index';
 import Headline from '../../components/Headline/Index';
 import Dashboard from '../../components/Dashboard/Index';
 import {useTranslation} from 'react-i18next';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userName } from 'app/lib/controller/tyron/user';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -45,8 +46,8 @@ const SSI: React.FC<Props> = ({navigation}) => {
   const [flipDid, setFlipDid] = useState(false);
   const [flipSoc, setFlipSoc] = useState(false);
   const [flipFund, setFlipFund] = useState(false);
-  const name = useSelector((state: any) => state.user.name);
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const name = userName.useValue()
+  const isDark = tyronThemeDark.useValue()
   const lightning_ = isDark ? lightning : lightning_light;
   const styles = isDark ? stylesDark : stylesLight;
 

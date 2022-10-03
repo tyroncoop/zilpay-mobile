@@ -15,6 +15,7 @@ import DIDLayout from '../../../../components/Layout/DID/Index';
 import rightArrow from '../../../../assets/img/right-arrow.png';
 import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -35,7 +36,7 @@ export default Crud;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const [flip1, setFlip1] = useState(false);
   const [flip2, setFlip2] = useState(false);

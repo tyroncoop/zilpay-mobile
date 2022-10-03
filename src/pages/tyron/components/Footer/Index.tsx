@@ -7,11 +7,11 @@ import {
   Image,
   Linking,
 } from 'react-native';
-// import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import tyronLogo from '../../assets/img/tyron_logo.png';
 import upDown from '../../assets/img/up_down_arrow.png';
-import {updateLang} from '../../redux/actions/user';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { tyronLang } from 'app/lib/controller/tyron/lang';
 
 export type Props = {
   navigation: any;
@@ -21,9 +21,8 @@ const Footer: React.FC<Props> = ({navigation}) => {
   // const dispatch = useDispatch();
   const {i18n} = useTranslation();
   const [showDropdown, setShowDropdown] = useState(false);
-  // const language = useSelector((state: any) => state.user.lang);
-  const language = 'en'
-  const isDark = true
+  const language = tyronLang.useValue()
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
 
   const navigate = (type: string) => {
@@ -32,10 +31,10 @@ const Footer: React.FC<Props> = ({navigation}) => {
 
   const changeLanguage = (value: string) => {
     setShowDropdown(false);
-    // i18n
-    //   .changeLanguage(value)
-    //   .then(() => dispatch(updateLang(value)))
-    //   .catch(err => console.log(err));
+    i18n
+      .changeLanguage(value)
+      .then(() => tyronLang.set(value))
+      .catch(err => console.log(err));
   };
 
   const langDropdown = [

@@ -15,6 +15,8 @@ import {useTranslation} from 'react-i18next';
 import {updateDoc, updateDomain, updateName} from '../../redux/actions/user';
 import search from '../../assets/img/search.png';
 import * as tyron from '../../../../../node_modules/tyron';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userDoc, userDomain, userName } from 'app/lib/controller/tyron/user';
 
 const DeviceWidth = Dimensions.get('screen').width;
 
@@ -28,8 +30,7 @@ const SearchBar: React.FC<Props> = ({navigation}) => {
 
   const [loading, setLoading] = useState(false);
   const [searchInput, setSearchInput] = useState('');
-  // const isDark = useSelector((state: any) => state.user.isDark);
-  const isDark = true
+  const isDark = tyronThemeDark.useValue()
 
   const styles = isDark ? stylesDark : stylesLight;
   const net = 'testnet';
@@ -56,9 +57,9 @@ const SearchBar: React.FC<Props> = ({navigation}) => {
                 .Resolve(net, address)
                 .then((res: any) => {
                   setSearchInput('');
-                  // dispatch(updateDoc(res));
-                  // dispatch(updateName(name));
-                  // dispatch(updateDomain(domain));
+                  userDoc.set(res)
+                  userName.set(name)
+                  userDomain.set(domain)
                   setLoading(false);
                   navigation.navigate('Services');
                 })
@@ -67,8 +68,8 @@ const SearchBar: React.FC<Props> = ({navigation}) => {
                   Alert.alert(JSON.stringify(err));
                 });
             } else {
-              // dispatch(updateName(name));
-              // dispatch(updateDomain(domain));
+              userName.set(name)
+              userDomain.set(domain)
               setLoading(false);
               setSearchInput('');
               navigation.navigate('Stake');

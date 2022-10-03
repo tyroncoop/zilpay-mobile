@@ -8,6 +8,7 @@ import Moon from '../../assets/icons/moon.svg';
 // import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {updateIsDark} from '../../redux/actions/user';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 export type Props = {
   loginState: string;
@@ -21,8 +22,7 @@ const Dashboard: React.FC<Props> = ({setShowMenu, setShowConnect}) => {
   // const dispatch = useDispatch();
   // const loginInfo = useSelector((state: any) => state.user.loginInfo);
   const loginInfo:any = null;
-  const isDark = true;
-  // const isDark = useSelector((state: any) => state.user.isDark);
+  const [isDark, setIsDark] = tyronThemeDark.use()
   const isLogin = loginInfo?.address;
   const styles = isDark ? stylesDark : stylesLight;
 
@@ -37,14 +37,14 @@ const Dashboard: React.FC<Props> = ({setShowMenu, setShowConnect}) => {
       <View style={styles.rightMenu}>
         {isDark ? (
           <TouchableOpacity
-            // onPress={() => dispatch(updateIsDark(false))}
+            onPress={() => setIsDark(false)}
             style={styles.btnSun}
           >
             <Sun width={30} height={30} />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            // onPress={() => dispatch(updateIsDark(true))}
+            onPress={() => setIsDark(true)}
             style={styles.btnMoon}
           >
             <Moon width={30} height={30} />

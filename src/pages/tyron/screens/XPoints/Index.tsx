@@ -14,6 +14,7 @@ import Headline from '../../components/Headline/Index';
 import DIDLayout from '../../components/Layout/DID/Index';
 import ArrowUp from '../../assets/img/arrow-up.png';
 import continueArrow from '../../assets/img/continue_arrow.png';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -34,7 +35,7 @@ export default XPoints;
 
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const [selectedMotion, setSelectedMotion] = useState('');
   const [readMore, setReadMore] = useState('');

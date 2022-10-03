@@ -1,3 +1,4 @@
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -12,7 +13,6 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-// import {useSelector} from 'react-redux';
 import back from '../../assets/img/chevron-left.png';
 
 const deviceWidth = Dimensions.get('screen').width;
@@ -33,8 +33,7 @@ const Menu: React.FC<Props> = ({
 }) => {
   const {t} = useTranslation();
   const [child, setChild] = useState(false);
-  // const isDark = useSelector((state: any) => state.user.isDark);
-  const isDark = true;
+  const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
 
   const showModal = (type: string) => {

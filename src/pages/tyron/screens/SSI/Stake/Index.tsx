@@ -21,6 +21,8 @@ import GetStarted from '../../../components/GetStarted/Index';
 import Headline from '../../../components/Headline/Index';
 import Dashboard from '../../../components/Dashboard/Index';
 import {useTranslation} from 'react-i18next';
+import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import { userDomain, userName } from 'app/lib/controller/tyron/user';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -36,9 +38,9 @@ const Stake: React.FC<Props> = ({navigation}) => {
   const [loginState, setLoginState] = useState('');
   const [flipWallet, setFlipWallet] = useState(false);
   const [flipDid, setFlipDid] = useState(false);
-  const name = useSelector((state: any) => state.user.name);
-  const domain = useSelector((state: any) => state.user.domain);
-  const isDark = useSelector((state: any) => state.user.isDark);
+  const name = userName.useValue()
+  const domain = userDomain.useValue()
+  const isDark = tyronThemeDark.useValue()
   const lightning_ = isDark ? lightning : lightning_light;
   const styles = isDark ? stylesDark : stylesLight;
 
