@@ -10,6 +10,7 @@ import {
   Dimensions,
   Animated,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import SearchBar from '../../../components/SearchBar/Index';
 import Footer from '../../../components/Footer/Index';
 import lightning from '../../../assets/img/lightning.jpg';
@@ -30,7 +31,7 @@ export type Props = {
   navigation: any;
 };
 
-const Stake: React.FC<Props> = ({navigation}) => {
+const Soulbound: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
   const [showMenu, setShowMenu] = useState(false);
   const [showConnect, setShowConnect] = useState(false);
@@ -173,7 +174,7 @@ const Stake: React.FC<Props> = ({navigation}) => {
             <SearchBar navigation={navigation} />
             <Headline navigation={navigation} data={dataBreadcrumbs} />
             <View style={styles.textHeaderWrapper}>
-              <Text style={styles.txtHeader}>ZIL Staking xWallet</Text>
+              <Text style={styles.txtHeader}>Soulbound xWallet</Text>
               <Text style={styles.cardTxtHeader}>
                 {domain}@
               </Text>
@@ -184,7 +185,7 @@ const Stake: React.FC<Props> = ({navigation}) => {
             <View style={styles.content}>
               <View style={styles.cardWrapper}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Doc')}
+                  onPress={() => navigation.navigate('SBTPublic')}
                   onLongPress={() =>
                     !!flipRotationDid ? flipToBack('did') : flipToFront('did')
                   }
@@ -201,13 +202,13 @@ const Stake: React.FC<Props> = ({navigation}) => {
                     }}
                   >
                     <Text style={styles.txtCard}>
-                      {flipDid ? '' : t('ZIL')}
+                      {flipDid ? '' : t('SBT')}
                     </Text>
                   </Animated.View>
                 </TouchableOpacity>
                 <Text style={styles.xText}>X</Text>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('StakeWallet')}
+                  onPress={() => navigation.navigate('SBTPrivate')}
                   onLongPress={() =>
                     !!flipRotation
                       ? flipToBack('wallet')
@@ -231,7 +232,7 @@ const Stake: React.FC<Props> = ({navigation}) => {
                   </Animated.View>
                 </TouchableOpacity>
               </View>
-              <ClaimWallet text='Claim ZILxWallet' />
+              <ClaimWallet text="Claim SBTxWallet" />
             </View>
           </View>
           <View>
@@ -243,7 +244,7 @@ const Stake: React.FC<Props> = ({navigation}) => {
   );
 };
 
-export default Stake;
+export default Soulbound;
 
 const stylesDark = StyleSheet.create({
   container: {
@@ -263,7 +264,7 @@ const stylesDark = StyleSheet.create({
   },
   cardTxtHeader: {
     fontSize: 25,
-    color: '#0000ff',
+    color: '#ffff32',
     letterSpacing: 1,
     textAlign: 'center'
   },
@@ -277,6 +278,9 @@ const stylesDark = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  content: {
+    marginBottom: 100,
   },
   cardBlue: {
     width: deviceWidth * 0.3,
@@ -299,25 +303,13 @@ const stylesDark = StyleSheet.create({
   cardBack: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    backgroundColor: '#dbe4eb',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
     backfaceVisibility: 'hidden',
     borderRadius: 5,
-    borderColor: '#0000ff',
+    borderColor: '#ffff32',
     borderWidth: 2,
-  },
-  cardWhite: {
-    width: deviceWidth * 0.3,
-    height: deviceWidth * 0.3,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    borderRadius: 5,
-    borderColor: '#fff',
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 12.5,
-    position: 'absolute',
   },
   txtCard: {
     color: '#fff',
@@ -327,7 +319,7 @@ const stylesDark = StyleSheet.create({
     lineHeight: 20,
   },
   txtCardBack: {
-    color: '#0000ff',
+    color: '#ffff32',
     textAlign: 'center',
     fontSize: 10,
     lineHeight: 20,
@@ -342,10 +334,7 @@ const stylesDark = StyleSheet.create({
     fontSize: 10,
     color: '#fff',
     marginHorizontal: 10,
-  },
-  content: {
-    marginBottom: 100,
-  },
+  }
 });
 
 const stylesLight = StyleSheet.create({
@@ -359,14 +348,13 @@ const stylesLight = StyleSheet.create({
   },
   txtHeader: {
     fontSize: 14,
-    color: '#dbe4eb',
+    color: '#000',
     letterSpacing: 1,
-    textAlign: 'center',
     marginBottom: 10,
   },
   cardTxtHeader: {
     fontSize: 25,
-    color: '#0000ff',
+    color: '#ffff32',
     letterSpacing: 1,
     textAlign: 'center'
   },
@@ -380,6 +368,9 @@ const stylesLight = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  content: {
+    marginBottom: 100,
   },
   cardBlue: {
     width: deviceWidth * 0.3,
@@ -402,25 +393,13 @@ const stylesLight = StyleSheet.create({
   cardBack: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    backgroundColor: '#dbe4eb',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
     backfaceVisibility: 'hidden',
     borderRadius: 5,
-    borderColor: '#0000ff',
+    borderColor: '#ffff32',
     borderWidth: 2,
-  },
-  cardWhite: {
-    width: deviceWidth * 0.3,
-    height: deviceWidth * 0.3,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
-    borderRadius: 5,
-    borderColor: '#fff',
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 12.5,
-    position: 'absolute',
   },
   txtCard: {
     color: '#000',
@@ -430,7 +409,7 @@ const stylesLight = StyleSheet.create({
     lineHeight: 20,
   },
   txtCardBack: {
-    color: '#0000ff',
+    color: '#ffff32',
     textAlign: 'center',
     fontSize: 10,
     lineHeight: 20,
@@ -445,8 +424,5 @@ const stylesLight = StyleSheet.create({
     fontSize: 10,
     color: '#000',
     marginHorizontal: 10,
-  },
-  content: {
-    marginBottom: 100,
-  },
+  }
 });

@@ -62,6 +62,12 @@ Android build singed package
  $ ./gradlew bundleRelease
 ```
 
+### Nodeify
+
+If you've an issue regarding crypto library when running the app. Run this command:
+`node_modules/.bin/rn-nodeify --install "assert,process,buffer,crypto,stream,events,constants" --yarn --hack`
+
+
 Thanks for yours donations.
 ------
 

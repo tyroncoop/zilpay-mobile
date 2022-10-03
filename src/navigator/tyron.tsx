@@ -33,6 +33,9 @@ import DIDSocialRecovery from 'app/pages/tyron/screens/SSI/Wallet/Crud/SocialRec
 import Stake from 'app/pages/tyron/screens/SSI/Stake/Index';
 import StakeWallet from 'app/pages/tyron/screens/SSI/Stake/Wallet/Index';
 import XPoints from 'app/pages/tyron/screens/XPoints/Index';
+import SBT from 'app/pages/tyron/screens/SSI/SBT/Index';
+import SBTPublic from 'app/pages/tyron/screens/SSI/SBT/Wallet/Public';
+import SBTPrivate from 'app/pages/tyron/screens/SSI/SBT/Wallet/Private';
 
 import { DApp } from 'types';
 
@@ -131,6 +134,21 @@ export const tyronNav: React.FC = () => {
         options={{headerShown: false}}
         name="StakeWallet"
         component={StakeWallet}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="SBT"
+        component={SBT}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="SBTPublic"
+        component={SBTPublic}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="SBTPrivate"
+        component={SBTPrivate}
       />
       <Stack.Screen
         options={{headerShown: false}}
