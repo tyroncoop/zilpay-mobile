@@ -11,10 +11,9 @@ import {
   NativeModules,
 } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {useDispatch} from 'react-redux';
+// import {useDispatch} from 'react-redux';
 import {w3cwebsocket as W3cwebsocket} from 'websocket';
-import Aes from 'react-native-aes-crypto';
-import {zilpayKey, arconnectKey} from '../redux/actions/user';
+// import Aes from 'react-native-aes-crypto';
 import back from '../assets/img/back.png';
 import {AccountTypes} from '../configs/account-type';
 import {ActivityIndicator} from 'react-native';
@@ -26,7 +25,7 @@ export type Props = {
 };
 
 const Scan: React.FC<Props> = ({navigation}) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const Aes = NativeModules.Aes;
   const type = useNavigationState((state: any) => state.routes[1].params.type);
   const [step, setStep] = useState(1);

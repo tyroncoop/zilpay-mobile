@@ -7,7 +7,6 @@ import Sun from '../../assets/icons/sun.svg';
 import Moon from '../../assets/icons/moon.svg';
 // import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
-import {updateIsDark} from '../../redux/actions/user';
 import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 export type Props = {

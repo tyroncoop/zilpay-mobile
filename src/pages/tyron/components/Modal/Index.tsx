@@ -24,12 +24,6 @@ import addIco from '../../assets/img/add_icon.png';
 import minusIco from '../../assets/img/minus_icon.png';
 import logOff from '../../assets/img/log_off.png';
 import rightArrow from '../../assets/img/right-arrow.png';
-import {
-  passcodeKey,
-  updateDoc,
-  updateLoginInfo,
-} from '../../redux/actions/user';
-import {setLogin} from '../../redux/actions/isLogin';
 import {Clipboard} from 'react-native';
 import {ActivityIndicator} from 'react-native';
 import smartContract from '../../util/smartContract';
