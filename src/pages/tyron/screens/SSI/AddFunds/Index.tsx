@@ -15,7 +15,13 @@ import Headline from '../../../components/Headline/Index';
 import {useTranslation} from 'react-i18next';
 import ContinueArrow from '../../../assets/icons/continue_arrow.svg';
 import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
-import { userName } from 'app/lib/controller/tyron/user';
+import { userName, userResolved } from 'app/lib/controller/tyron/user';
+import * as tyron from "../../../../../../node_modules/tyron";
+import {Zilliqa} from '@zilliqa-js/zilliqa'
+import { Long, bytes, units } from '@zilliqa-js/util'
+import { toBech32Address } from '@zilliqa-js/crypto'
+import { keystore } from 'app/keystore';
+import { ActivityIndicator } from 'react-native';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -37,6 +43,7 @@ export default AddFunds;
 const Child: React.FC<Props> = ({navigation}) => {
   const {t} = useTranslation();
   const name = userName.useValue()
+  const resolvedInfo = userResolved.useValue()
   const isDark = tyronThemeDark.useValue()
   const styles = isDark ? stylesDark : stylesLight;
   const [openOriginator, setOpenOriginator] = useState(false);
@@ -45,6 +52,50 @@ const Child: React.FC<Props> = ({navigation}) => {
   const [valueCoin, setValueCoin] = useState('');
   const [openSSI, setOpenSSI] = useState(false);
   const [valueSSI, setValueSSI] = useState('');
+  const [loading, setLoading] = useState(false);
+  const zutil = tyron.Util.default.Zutil()
+  const net = 'testnet'
+
+  const sendTx = async () => {
+    // const currentAccount = keystore.account.getCurrentAccount();
+    //   const account = await keystore.getkeyPairs(currentAccount, 'password');
+    //   console.log(account)
+    setLoading(true)
+    const zilliqa = new Zilliqa('https://dev-api.zilliqa.com');
+
+    let privkey = '4d5eadba6811758c99bb5f2b466d19a3f42fcb396c1402a2874facacda372bd7'
+
+    zilliqa.wallet.addByPrivateKey(privkey);
+
+    const CHAIN_ID = 333;
+    const MSG_VERSION = 1;
+    const VERSION = bytes.pack(CHAIN_ID, MSG_VERSION);
+
+    const myGasPrice = units.toQa('2000', units.Units.Li); // Gas Price that will be used by all transactions
+    const contractAddress = resolvedInfo?.addr
+    const ftAddr = toBech32Address(contractAddress);
+    const amount_ = zutil.units.toQa('1', zutil.units.Units.Zil)
+    try {
+      const contract = zilliqa.contracts.at(ftAddr);
+      const tx = await contract.call(
+        'AddFunds',
+        [],
+        {
+          // amount, gasPrice and gasLimit must be explicitly provided
+          version: VERSION,
+          amount: amount_,
+          gasPrice: myGasPrice,
+          gasLimit: Long.fromNumber(10000),
+        }
+      )
+      console.log('###', tx)
+      Linking.openURL(`https://v2.viewblock.io/zilliqa/tx/${tx.id}?network=${net}`)
+      setLoading(false)
+    } catch (err) {
+      console.log('@@@', err);
+    }
+    setLoading(false)
+  }
 
   const itemsOriginator = [
     {label: t('Select originator'), value: ''},
@@ -76,7 +127,7 @@ const Child: React.FC<Props> = ({navigation}) => {
         <Text style={styles.txtInfo}>
           {t('You can add funds into X from your SSI or ZilPay.', {name})}
         </Text>
-        <View style={styles.picker}>
+        {/* <View style={styles.picker}>
           <DropDownPicker
             listMode="SCROLLVIEW"
             open={openOriginator}
@@ -208,7 +259,25 @@ const Child: React.FC<Props> = ({navigation}) => {
             </TouchableOpacity>
             <Text style={styles.txtGas}>{t('GAS_AROUND')} 4-7 zil</Text>
           </View>
-        )}
+        )} */}
+        <View style={{marginTop: 50}}>
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <>
+              <TouchableOpacity onPress={sendTx} style={styles.btnTransfer}>
+                <Text style={styles.btnTransferTxt}>
+                  {t('TRANSFER')}{' '}
+                  <Text style={{color: '#ffff32', textTransform: 'uppercase'}}>
+                    1 ZIL
+                  </Text>{' '}
+                  {t('TO')} <Text style={{color: '#ffff32'}}>{name}</Text>
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.txtGas}>{t('GAS_AROUND')} 4-7 zil</Text>
+            </>
+          )}
+        </View>
       </View>
     </View>
   );
