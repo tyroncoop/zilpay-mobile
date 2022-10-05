@@ -22,6 +22,7 @@ import { Long, bytes, units } from '@zilliqa-js/util'
 import { toBech32Address } from '@zilliqa-js/crypto'
 import { keystore } from 'app/keystore';
 import { ActivityIndicator } from 'react-native';
+import { TyronConfirm } from 'app/pages/tyron/components/PopUp';
 
 const deviceWidth = Dimensions.get('screen').width;
 
@@ -52,18 +53,16 @@ const Child: React.FC<Props> = ({navigation}) => {
   const [valueCoin, setValueCoin] = useState('');
   const [openSSI, setOpenSSI] = useState(false);
   const [valueSSI, setValueSSI] = useState('');
+  const [popup, setPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const zutil = tyron.Util.default.Zutil()
   const net = 'testnet'
 
-  const sendTx = async () => {
-    // const currentAccount = keystore.account.getCurrentAccount();
-    //   const account = await keystore.getkeyPairs(currentAccount, 'password');
-    //   console.log(account)
+  const sendTx = async (privkey: string) => {
     setLoading(true)
     const zilliqa = new Zilliqa('https://dev-api.zilliqa.com');
 
-    let privkey = '4d5eadba6811758c99bb5f2b466d19a3f42fcb396c1402a2874facacda372bd7'
+    // let privkey = '4d5eadba6811758c99bb5f2b466d19a3f42fcb396c1402a2874facacda372bd7'
 
     zilliqa.wallet.addByPrivateKey(privkey);
 
@@ -265,7 +264,7 @@ const Child: React.FC<Props> = ({navigation}) => {
             <ActivityIndicator color="#fff" />
           ) : (
             <>
-              <TouchableOpacity onPress={sendTx} style={styles.btnTransfer}>
+              <TouchableOpacity onPress={() => setPopup(true)} style={styles.btnTransfer}>
                 <Text style={styles.btnTransferTxt}>
                   {t('TRANSFER')}{' '}
                   <Text style={{color: '#ffff32', textTransform: 'uppercase'}}>
@@ -278,6 +277,7 @@ const Child: React.FC<Props> = ({navigation}) => {
             </>
           )}
         </View>
+        <TyronConfirm title='' visible={popup} setPopup={setPopup} onConfirm={sendTx} />
       </View>
     </View>
   );
