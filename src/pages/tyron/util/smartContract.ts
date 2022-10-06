@@ -1,22 +1,22 @@
-import * as tyron from '../../../../node_modules/tyron';
+import * as tyron from "../../../../node_modules/tyron";
 
 function smartContract() {
-  const net = 'testnet';
+  const net = "testnet";
 
   const getSmartContract = async (address: string, field: string) => {
     let network = tyron.DidScheme.NetworkNamespace.Mainnet;
-    if (net === 'testnet') {
+    if (net === "testnet") {
       network = tyron.DidScheme.NetworkNamespace.Testnet;
     }
     const init = new tyron.ZilliqaInit.default(network);
     const substate = await init.API.blockchain.getSmartContractSubState(
       address,
-      field,
+      field
     );
     return substate;
   };
 
-  return {getSmartContract};
+  return { getSmartContract };
 }
 
 export default smartContract;

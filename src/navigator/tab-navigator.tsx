@@ -12,7 +12,9 @@ import { useTheme } from '@react-navigation/native';
 
 import HomeIconSVG from 'app/assets/icons/home.svg';
 import TimerIconSVG from 'app/assets/icons/timer.svg';
-import TyronIconSVG from 'app/assets/icons/tyron.svg';
+import TyronIconSVG from 'app/assets/icons/tyron_selected.svg';
+import TyronLightIconSVG from 'app/assets/icons/tyron_light.svg';
+import TyronDarkIconSVG from 'app/assets/icons/tyron_dark.svg';
 import BrowserIconSVG from 'app/assets/icons/browser.svg';
 import SettingsIconSVG from 'app/assets/icons/settings.svg';
 
@@ -79,8 +81,16 @@ export const TabNavigator: React.FC = () => {
         component={tyronNav}
         options={{
           tabBarLabel: 'TYRON',
-          tabBarIcon: () => (
-            <TyronIconSVG />
+          tabBarIcon: ({ color }) => (
+            <>
+              {color === '#8E8EAE' ? (
+                <TyronLightIconSVG />
+              ) : color === '#666666' ? (
+                <TyronDarkIconSVG />
+              ) : (
+                <TyronIconSVG />
+              )}
+            </>
           )
         }}
       />

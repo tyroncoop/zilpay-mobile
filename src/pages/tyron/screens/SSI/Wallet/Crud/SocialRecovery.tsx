@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -6,21 +6,21 @@ import {
   Text,
   Dimensions,
   Animated,
-} from 'react-native';
-import Headline from '../../../../components/Headline/Index';
-import DIDLayout from '../../../../components/Layout/DID/Index';
-import {TextInput} from 'react-native';
-import {useTranslation} from 'react-i18next';
-import ContinueArrow from '../../../../assets/icons/continue_arrow.svg';
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+} from "react-native";
+import Headline from "../../../../components/Headline/Index";
+import DIDLayout from "../../../../components/Layout/DID/Index";
+import { TextInput } from "react-native";
+import { useTranslation } from "react-i18next";
+import ContinueArrow from "../../../../assets/icons/continue_arrow.svg";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get("screen").width;
 
 export type Props = {
   navigation: any;
 };
 
-const SocialRecovery: React.FC<Props> = ({navigation}) => {
+const SocialRecovery: React.FC<Props> = ({ navigation }) => {
   return (
     <DIDLayout
       navigation={navigation}
@@ -31,19 +31,19 @@ const SocialRecovery: React.FC<Props> = ({navigation}) => {
 
 export default SocialRecovery;
 
-const Child: React.FC<Props> = ({navigation}) => {
-  const {t} = useTranslation();
-  const isDark = tyronThemeDark.useValue()
+const Child: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
 
   const dataHeadline = [
     {
-      route: 'Wallet',
-      name: 'Wallet',
+      route: "Wallet",
+      name: "Wallet",
     },
     {
-      route: 'Crud',
-      name: 'DID OPERATIONS',
+      route: "Crud",
+      name: "DID OPERATIONS",
     },
   ];
 
@@ -52,30 +52,30 @@ const Child: React.FC<Props> = ({navigation}) => {
       <Headline navigation={navigation} data={dataHeadline} />
       <View style={styles.textHeaderWrapper}>
         <View style={styles.txtHeaderWrapper}>
-          <Text style={styles.txtHeader}>{t('DID SOCIAL RECOVERY')}</Text>
+          <Text style={styles.txtHeader}>{t("DID SOCIAL RECOVERY")}</Text>
           <Text style={styles.subTxtHeader}>
-            {t('WITH THIS TRANSACTION, YOU WILL CONFIGURE SOCIAL RECOVERY.')}
+            {t("WITH THIS TRANSACTION, YOU WILL CONFIGURE SOCIAL RECOVERY.")}
           </Text>
         </View>
         <View>
           <View style={styles.wrapperInput}>
             <Text style={styles.txtInput}>
-              {t('How many guardians would you like?')}
+              {t("How many guardians would you like?")}
             </Text>
             <TextInput
               style={styles.input}
-              placeholder={t('Type amount')}
-              placeholderTextColor={isDark ? '#fff' : '#000'}
+              placeholder={t("Type amount")}
+              placeholderTextColor={isDark ? "#fff" : "#000"}
             />
           </View>
           <View>
             <View style={styles.inputGuardianWrapper}>
               <View style={styles.txtGuardianWrapper}>
-                <Text style={styles.txt}>{t('Guardian')}#1</Text>
+                <Text style={styles.txt}>{t("Guardian")}#1</Text>
               </View>
               <TextInput
                 style={styles.inputGuardian}
-                placeholder={t('Type NFT Username')}
+                placeholder={t("Type NFT Username")}
                 placeholderTextColor="#fff"
               />
               <View style={styles.txtGuardianWrapper}>
@@ -84,11 +84,11 @@ const Child: React.FC<Props> = ({navigation}) => {
             </View>
             <View style={styles.inputGuardianWrapper}>
               <View style={styles.txtGuardianWrapper}>
-                <Text style={styles.txt}>{t('Guardian')}#2</Text>
+                <Text style={styles.txt}>{t("Guardian")}#2</Text>
               </View>
               <TextInput
                 style={styles.inputGuardian}
-                placeholder={t('Type NFT Username')}
+                placeholder={t("Type NFT Username")}
                 placeholderTextColor="#fff"
               />
               <View style={styles.txtGuardianWrapper}>
@@ -97,11 +97,11 @@ const Child: React.FC<Props> = ({navigation}) => {
             </View>
             <View style={styles.inputGuardianWrapper}>
               <View style={styles.txtGuardianWrapper}>
-                <Text style={styles.txt}>{t('Guardian')}#3</Text>
+                <Text style={styles.txt}>{t("Guardian")}#3</Text>
               </View>
               <TextInput
                 style={styles.inputGuardian}
-                placeholder={t('Type NFT Username')}
+                placeholder={t("Type NFT Username")}
                 placeholderTextColor="#fff"
               />
               <View style={styles.txtGuardianWrapper}>
@@ -124,69 +124,69 @@ const stylesDark = StyleSheet.create({
   },
   txtHeader: {
     fontSize: 20,
-    color: '#dbe4eb',
+    color: "#dbe4eb",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   txtHeaderWrapper: {
     marginVertical: 30,
   },
   subTxtHeader: {
     fontSize: 13,
-    color: '#fff',
+    color: "#fff",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 15,
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   wrapperInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 50,
   },
   input: {
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
     borderRadius: 5,
-    color: '#fff',
+    color: "#fff",
     paddingHorizontal: 10,
   },
   inputGuardian: {
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
     borderRadius: 5,
-    color: '#fff',
+    color: "#fff",
     paddingHorizontal: 10,
     height: 40,
     width: deviceWidth * 0.5,
   },
   txtInput: {
-    maxWidth: '60%',
-    color: '#fff',
+    maxWidth: "60%",
+    color: "#fff",
   },
   txtGuardianWrapper: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
     height: 30,
     paddingHorizontal: 5,
   },
   inputGuardianWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 20,
   },
   btnContinue: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 20,
   },
   txt: {
-    color: '#fff',
+    color: "#fff",
   },
 });
 
@@ -196,68 +196,68 @@ const stylesLight = StyleSheet.create({
   },
   txtHeader: {
     fontSize: 20,
-    color: '#000',
+    color: "#000",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   txtHeaderWrapper: {
     marginVertical: 30,
   },
   subTxtHeader: {
     fontSize: 13,
-    color: '#000',
+    color: "#000",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 15,
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   wrapperInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginBottom: 50,
   },
   input: {
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
     borderRadius: 5,
-    color: '#fff',
+    color: "#fff",
     paddingHorizontal: 10,
   },
   inputGuardian: {
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
     borderRadius: 5,
-    color: '#000',
+    color: "#000",
     paddingHorizontal: 10,
     height: 40,
     width: deviceWidth * 0.5,
   },
   txtInput: {
-    maxWidth: '60%',
-    color: '#000',
+    maxWidth: "60%",
+    color: "#000",
   },
   txtGuardianWrapper: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 5,
     height: 30,
     paddingHorizontal: 5,
   },
   inputGuardianWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 20,
   },
   btnContinue: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 20,
   },
   txt: {
-    color: '#000',
+    color: "#000",
   },
 });

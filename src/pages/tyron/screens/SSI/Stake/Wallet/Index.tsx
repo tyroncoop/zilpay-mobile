@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   View,
   StyleSheet,
@@ -8,37 +8,37 @@ import {
   Dimensions,
   Image,
   TouchableWithoutFeedback,
-} from 'react-native';
-import Headline from '../../../../components/Headline/Index';
-import DIDLayout from '../../../../components/Layout/DID/Index';
-import CloseIco from '../../../../assets/img/ic_cross.png';
-import PauseIco from '../../../../assets/img/pause.png';
-import WithdrawRewardsIco from '../../../../assets/img/withdraw_stake_rewards.png';
-import WithdrawStakeIco from '../../../../assets/img/withdraw_stake_amount.png';
-import DelegateStakeIco from '../../../../assets/img/delegate_stake.png';
-import CompleteWithdrawalIco from '../../../../assets/img/complete_stake_withdrawal.png';
-import RedelegateStakeIco from '../../../../assets/img/redelegate_stake.png';
-import SwapIco from '../../../../assets/img/swap.png';
-import continueArrow from '../../../../assets/img/continue_arrow.png';
-import defaultCheckmark from '../../../../assets/img/default_checkmark.png';
-import selectedCheckmark from '../../../../assets/img/selected_checkmark_blue.png';
-import Donate from '../../../../components/Donate/Index';
-import InputZil from './InputZil/Index';
-import Selector from '../../../../components/Selector/Index';
-import {TextInput} from 'react-native';
-import SSNSelector from './SSNSelector/Index';
-import DelegatorSwap from './DelegatorSwap/Index';
-import DashboardStake from './DashboardStake/Index';
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
-import { userDomain, userName } from 'app/lib/controller/tyron/user';
+} from "react-native";
+import Headline from "../../../../components/Headline/Index";
+import DIDLayout from "../../../../components/Layout/DID/Index";
+import CloseIco from "../../../../assets/img/ic_cross.png";
+import PauseIco from "../../../../assets/img/pause.png";
+import WithdrawRewardsIco from "../../../../assets/img/withdraw_stake_rewards.png";
+import WithdrawStakeIco from "../../../../assets/img/withdraw_stake_amount.png";
+import DelegateStakeIco from "../../../../assets/img/delegate_stake.png";
+import CompleteWithdrawalIco from "../../../../assets/img/complete_stake_withdrawal.png";
+import RedelegateStakeIco from "../../../../assets/img/redelegate_stake.png";
+import SwapIco from "../../../../assets/img/swap.png";
+import continueArrow from "../../../../assets/img/continue_arrow.png";
+import defaultCheckmark from "../../../../assets/img/default_checkmark.png";
+import selectedCheckmark from "../../../../assets/img/selected_checkmark_blue.png";
+import Donate from "../../../../components/Donate/Index";
+import InputZil from "./InputZil/Index";
+import Selector from "../../../../components/Selector/Index";
+import { TextInput } from "react-native";
+import SSNSelector from "./SSNSelector/Index";
+import DelegatorSwap from "./DelegatorSwap/Index";
+import DashboardStake from "./DashboardStake/Index";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import { userDomain, userName } from "app/lib/controller/tyron/user";
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get("screen").width;
 
 export type Props = {
   navigation: any;
 };
 
-const StakeWallet: React.FC<Props> = ({navigation}) => {
+const StakeWallet: React.FC<Props> = ({ navigation }) => {
   return (
     <DIDLayout
       navigation={navigation}
@@ -49,21 +49,21 @@ const StakeWallet: React.FC<Props> = ({navigation}) => {
 
 export default StakeWallet;
 
-const Child: React.FC<Props> = ({navigation}) => {
-  const {t} = useTranslation();
-  const name = userName.useValue()
-  const domain = userDomain.useValue()
-  const isDark = tyronThemeDark.useValue()
+const Child: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
+  const name = userName.useValue();
+  const domain = userDomain.useValue();
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
 
-  const [active, setActive] = useState('');
-  const [recipient, setRecipient] = useState('');
-  const [ssn, setSsn] = useState('');
+  const [active, setActive] = useState("");
+  const [recipient, setRecipient] = useState("");
+  const [ssn, setSsn] = useState("");
   const [addZil, setAddZil] = useState(false);
 
   const toggleActive = (type: string) => {
     if (type === active) {
-      setActive('');
+      setActive("");
     } else {
       setActive(type);
     }
@@ -71,31 +71,31 @@ const Child: React.FC<Props> = ({navigation}) => {
 
   const optionWallet = [
     {
-      key: '',
-      name: 'Address',
+      key: "",
+      name: "Address",
     },
     {
-      key: 'tyron',
-      name: 'NFT Username',
+      key: "tyron",
+      name: "NFT Username",
     },
     {
-      key: 'zilliqa',
-      name: 'Zilliqa address',
+      key: "zilliqa",
+      name: "Zilliqa address",
     },
   ];
 
   const optionWallet2 = [
     {
-      key: '',
-      name: 'Address',
+      key: "",
+      name: "Address",
     },
     {
-      key: 'tyron',
-      name: 'This xWallet',
+      key: "tyron",
+      name: "This xWallet",
     },
     {
-      key: 'zilliqa',
-      name: 'This ZilPay',
+      key: "zilliqa",
+      name: "This ZilPay",
     },
   ];
 
@@ -110,18 +110,18 @@ const Child: React.FC<Props> = ({navigation}) => {
         <View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('pause')}
+              onPress={() => toggleActive("pause")}
               style={
-                active === 'pause' ? styles.btnActionActive : styles.btnAction
+                active === "pause" ? styles.btnActionActive : styles.btnAction
               }
             >
               <Text style={styles.txtBold}>PAUSE</Text>
               <Image source={PauseIco} />
             </TouchableOpacity>
-            {active === 'pause' && (
+            {active === "pause" && (
               <View style={styles.contentAction}>
                 <TouchableOpacity
-                  onPress={() => toggleActive('')}
+                  onPress={() => toggleActive("")}
                   style={styles.closeIcoWrapper}
                 >
                   <Image style={styles.closeIco} source={CloseIco} />
@@ -135,7 +135,7 @@ const Child: React.FC<Props> = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 10,
-                    textAlign: 'center',
+                    textAlign: "center",
                     marginTop: 5,
                     ...styles.txt,
                   }}
@@ -147,18 +147,18 @@ const Child: React.FC<Props> = ({navigation}) => {
           </View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('sendZil')}
+              onPress={() => toggleActive("sendZil")}
               style={
-                active === 'sendZil' ? styles.btnActionActive : styles.btnAction
+                active === "sendZil" ? styles.btnActionActive : styles.btnAction
               }
             >
               <Text style={styles.txtBold}>SEND ZIL</Text>
               <Image source={continueArrow} />
             </TouchableOpacity>
-            {active === 'sendZil' && (
+            {active === "sendZil" && (
               <View style={styles.contentAction}>
                 <TouchableOpacity
-                  onPress={() => toggleActive('')}
+                  onPress={() => toggleActive("")}
                   style={styles.closeIcoWrapper}
                 >
                   <Image style={styles.closeIco} source={CloseIco} />
@@ -169,23 +169,23 @@ const Child: React.FC<Props> = ({navigation}) => {
                   selectedData={recipient}
                   setData={setRecipient}
                 />
-                {recipient === 'tyron' ? (
+                {recipient === "tyron" ? (
                   <View style={styles.wrapperInput}>
                     <TextInput
                       style={styles.input}
                       placeholder="Type username"
-                      placeholderTextColor={isDark ? '#fff' : '#000'}
+                      placeholderTextColor={isDark ? "#fff" : "#000"}
                     />
                     <TouchableOpacity>
                       <Image style={styles.arrowSize} source={continueArrow} />
                     </TouchableOpacity>
                   </View>
-                ) : recipient === 'zilliqa' ? (
+                ) : recipient === "zilliqa" ? (
                   <View style={styles.wrapperInput}>
                     <TextInput
                       style={styles.input}
                       placeholder="Type address"
-                      placeholderTextColor={isDark ? '#fff' : '#000'}
+                      placeholderTextColor={isDark ? "#fff" : "#000"}
                     />
                     <TouchableOpacity>
                       <Image style={styles.arrowSize} source={continueArrow} />
@@ -201,21 +201,21 @@ const Child: React.FC<Props> = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 10,
-                    textAlign: 'center',
+                    textAlign: "center",
                     marginTop: 5,
                     ...styles.txt,
                   }}
                 >
-                  {t('GAS_AROUND')} 3 ZIL
+                  {t("GAS_AROUND")} 3 ZIL
                 </Text>
               </View>
             )}
           </View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('delegateStake')}
+              onPress={() => toggleActive("delegateStake")}
               style={
-                active === 'delegateStake'
+                active === "delegateStake"
                   ? styles.btnActionActive
                   : styles.btnAction
               }
@@ -223,10 +223,10 @@ const Child: React.FC<Props> = ({navigation}) => {
               <Text style={styles.txtBold}>DELEGATE STAKE</Text>
               <Image source={DelegateStakeIco} />
             </TouchableOpacity>
-            {active === 'delegateStake' && (
+            {active === "delegateStake" && (
               <View style={styles.contentAction}>
                 <TouchableOpacity
-                  onPress={() => toggleActive('')}
+                  onPress={() => toggleActive("")}
                   style={styles.closeIcoWrapper}
                 >
                   <Image style={styles.closeIco} source={CloseIco} />
@@ -243,7 +243,7 @@ const Child: React.FC<Props> = ({navigation}) => {
                       source={addZil ? selectedCheckmark : defaultCheckmark}
                     />
                   </TouchableOpacity>
-                  <Text style={{marginLeft: 10, ...styles.txt}}>
+                  <Text style={{ marginLeft: 10, ...styles.txt }}>
                     Add ZIL from DID Controller
                   </Text>
                 </View>
@@ -257,21 +257,21 @@ const Child: React.FC<Props> = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 10,
-                    textAlign: 'center',
+                    textAlign: "center",
                     marginTop: 5,
                     ...styles.txt,
                   }}
                 >
-                  {t('GAS_AROUND')} 1-2 ZIL
+                  {t("GAS_AROUND")} 1-2 ZIL
                 </Text>
               </View>
             )}
           </View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('getRewards')}
+              onPress={() => toggleActive("getRewards")}
               style={
-                active === 'getRewards'
+                active === "getRewards"
                   ? styles.btnActionActive
                   : styles.btnAction
               }
@@ -279,17 +279,17 @@ const Child: React.FC<Props> = ({navigation}) => {
               <Text style={styles.txtBold}>GET REWARDS</Text>
               <Image source={WithdrawRewardsIco} />
             </TouchableOpacity>
-            {active === 'getRewards' && (
+            {active === "getRewards" && (
               <View style={styles.contentAction}>
                 <TouchableOpacity
-                  onPress={() => toggleActive('')}
+                  onPress={() => toggleActive("")}
                   style={styles.closeIcoWrapper}
                 >
                   <Image style={styles.closeIco} source={CloseIco} />
                 </TouchableOpacity>
                 <View>
                   <Text
-                    style={{marginBottom: -5, marginTop: 10, ...styles.txt}}
+                    style={{ marginBottom: -5, marginTop: 10, ...styles.txt }}
                   >
                     Current Delegator's wallet
                   </Text>
@@ -311,21 +311,21 @@ const Child: React.FC<Props> = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 10,
-                    textAlign: 'center',
+                    textAlign: "center",
                     marginTop: 5,
                     ...styles.txt,
                   }}
                 >
-                  {t('GAS_AROUND')} 1-2 ZIL
+                  {t("GAS_AROUND")} 1-2 ZIL
                 </Text>
               </View>
             )}
           </View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('withdrawStake')}
+              onPress={() => toggleActive("withdrawStake")}
               style={
-                active === 'withdrawStake'
+                active === "withdrawStake"
                   ? styles.btnActionActive
                   : styles.btnAction
               }
@@ -333,10 +333,10 @@ const Child: React.FC<Props> = ({navigation}) => {
               <Text style={styles.txtBold}>WITHDRAW STAKE</Text>
               <Image source={WithdrawStakeIco} />
             </TouchableOpacity>
-            {active === 'withdrawStake' && (
+            {active === "withdrawStake" && (
               <View style={styles.contentAction}>
                 <TouchableOpacity
-                  onPress={() => toggleActive('')}
+                  onPress={() => toggleActive("")}
                   style={styles.closeIcoWrapper}
                 >
                   <Image style={styles.closeIco} source={CloseIco} />
@@ -356,21 +356,21 @@ const Child: React.FC<Props> = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 10,
-                    textAlign: 'center',
+                    textAlign: "center",
                     marginTop: 5,
                     ...styles.txt,
                   }}
                 >
-                  {t('GAS_AROUND')} 1-2 ZIL
+                  {t("GAS_AROUND")} 1-2 ZIL
                 </Text>
               </View>
             )}
           </View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('completeStake')}
+              onPress={() => toggleActive("completeStake")}
               style={
-                active === 'completeStake'
+                active === "completeStake"
                   ? styles.btnActionActive
                   : styles.btnAction
               }
@@ -378,10 +378,10 @@ const Child: React.FC<Props> = ({navigation}) => {
               <Text style={styles.txtBold}>COMPLETE STAKE WITHDRAWAL</Text>
               <Image source={CompleteWithdrawalIco} />
             </TouchableOpacity>
-            {active === 'completeStake' && (
+            {active === "completeStake" && (
               <View style={styles.contentAction}>
                 <TouchableOpacity
-                  onPress={() => toggleActive('')}
+                  onPress={() => toggleActive("")}
                   style={styles.closeIcoWrapper}
                 >
                   <Image style={styles.closeIco} source={CloseIco} />
@@ -393,21 +393,21 @@ const Child: React.FC<Props> = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 10,
-                    textAlign: 'center',
+                    textAlign: "center",
                     marginTop: 5,
                     ...styles.txt,
                   }}
                 >
-                  {t('GAS_AROUND')} 1-2 ZIL
+                  {t("GAS_AROUND")} 1-2 ZIL
                 </Text>
               </View>
             )}
           </View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('redelegateStake')}
+              onPress={() => toggleActive("redelegateStake")}
               style={
-                active === 'redelegateStake'
+                active === "redelegateStake"
                   ? styles.btnActionActive
                   : styles.btnAction
               }
@@ -415,10 +415,10 @@ const Child: React.FC<Props> = ({navigation}) => {
               <Text style={styles.txtBold}>REDELEGATE STAKE</Text>
               <Image source={RedelegateStakeIco} />
             </TouchableOpacity>
-            {active === 'redelegateStake' && (
+            {active === "redelegateStake" && (
               <View style={styles.contentAction}>
                 <TouchableOpacity
-                  onPress={() => toggleActive('')}
+                  onPress={() => toggleActive("")}
                   style={styles.closeIcoWrapper}
                 >
                   <Image style={styles.closeIco} source={CloseIco} />
@@ -443,21 +443,21 @@ const Child: React.FC<Props> = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 10,
-                    textAlign: 'center',
+                    textAlign: "center",
                     marginTop: 5,
                     ...styles.txt,
                   }}
                 >
-                  {t('GAS_AROUND')} 1-2 ZIL
+                  {t("GAS_AROUND")} 1-2 ZIL
                 </Text>
               </View>
             )}
           </View>
           <View style={styles.actionWrapper}>
             <TouchableOpacity
-              onPress={() => toggleActive('delegatorSwap')}
+              onPress={() => toggleActive("delegatorSwap")}
               style={
-                active === 'delegatorSwap'
+                active === "delegatorSwap"
                   ? styles.btnActionActive
                   : styles.btnAction
               }
@@ -465,8 +465,8 @@ const Child: React.FC<Props> = ({navigation}) => {
               <Text style={styles.txtBold}>DELEGATOR SWAP</Text>
               <Image source={SwapIco} />
             </TouchableOpacity>
-            {active === 'delegatorSwap' && (
-              <View style={{marginLeft: 50}}>
+            {active === "delegatorSwap" && (
+              <View style={{ marginLeft: 50 }}>
                 <DelegatorSwap />
               </View>
             )}
@@ -483,58 +483,58 @@ const stylesDark = StyleSheet.create({
   },
   txtHeader: {
     fontSize: 20,
-    color: '#0000ff',
+    color: "#0000ff",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
     maxWidth: 200,
   },
   textHeaderWrapper: {
     marginVertical: 25,
     marginTop: 50,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   btnAction: {
     width: (deviceWidth * 60) / 100,
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignSelf: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#fff',
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "#fff",
+    flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   btnActionActive: {
     width: (deviceWidth * 60) / 100,
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignSelf: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#0000ff',
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "#0000ff",
+    flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   txt: {
-    color: '#fff',
+    color: "#fff",
   },
   txtBold: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   txtBlue: {
-    color: '#0000ff',
-    textAlign: 'center',
+    color: "#0000ff",
+    textAlign: "center",
   },
   contentAction: {
     width: (deviceWidth * 60) / 100,
     padding: 20,
     borderWidth: 1,
-    borderColor: '#0000ff',
-    alignSelf: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "#0000ff",
+    alignSelf: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 5,
     marginVertical: 10,
     zIndex: 2,
@@ -544,30 +544,30 @@ const stylesDark = StyleSheet.create({
     height: 10,
   },
   closeIcoWrapper: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   actionWrapper: {
     marginVertical: 10,
   },
   btnSubmit: {
     padding: 10,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#0000ff',
+    borderColor: "#0000ff",
     borderRadius: 5,
     marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   wrapperInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginVertical: 10,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     width: 150,
   },
@@ -576,9 +576,9 @@ const stylesDark = StyleSheet.create({
     height: 25,
   },
   addZilWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
 });
 
@@ -588,58 +588,58 @@ const stylesLight = StyleSheet.create({
   },
   txtHeader: {
     fontSize: 20,
-    color: '#0000ff',
+    color: "#0000ff",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
     maxWidth: 200,
   },
   textHeaderWrapper: {
     marginVertical: 25,
     marginTop: 50,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   btnAction: {
     width: (deviceWidth * 60) / 100,
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignSelf: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#fff',
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "#fff",
+    flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   btnActionActive: {
     width: (deviceWidth * 60) / 100,
-    alignSelf: 'center',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignSelf: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 20,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#0000ff',
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "#0000ff",
+    flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
   },
   txt: {
-    color: '#fff',
+    color: "#fff",
   },
   txtBold: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   txtBlue: {
-    color: '#0000ff',
-    textAlign: 'center',
+    color: "#0000ff",
+    textAlign: "center",
   },
   contentAction: {
     width: (deviceWidth * 60) / 100,
     padding: 20,
     borderWidth: 1,
-    borderColor: '#0000ff',
-    alignSelf: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderColor: "#0000ff",
+    alignSelf: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 5,
     marginVertical: 10,
     zIndex: 2,
@@ -649,30 +649,30 @@ const stylesLight = StyleSheet.create({
     height: 10,
   },
   closeIcoWrapper: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   actionWrapper: {
     marginVertical: 10,
   },
   btnSubmit: {
     padding: 10,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#0000ff',
+    borderColor: "#0000ff",
     borderRadius: 5,
     marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   wrapperInput: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     marginVertical: 10,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     width: 150,
   },
@@ -681,8 +681,8 @@ const stylesLight = StyleSheet.create({
     height: 25,
   },
   addZilWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
 });

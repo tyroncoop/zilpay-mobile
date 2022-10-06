@@ -1,14 +1,14 @@
-import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
-import en from './en.json';
-import es from './es.json';
-import cn from './cn.json';
-import id from './id.json';
-import ru from './ru.json';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import en from "./en.json";
+import es from "./es.json";
+import cn from "./cn.json";
+import id from "./id.json";
+import ru from "./ru.json";
 
 i18n.use(initReactI18next).init({
-  lng: 'en',
-  fallbackLng: 'en',
+  lng: "en",
+  fallbackLng: "en",
   resources: {
     en: en,
     es: es,

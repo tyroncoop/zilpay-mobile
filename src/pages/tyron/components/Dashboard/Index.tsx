@@ -1,12 +1,12 @@
-import React from 'react';
-import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
-import menu from '../../assets/img/menu.png';
-import loggedinIco from '../../assets/img/user_loggedin.png';
-import connectedIco from '../../assets/img/user_connected.png';
-import Sun from '../../assets/icons/sun.svg';
-import Moon from '../../assets/icons/moon.svg';
-import {useTranslation} from 'react-i18next';
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+import React from "react";
+import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
+import menu from "../../assets/img/menu.png";
+import loggedinIco from "../../assets/img/user_loggedin.png";
+import connectedIco from "../../assets/img/user_connected.png";
+import Sun from "../../assets/icons/sun.svg";
+import Moon from "../../assets/icons/moon.svg";
+import { useTranslation } from "react-i18next";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 
 export type Props = {
   loginState: string;
@@ -15,12 +15,12 @@ export type Props = {
   setShowConnect: any;
 };
 
-const Dashboard: React.FC<Props> = ({setShowMenu, setShowConnect}) => {
-  const {t} = useTranslation();
+const Dashboard: React.FC<Props> = ({ setShowMenu, setShowConnect }) => {
+  const { t } = useTranslation();
   // const dispatch = useDispatch();
   // const loginInfo = useSelector((state: any) => state.user.loginInfo);
-  const loginInfo:any = null;
-  const [isDark, setIsDark] = tyronThemeDark.use()
+  const loginInfo: any = null;
+  const [isDark, setIsDark] = tyronThemeDark.use();
   const isLogin = loginInfo?.address;
   const styles = isDark ? stylesDark : stylesLight;
 
@@ -56,9 +56,9 @@ const Dashboard: React.FC<Props> = ({setShowMenu, setShowConnect}) => {
             <Image style={styles.icoMenu} source={connectedIco} />
           </View> */}
           {isLogin ? (
-            <Text style={styles.txtLoggedin}>{t('LOGGED_IN')}</Text>
+            <Text style={styles.txtLoggedin}>{t("LOGGED_IN")}</Text>
           ) : (
-            <Text style={styles.txtConnected}>{t('LOG_IN')}</Text>
+            <Text style={styles.txtConnected}>{t("LOG_IN")}</Text>
           )}
         </TouchableOpacity>
         {/* <TouchableOpacity
@@ -79,8 +79,8 @@ export default Dashboard;
 
 const stylesDark = StyleSheet.create({
   icoMenuWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 10,
   },
   icoMenu: {
@@ -88,51 +88,51 @@ const stylesDark = StyleSheet.create({
     height: 25,
   },
   connectWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   txtConnect: {
     fontSize: 16,
-    color: 'grey',
-    fontWeight: 'bold',
+    color: "grey",
+    fontWeight: "bold",
     marginLeft: 10,
   },
   txtConnected: {
     fontSize: 16,
-    color: '#dbe4eb',
-    fontWeight: 'bold',
+    color: "#dbe4eb",
+    fontWeight: "bold",
     marginLeft: 10,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   txtLoggedin: {
     fontSize: 16,
-    color: '#f9e600',
-    fontWeight: 'bold',
+    color: "#f9e600",
+    fontWeight: "bold",
     marginLeft: 10,
   },
   rightMenu: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   btnSun: {
     width: 30,
     height: 30,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   btnMoon: {
     width: 30,
     height: 30,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
 const stylesLight = StyleSheet.create({
   icoMenuWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 10,
   },
   icoMenu: {
@@ -140,43 +140,43 @@ const stylesLight = StyleSheet.create({
     height: 25,
   },
   connectWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   txtConnect: {
     fontSize: 16,
-    color: 'grey',
-    fontWeight: 'bold',
+    color: "grey",
+    fontWeight: "bold",
     marginLeft: 10,
   },
   txtConnected: {
     fontSize: 16,
-    color: '#000',
-    fontWeight: 'bold',
+    color: "#000",
+    fontWeight: "bold",
     marginLeft: 10,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   txtLoggedin: {
     fontSize: 16,
-    color: '#f9e600',
-    fontWeight: 'bold',
+    color: "#f9e600",
+    fontWeight: "bold",
     marginLeft: 10,
   },
   rightMenu: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   btnSun: {
     width: 30,
     height: 30,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   btnMoon: {
     width: 30,
     height: 30,
     borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

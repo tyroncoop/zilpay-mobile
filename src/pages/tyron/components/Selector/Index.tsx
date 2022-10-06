@@ -1,14 +1,14 @@
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Image} from 'react-native';
-import {Linking} from 'react-native';
-import {TouchableOpacity} from 'react-native';
-import {Text, StyleSheet, View, Dimensions, TextInput} from 'react-native';
-import upDown from '../../assets/img/up_down_arrow.png';
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Image } from "react-native";
+import { Linking } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, Dimensions, TextInput } from "react-native";
+import upDown from "../../assets/img/up_down_arrow.png";
 
-const deviceWidth = Dimensions.get('screen').width;
-const deviceHeight = Dimensions.get('screen').height;
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
 
 export type Props = {
   data: any;
@@ -16,9 +16,9 @@ export type Props = {
   setData: any;
 };
 
-const Selector: React.FC<Props> = ({data, selectedData, setData}) => {
-  const {t} = useTranslation();
-  const isDark = tyronThemeDark.useValue()
+const Selector: React.FC<Props> = ({ data, selectedData, setData }) => {
+  const { t } = useTranslation();
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -42,10 +42,10 @@ const Selector: React.FC<Props> = ({data, selectedData, setData}) => {
                 setData(val.key);
                 setShowDropdown(false);
               }}
-              style={{marginVertical: 3}}
+              style={{ marginVertical: 3 }}
               key={i}
             >
-              <Text style={{color: '#fff'}}>{val.name}</Text>
+              <Text style={{ color: "#fff" }}>{val.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -58,24 +58,24 @@ export default Selector;
 
 const stylesDark = StyleSheet.create({
   wrapperSelector: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 10,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     marginVertical: 10,
   },
   txt: {
-    color: '#fff',
+    color: "#fff",
     marginRight: 10,
   },
   optWrapper: {
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     padding: 5,
     marginTop: 5,
@@ -84,24 +84,24 @@ const stylesDark = StyleSheet.create({
 
 const stylesLight = StyleSheet.create({
   wrapperSelector: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    justifyContent: "space-between",
     padding: 10,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     marginVertical: 10,
   },
   txt: {
-    color: '#fff',
+    color: "#fff",
     marginRight: 10,
   },
   optWrapper: {
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     padding: 5,
     marginTop: 5,

@@ -1,6 +1,6 @@
-import React, {useState, useRef} from 'react';
-import {TextInput} from 'react-native';
-import {Image} from 'react-native';
+import React, { useState, useRef } from "react";
+import { TextInput } from "react-native";
+import { Image } from "react-native";
 import {
   View,
   StyleSheet,
@@ -8,21 +8,21 @@ import {
   Text,
   Dimensions,
   Animated,
-} from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import Headline from '../../../../components/Headline/Index';
-import DIDLayout from '../../../../components/Layout/DID/Index';
-import rightArrow from '../../../../assets/img/right-arrow.png';
-import {useTranslation} from 'react-i18next';
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+} from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import Headline from "../../../../components/Headline/Index";
+import DIDLayout from "../../../../components/Layout/DID/Index";
+import rightArrow from "../../../../assets/img/right-arrow.png";
+import { useTranslation } from "react-i18next";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get("screen").width;
 
 export type Props = {
   navigation: any;
 };
 
-const Crud: React.FC<Props> = ({navigation}) => {
+const Crud: React.FC<Props> = ({ navigation }) => {
   return (
     <DIDLayout
       navigation={navigation}
@@ -33,22 +33,22 @@ const Crud: React.FC<Props> = ({navigation}) => {
 
 export default Crud;
 
-const Child: React.FC<Props> = ({navigation}) => {
-  const {t} = useTranslation();
-  const isDark = tyronThemeDark.useValue()
+const Child: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
   const [flip1, setFlip1] = useState(false);
   const [flip2, setFlip2] = useState(false);
   const [flip3, setFlip3] = useState(false);
   const [flip4, setFlip4] = useState(false);
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const [deactivate, setDeactivate] = useState(false);
 
   const items = [
-    {label: t('Select address'), value: ''},
-    {label: t('This SSI'), value: 'did'},
-    {label: t('Another address'), value: 'address'},
+    { label: t("Select address"), value: "" },
+    { label: t("This SSI"), value: "did" },
+    { label: t("Another address"), value: "address" },
   ];
 
   const flipAnimation1 = useRef(new Animated.Value(0)).current;
@@ -62,16 +62,16 @@ const Child: React.FC<Props> = ({navigation}) => {
   let flipRotation4 = 0;
 
   flipAnimation1.addListener(
-    ({value}: {value: any}) => (flipRotation1 = value),
+    ({ value }: { value: any }) => (flipRotation1 = value)
   );
   flipAnimation2.addListener(
-    ({value}: {value: any}) => (flipRotation2 = value),
+    ({ value }: { value: any }) => (flipRotation2 = value)
   );
   flipAnimation3.addListener(
-    ({value}: {value: any}) => (flipRotation3 = value),
+    ({ value }: { value: any }) => (flipRotation3 = value)
   );
   flipAnimation4.addListener(
-    ({value}: {value: any}) => (flipRotation4 = value),
+    ({ value }: { value: any }) => (flipRotation4 = value)
   );
 
   const flip1ToFrontStyle = {
@@ -79,7 +79,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation1.interpolate({
           inputRange: [0, 180],
-          outputRange: ['0deg', '180deg'],
+          outputRange: ["0deg", "180deg"],
         }),
       },
     ],
@@ -89,7 +89,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation1.interpolate({
           inputRange: [0, 180],
-          outputRange: ['180deg', '360deg'],
+          outputRange: ["180deg", "360deg"],
         }),
       },
     ],
@@ -100,7 +100,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation2.interpolate({
           inputRange: [0, 180],
-          outputRange: ['0deg', '180deg'],
+          outputRange: ["0deg", "180deg"],
         }),
       },
     ],
@@ -110,7 +110,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation2.interpolate({
           inputRange: [0, 180],
-          outputRange: ['180deg', '360deg'],
+          outputRange: ["180deg", "360deg"],
         }),
       },
     ],
@@ -121,7 +121,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation3.interpolate({
           inputRange: [0, 180],
-          outputRange: ['0deg', '180deg'],
+          outputRange: ["0deg", "180deg"],
         }),
       },
     ],
@@ -131,7 +131,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation3.interpolate({
           inputRange: [0, 180],
-          outputRange: ['180deg', '360deg'],
+          outputRange: ["180deg", "360deg"],
         }),
       },
     ],
@@ -142,7 +142,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation4.interpolate({
           inputRange: [0, 180],
-          outputRange: ['0deg', '180deg'],
+          outputRange: ["0deg", "180deg"],
         }),
       },
     ],
@@ -152,7 +152,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation4.interpolate({
           inputRange: [0, 180],
-          outputRange: ['180deg', '360deg'],
+          outputRange: ["180deg", "360deg"],
         }),
       },
     ],
@@ -232,8 +232,8 @@ const Child: React.FC<Props> = ({navigation}) => {
 
   const dataHeadline = [
     {
-      route: 'Wallet',
-      name: t('Wallet'),
+      route: "Wallet",
+      name: t("Wallet"),
     },
   ];
 
@@ -242,7 +242,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       <Headline navigation={navigation} data={dataHeadline} />
       <View style={styles.textHeaderWrapper}>
         <View style={styles.txtHeaderWrapper}>
-          <Text style={styles.txtHeader}>{t('DECENTRALIZED IDENTIFIER')}</Text>
+          <Text style={styles.txtHeader}>{t("DECENTRALIZED IDENTIFIER")}</Text>
         </View>
         <View>
           <View style={styles.cardWrapper}>
@@ -271,10 +271,12 @@ const Child: React.FC<Props> = ({navigation}) => {
               onLongPress={() =>
                 !!flipRotation1 ? flipToBack(1) : flipToFront(1)
               }
-              onPress={() => navigation.navigate('Update')}
+              onPress={() => navigation.navigate("Update")}
             >
-              <Animated.View style={{...styles.cardBack, ...flip1ToBackStyle}}>
-                <Text style={styles.txtCardBack}>{t('CHANGE DOCUMENT')}</Text>
+              <Animated.View
+                style={{ ...styles.cardBack, ...flip1ToBackStyle }}
+              >
+                <Text style={styles.txtCardBack}>{t("CHANGE DOCUMENT")}</Text>
               </Animated.View>
               <Animated.View
                 style={{
@@ -282,18 +284,20 @@ const Child: React.FC<Props> = ({navigation}) => {
                   ...flip1ToFrontStyle,
                 }}
               >
-                <Text style={styles.txtCard}>{flip1 ? '' : t('UPDATE')}</Text>
+                <Text style={styles.txtCard}>{flip1 ? "" : t("UPDATE")}</Text>
               </Animated.View>
             </TouchableOpacity>
             <TouchableOpacity
               onLongPress={() =>
                 !!flipRotation2 ? flipToBack(2) : flipToFront(2)
               }
-              onPress={() => navigation.navigate('DIDSocialRecovery')}
+              onPress={() => navigation.navigate("DIDSocialRecovery")}
             >
-              <Animated.View style={{...styles.cardBack, ...flip2ToBackStyle}}>
+              <Animated.View
+                style={{ ...styles.cardBack, ...flip2ToBackStyle }}
+              >
                 <Text style={styles.txtCardBack}>
-                  {t('CONFIGURE GUARDIANS')}
+                  {t("CONFIGURE GUARDIANS")}
                 </Text>
               </Animated.View>
               <Animated.View
@@ -303,13 +307,13 @@ const Child: React.FC<Props> = ({navigation}) => {
                 }}
               >
                 <Text style={styles.txtCard}>
-                  {flip2 ? '' : t('SOCIAL RECOVERY')}
+                  {flip2 ? "" : t("SOCIAL RECOVERY")}
                 </Text>
               </Animated.View>
             </TouchableOpacity>
             {!deactivate && (
               <>
-                <Text style={styles.txtDanger}>{t('DANGER ZONE')}</Text>
+                <Text style={styles.txtDanger}>{t("DANGER ZONE")}</Text>
                 <TouchableOpacity
                   onLongPress={() =>
                     !!flipRotation3 ? flipToBack(3) : flipToFront(3)
@@ -317,10 +321,10 @@ const Child: React.FC<Props> = ({navigation}) => {
                   onPress={() => setDeactivate(true)}
                 >
                   <Animated.View
-                    style={{...styles.cardBack, ...flip3ToBackStyle}}
+                    style={{ ...styles.cardBack, ...flip3ToBackStyle }}
                   >
                     <Text style={styles.txtCardBack}>
-                      {t('PERMANENT DEACTIVATION')}
+                      {t("PERMANENT DEACTIVATION")}
                     </Text>
                   </Animated.View>
                   <Animated.View
@@ -330,7 +334,7 @@ const Child: React.FC<Props> = ({navigation}) => {
                     }}
                   >
                     <Text style={styles.txtCard}>
-                      {flip3 ? '' : t('DEACTIVATE')}
+                      {flip3 ? "" : t("DEACTIVATE")}
                     </Text>
                   </Animated.View>
                 </TouchableOpacity>
@@ -338,7 +342,7 @@ const Child: React.FC<Props> = ({navigation}) => {
             )}
             {deactivate && (
               <View>
-                <Text style={styles.txtDeactivate}>{t('DID DEACTIVATE')}</Text>
+                <Text style={styles.txtDeactivate}>{t("DID DEACTIVATE")}</Text>
                 <View style={styles.picker}>
                   <DropDownPicker
                     listMode="SCROLLVIEW"
@@ -349,18 +353,18 @@ const Child: React.FC<Props> = ({navigation}) => {
                     setOpen={setOpen}
                     setValue={setValue}
                     placeholder=""
-                    placeholderStyle={{color: '#fff'}}
+                    placeholderStyle={{ color: "#fff" }}
                     theme="DARK"
                     style={{
-                      backgroundColor: 'transparent',
-                      borderColor: '#fff',
+                      backgroundColor: "transparent",
+                      borderColor: "#fff",
                     }}
                   />
                 </View>
                 <View style={styles.inputWrapper}>
                   <TextInput
                     style={styles.inputAddr}
-                    placeholder={t('Type address')}
+                    placeholder={t("Type address")}
                     placeholderTextColor="#fff"
                   />
                   <TouchableOpacity style={styles.arrowBtn}>
@@ -371,17 +375,17 @@ const Child: React.FC<Props> = ({navigation}) => {
                   </TouchableOpacity> */}
                 </View>
                 <Text style={styles.txtConfirm}>
-                  {t('Are you sure? There is no way back')}
+                  {t("Are you sure? There is no way back")}
                 </Text>
                 <View style={styles.btnWrapper}>
                   <TouchableOpacity style={styles.btnYes}>
-                    <Text style={{color: '#fff'}}>{t('YES')}</Text>
+                    <Text style={{ color: "#fff" }}>{t("YES")}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => setDeactivate(false)}
                     style={styles.btnNo}
                   >
-                    <Text style={{color: '#fff'}}>{t('NO')}</Text>
+                    <Text style={{ color: "#fff" }}>{t("NO")}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -396,155 +400,155 @@ const Child: React.FC<Props> = ({navigation}) => {
 const stylesDark = StyleSheet.create({
   txtHeader: {
     fontSize: 20,
-    color: '#dbe4eb',
+    color: "#dbe4eb",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   txtHeaderWrapper: {
     marginVertical: 30,
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   cardWrapper: {
     marginVertical: 10,
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
   },
   cardFront: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardFrontRed: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: 'red',
+    borderColor: "red",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardHidden: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
   },
   cardBack: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backfaceVisibility: 'hidden',
+    backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    backfaceVisibility: "hidden",
     borderRadius: 5,
     marginVertical: 10,
-    borderColor: '#ffff32',
+    borderColor: "#ffff32",
     borderWidth: 2,
   },
   txtCard: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 20,
     fontSize: 12,
   },
   txtCardBack: {
-    color: '#ffff32',
-    textAlign: 'center',
+    color: "#ffff32",
+    textAlign: "center",
     fontSize: 10,
     lineHeight: 20,
   },
   txtDanger: {
-    color: 'red',
+    color: "red",
     fontSize: 12,
     letterSpacing: 1,
     marginTop: 15,
   },
   txtDeactivate: {
-    color: 'red',
+    color: "red",
     fontSize: 16,
     letterSpacing: 1,
     marginTop: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   picker: {
-    color: '#fff',
+    color: "#fff",
     width: deviceWidth * 0.5 + 25,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 20,
     zIndex: 2,
   },
   inputWrapper: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
   },
   inputAddr: {
     padding: 10,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    width: '60%',
-    color: '#fff',
+    width: "60%",
+    color: "#fff",
   },
   btnSave: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 20,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: 10,
   },
   btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   btnYes: {
-    backgroundColor: '#ff3232',
+    backgroundColor: "#ff3232",
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 10,
     width: 70,
   },
   btnNo: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 10,
     width: 70,
   },
   txtConfirm: {
     marginTop: 20,
     marginBottom: 10,
-    color: '#fff',
+    color: "#fff",
   },
   arrowRight: {
     width: 15,
     height: 15,
   },
   arrowBtn: {
-    backgroundColor: '#5d5c5c',
+    backgroundColor: "#5d5c5c",
     padding: 5,
     borderRadius: 50,
     marginLeft: 20,
@@ -554,155 +558,155 @@ const stylesDark = StyleSheet.create({
 const stylesLight = StyleSheet.create({
   txtHeader: {
     fontSize: 20,
-    color: '#000',
+    color: "#000",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   txtHeaderWrapper: {
     marginVertical: 30,
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   cardWrapper: {
     marginVertical: 10,
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
   },
   cardFront: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardFrontRed: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: 'red',
+    borderColor: "red",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardHidden: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
   },
   cardBack: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backfaceVisibility: 'hidden',
+    backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    backfaceVisibility: "hidden",
     borderRadius: 5,
     marginVertical: 10,
-    borderColor: '#ffff32',
+    borderColor: "#ffff32",
     borderWidth: 2,
   },
   txtCard: {
-    color: '#000',
-    fontWeight: 'bold',
+    color: "#000",
+    fontWeight: "bold",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 20,
     fontSize: 12,
   },
   txtCardBack: {
-    color: '#ffff32',
-    textAlign: 'center',
+    color: "#ffff32",
+    textAlign: "center",
     fontSize: 10,
     lineHeight: 20,
   },
   txtDanger: {
-    color: 'red',
+    color: "red",
     fontSize: 12,
     letterSpacing: 1,
     marginTop: 15,
   },
   txtDeactivate: {
-    color: 'red',
+    color: "red",
     fontSize: 16,
     letterSpacing: 1,
     marginTop: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
   picker: {
-    color: '#000',
+    color: "#000",
     width: deviceWidth * 0.5 + 25,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: 20,
     zIndex: 2,
   },
   inputWrapper: {
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
   },
   inputAddr: {
     padding: 10,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    width: '60%',
-    color: '#000',
+    width: "60%",
+    color: "#000",
   },
   btnSave: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingHorizontal: 20,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: 10,
   },
   btnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   btnYes: {
-    backgroundColor: '#ff3232',
+    backgroundColor: "#ff3232",
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 10,
     width: 70,
   },
   btnNo: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     padding: 10,
     width: 70,
   },
   txtConfirm: {
     marginTop: 20,
     marginBottom: 10,
-    color: '#000',
+    color: "#000",
   },
   arrowRight: {
     width: 15,
     height: 15,
   },
   arrowBtn: {
-    backgroundColor: '#5d5c5c',
+    backgroundColor: "#5d5c5c",
     padding: 5,
     borderRadius: 50,
     marginLeft: 20,

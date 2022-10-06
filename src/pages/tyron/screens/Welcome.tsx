@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,31 +6,31 @@ import {
   Image,
   TouchableOpacity,
   Text,
-} from 'react-native';
-import SearchBar from '../components/SearchBar/Index';
-import Footer from '../components/Footer/Index';
-import lightning from '../assets/img/lightning.jpg';
-import lightning_light from '../assets/img/lightning_gris.jpg';
-import menu from '../assets/img/menu.png';
-import connectIco from '../assets/img/user_connect.png';
-import connectedIco from '../assets/img/user_connected.png';
-import loggedinIco from '../assets/img/user_loggedin.png';
-import Menu from '../components/Menu/Index';
-import Modal from '../components/Modal/Index';
-import GetStarted from '../components/GetStarted/Index';
-import Dashboard from '../components/Dashboard/Index';
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+} from "react-native";
+import SearchBar from "../components/SearchBar/Index";
+import Footer from "../components/Footer/Index";
+import lightning from "../assets/img/lightning.jpg";
+import lightning_light from "../assets/img/lightning_gris.jpg";
+import menu from "../assets/img/menu.png";
+import connectIco from "../assets/img/user_connect.png";
+import connectedIco from "../assets/img/user_connected.png";
+import loggedinIco from "../assets/img/user_loggedin.png";
+import Menu from "../components/Menu/Index";
+import Modal from "../components/Modal/Index";
+import GetStarted from "../components/GetStarted/Index";
+import Dashboard from "../components/Dashboard/Index";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 
 export type Props = {
   navigation: any;
 };
 
-const Welcome: React.FC<Props> = ({navigation}) => {
+const Welcome: React.FC<Props> = ({ navigation }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showConnect, setShowConnect] = useState(false);
   const [showGetStarted, setShowGetStarted] = useState(false);
-  const isDark = tyronThemeDark.useValue()
-  const [loginState, setLoginState] = useState('');
+  const isDark = tyronThemeDark.useValue();
+  const [loginState, setLoginState] = useState("");
   const lightning_ = isDark ? lightning : lightning_light;
 
   return (
@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
 });

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from "react";
 import {
   View,
   StyleSheet,
@@ -6,20 +6,20 @@ import {
   Text,
   Dimensions,
   Image,
-} from 'react-native';
-import Headline from '../../../../components/Headline/Index';
-import DIDLayout from '../../../../components/Layout/DID/Index';
-import ArrowDown from '../../../../assets/img/arrow_down_icon.png';
-import {useTranslation} from 'react-i18next';
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
+} from "react-native";
+import Headline from "../../../../components/Headline/Index";
+import DIDLayout from "../../../../components/Layout/DID/Index";
+import ArrowDown from "../../../../assets/img/arrow_down_icon.png";
+import { useTranslation } from "react-i18next";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get("screen").width;
 
 export type Props = {
   navigation: any;
 };
 
-const Balances: React.FC<Props> = ({navigation}) => {
+const Balances: React.FC<Props> = ({ navigation }) => {
   return (
     <DIDLayout
       navigation={navigation}
@@ -30,16 +30,16 @@ const Balances: React.FC<Props> = ({navigation}) => {
 
 export default Balances;
 
-const Child: React.FC<Props> = ({navigation}) => {
-  const {t} = useTranslation();
-  const isDark = tyronThemeDark.useValue()
+const Child: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
   const [showDropdown, setShowDropdown] = useState(false);
 
   const dataHeadline = [
     {
-      route: 'Wallet',
-      name: t('Wallet'),
+      route: "Wallet",
+      name: t("Wallet"),
     },
   ];
 
@@ -48,7 +48,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       <Headline navigation={navigation} data={dataHeadline} />
       <View style={styles.textHeaderWrapper}>
         <View style={styles.txtHeaderYellowWrapper}>
-          <Text style={styles.txtHeader}>{t('BALANCES')}</Text>
+          <Text style={styles.txtHeader}>{t("BALANCES")}</Text>
         </View>
         <View>
           <TouchableOpacity
@@ -57,9 +57,9 @@ const Child: React.FC<Props> = ({navigation}) => {
           >
             <View style={styles.dropdownSelector}>
               <Text style={styles.txtAddCurrency}>
-                {t('Add new currencies')}
+                {t("Add new currencies")}
               </Text>
-              <Image style={{width: 18, height: 18}} source={ArrowDown} />
+              <Image style={{ width: 18, height: 18 }} source={ArrowDown} />
             </View>
           </TouchableOpacity>
           {showDropdown && (
@@ -78,10 +78,10 @@ const Child: React.FC<Props> = ({navigation}) => {
           )}
           <View>
             <View style={styles.headerTable}>
-              <Text style={styles.tableTitle}>{t('CURRENCY')}</Text>
+              <Text style={styles.tableTitle}>{t("CURRENCY")}</Text>
               <Text style={styles.tableTitle}>DIDxWallet</Text>
               <Text style={styles.tableTitle}>
-                &nbsp;&nbsp;{t('ZILLIQA_WALLET')}
+                &nbsp;&nbsp;{t("ZILLIQA_WALLET")}
               </Text>
             </View>
             <View style={styles.rowTable}>
@@ -92,10 +92,10 @@ const Child: React.FC<Props> = ({navigation}) => {
               </View>
               <View>
                 <TouchableOpacity style={styles.btnTable}>
-                  <Text style={styles.btnTableTxt}>{t('ADD FUNDS')}</Text>
+                  <Text style={styles.btnTableTxt}>{t("ADD FUNDS")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnTable}>
-                  <Text style={styles.btnTableTxt}>{t('WITHDRAW')}</Text>
+                  <Text style={styles.btnTableTxt}>{t("WITHDRAW")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -107,10 +107,10 @@ const Child: React.FC<Props> = ({navigation}) => {
               </View>
               <View>
                 <TouchableOpacity style={styles.btnTable}>
-                  <Text style={styles.btnTableTxt}>{t('ADD FUNDS')}</Text>
+                  <Text style={styles.btnTableTxt}>{t("ADD FUNDS")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btnTable}>
-                  <Text style={styles.btnTableTxt}>{t('WITHDRAW')}</Text>
+                  <Text style={styles.btnTableTxt}>{t("WITHDRAW")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -127,42 +127,42 @@ const stylesDark = StyleSheet.create({
   },
   txtHeader: {
     fontSize: 20,
-    color: '#fff',
+    color: "#fff",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   dropdownSelectorWrapper: {
     width: deviceWidth,
     padding: 20,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   },
   dropdownSelector: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: 225,
     padding: 10,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderColor: '#fff',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    justifyContent: 'space-between',
+    borderColor: "#fff",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    justifyContent: "space-between",
     borderRadius: 5,
   },
   dropdownChoiceWrapper: {
     width: 225,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#ffff32',
+    borderColor: "#ffff32",
     marginTop: -30,
     padding: 10,
   },
   dropdownChoiceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 5,
   },
   dropdownChoiceCheckBox: {
@@ -170,56 +170,56 @@ const stylesDark = StyleSheet.create({
     height: 10,
     borderRadius: 2,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
   },
   dropdownChoiceTxt: {
-    color: 'silver',
+    color: "silver",
     marginLeft: 15,
   },
   headerTable: {
     width: deviceWidth,
     padding: 10,
     paddingHorizontal: 20,
-    backgroundColor: 'rgba(0, 0, 255, 0.2)',
-    flexDirection: 'row',
-    borderBottomColor: '#fff',
+    backgroundColor: "rgba(0, 0, 255, 0.2)",
+    flexDirection: "row",
+    borderBottomColor: "#fff",
     borderBottomWidth: 2,
   },
   rowTable: {
     width: deviceWidth,
     padding: 10,
     paddingHorizontal: 20,
-    flexDirection: 'row',
-    borderBottomColor: '#fff',
+    flexDirection: "row",
+    borderBottomColor: "#fff",
     borderBottomWidth: 2,
   },
   tableTitle: {
-    color: '#fff',
+    color: "#fff",
     width: deviceWidth * 0.2,
-    textAlign: 'center',
+    textAlign: "center",
   },
   rowTableContent: {
     marginTop: 5,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   btnTable: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
     padding: 5,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     marginVertical: 3,
     marginLeft: 10,
     width: 100,
     borderRadius: 5,
   },
   btnTableTxt: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 11,
-    textAlign: 'center',
+    textAlign: "center",
   },
   txtAddCurrency: {
-    color: '#fff',
+    color: "#fff",
     marginRight: 20,
   },
 });
@@ -230,42 +230,42 @@ const stylesLight = StyleSheet.create({
   },
   txtHeader: {
     fontSize: 20,
-    color: '#000',
+    color: "#000",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   dropdownSelectorWrapper: {
     width: deviceWidth,
     padding: 20,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
   },
   dropdownSelector: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: 225,
     padding: 10,
     paddingHorizontal: 20,
     borderWidth: 1,
-    borderColor: '#fff',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    justifyContent: 'space-between',
+    borderColor: "#fff",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    justifyContent: "space-between",
     borderRadius: 5,
   },
   dropdownChoiceWrapper: {
     width: 225,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#ffff32',
+    borderColor: "#ffff32",
     marginTop: -30,
     padding: 10,
   },
   dropdownChoiceRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 5,
   },
   dropdownChoiceCheckBox: {
@@ -273,56 +273,56 @@ const stylesLight = StyleSheet.create({
     height: 10,
     borderRadius: 2,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
   },
   dropdownChoiceTxt: {
-    color: 'silver',
+    color: "silver",
     marginLeft: 15,
   },
   headerTable: {
     width: deviceWidth,
     padding: 10,
     paddingHorizontal: 20,
-    backgroundColor: 'rgba(0, 0, 255, 0.2)',
-    flexDirection: 'row',
-    borderBottomColor: '#fff',
+    backgroundColor: "rgba(0, 0, 255, 0.2)",
+    flexDirection: "row",
+    borderBottomColor: "#fff",
     borderBottomWidth: 2,
   },
   rowTable: {
     width: deviceWidth,
     padding: 10,
     paddingHorizontal: 20,
-    flexDirection: 'row',
-    borderBottomColor: '#fff',
+    flexDirection: "row",
+    borderBottomColor: "#fff",
     borderBottomWidth: 2,
   },
   tableTitle: {
-    color: '#000',
+    color: "#000",
     width: deviceWidth * 0.2,
-    textAlign: 'center',
+    textAlign: "center",
   },
   rowTableContent: {
     marginTop: 5,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   btnTable: {
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
     padding: 5,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     marginVertical: 3,
     marginLeft: 10,
     width: 100,
     borderRadius: 5,
   },
   btnTableTxt: {
-    color: '#000',
+    color: "#000",
     fontSize: 11,
-    textAlign: 'center',
+    textAlign: "center",
   },
   txtAddCurrency: {
-    color: '#000',
+    color: "#000",
     marginRight: 20,
   },
 });

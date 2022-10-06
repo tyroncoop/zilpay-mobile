@@ -1,6 +1,6 @@
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
-import React, {useState, useRef} from 'react';
-import {useTranslation} from 'react-i18next';
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import React, { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   View,
   StyleSheet,
@@ -8,17 +8,17 @@ import {
   Text,
   Dimensions,
   Animated,
-} from 'react-native';
-import Headline from '../../../../components/Headline/Index';
-import DIDLayout from '../../../../components/Layout/DID/Index';
+} from "react-native";
+import Headline from "../../../../components/Headline/Index";
+import DIDLayout from "../../../../components/Layout/DID/Index";
 
-const deviceWidth = Dimensions.get('screen').width;
+const deviceWidth = Dimensions.get("screen").width;
 
 export type Props = {
   navigation: any;
 };
 
-const NFT: React.FC<Props> = ({navigation}) => {
+const NFT: React.FC<Props> = ({ navigation }) => {
   return (
     <DIDLayout
       navigation={navigation}
@@ -29,9 +29,9 @@ const NFT: React.FC<Props> = ({navigation}) => {
 
 export default NFT;
 
-const Child: React.FC<Props> = ({navigation}) => {
-  const {t} = useTranslation();
-  const isDark = tyronThemeDark.useValue()
+const Child: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
   const [flip1, setFlip1] = useState(false);
   const [flip2, setFlip2] = useState(false);
@@ -43,10 +43,10 @@ const Child: React.FC<Props> = ({navigation}) => {
   let flipRotation2 = 0;
 
   flipAnimation1.addListener(
-    ({value}: {value: any}) => (flipRotation1 = value),
+    ({ value }: { value: any }) => (flipRotation1 = value)
   );
   flipAnimation2.addListener(
-    ({value}: {value: any}) => (flipRotation2 = value),
+    ({ value }: { value: any }) => (flipRotation2 = value)
   );
 
   const flip1ToFrontStyle = {
@@ -54,7 +54,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation1.interpolate({
           inputRange: [0, 180],
-          outputRange: ['0deg', '180deg'],
+          outputRange: ["0deg", "180deg"],
         }),
       },
     ],
@@ -64,7 +64,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation1.interpolate({
           inputRange: [0, 180],
-          outputRange: ['180deg', '360deg'],
+          outputRange: ["180deg", "360deg"],
         }),
       },
     ],
@@ -75,7 +75,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation2.interpolate({
           inputRange: [0, 180],
-          outputRange: ['0deg', '180deg'],
+          outputRange: ["0deg", "180deg"],
         }),
       },
     ],
@@ -85,7 +85,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       {
         rotateY: flipAnimation2.interpolate({
           inputRange: [0, 180],
-          outputRange: ['180deg', '360deg'],
+          outputRange: ["180deg", "360deg"],
         }),
       },
     ],
@@ -133,8 +133,8 @@ const Child: React.FC<Props> = ({navigation}) => {
 
   const dataHeadline = [
     {
-      route: 'Wallet',
-      name: t('Wallet'),
+      route: "Wallet",
+      name: t("Wallet"),
     },
   ];
 
@@ -143,7 +143,7 @@ const Child: React.FC<Props> = ({navigation}) => {
       <Headline navigation={navigation} data={dataHeadline} />
       <View style={styles.textHeaderWrapper}>
         <View style={styles.txtHeaderYellowWrapper}>
-          <Text style={styles.subTxtHeader}>{t('NFT USERNAME')}</Text>
+          <Text style={styles.subTxtHeader}>{t("NFT USERNAME")}</Text>
         </View>
         <View>
           <View style={styles.cardWrapper}>
@@ -152,9 +152,11 @@ const Child: React.FC<Props> = ({navigation}) => {
                 !!flipRotation1 ? flipToBack(1) : flipToFront(1)
               }
             >
-              <Animated.View style={{...styles.cardBack, ...flip1ToBackStyle}}>
+              <Animated.View
+                style={{ ...styles.cardBack, ...flip1ToBackStyle }}
+              >
                 <Text style={styles.txtCardBack}>
-                  {t('CREATE NEW DID DOMAINS')}
+                  {t("CREATE NEW DID DOMAINS")}
                 </Text>
               </Animated.View>
               <Animated.View
@@ -164,7 +166,7 @@ const Child: React.FC<Props> = ({navigation}) => {
                 }}
               >
                 <Text style={styles.txtCard}>
-                  {flip1 ? '' : t('DID DOMAINS')}
+                  {flip1 ? "" : t("DID DOMAINS")}
                 </Text>
               </Animated.View>
             </TouchableOpacity>
@@ -173,9 +175,11 @@ const Child: React.FC<Props> = ({navigation}) => {
                 !!flipRotation2 ? flipToBack(2) : flipToFront(2)
               }
             >
-              <Animated.View style={{...styles.cardBack, ...flip2ToBackStyle}}>
+              <Animated.View
+                style={{ ...styles.cardBack, ...flip2ToBackStyle }}
+              >
                 <Text style={styles.txtCardBack}>
-                  {t('EXTRA FUNCTIONALITY')}
+                  {t("EXTRA FUNCTIONALITY")}
                 </Text>
               </Animated.View>
               <Animated.View
@@ -185,7 +189,7 @@ const Child: React.FC<Props> = ({navigation}) => {
                 }}
               >
                 <Text style={styles.txtCard}>
-                  {flip2 ? '' : t('MANAGE NFT USERNAME')}
+                  {flip2 ? "" : t("MANAGE NFT USERNAME")}
                 </Text>
               </Animated.View>
             </TouchableOpacity>
@@ -202,77 +206,77 @@ const stylesDark = StyleSheet.create({
   },
   subTxtHeader: {
     fontSize: 20,
-    color: '#fff',
+    color: "#fff",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 5,
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   cardWrapper: {
     marginVertical: 10,
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
   },
   cardFront: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardFrontRed: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: 'red',
+    borderColor: "red",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardHidden: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
   },
   cardBack: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backfaceVisibility: 'hidden',
+    backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    backfaceVisibility: "hidden",
     borderRadius: 5,
     marginVertical: 10,
   },
   txtCard: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 20,
     fontSize: 12,
   },
   txtCardBack: {
-    color: '#ffff32',
-    textAlign: 'center',
+    color: "#ffff32",
+    textAlign: "center",
     fontSize: 10,
     lineHeight: 20,
   },
   txtDanger: {
-    color: 'red',
+    color: "red",
     fontSize: 12,
     letterSpacing: 1,
     marginTop: 15,
@@ -285,77 +289,77 @@ const stylesLight = StyleSheet.create({
   },
   subTxtHeader: {
     fontSize: 20,
-    color: '#000',
+    color: "#000",
     letterSpacing: 2,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 5,
   },
   textHeaderWrapper: {
     marginVertical: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   cardWrapper: {
     marginVertical: 10,
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
   },
   cardFront: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardFrontRed: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
     borderRadius: 5,
-    borderColor: 'red',
+    borderColor: "red",
     borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 10,
   },
   cardHidden: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
   },
   cardBack: {
     width: deviceWidth * 0.3,
     height: deviceWidth * 0.3,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backfaceVisibility: 'hidden',
+    backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    backfaceVisibility: "hidden",
     borderRadius: 5,
     marginVertical: 10,
   },
   txtCard: {
-    color: '#000',
-    fontWeight: 'bold',
+    color: "#000",
+    fontWeight: "bold",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
     lineHeight: 20,
     fontSize: 12,
   },
   txtCardBack: {
-    color: '#ffff32',
-    textAlign: 'center',
+    color: "#ffff32",
+    textAlign: "center",
     fontSize: 10,
     lineHeight: 20,
   },
   txtDanger: {
-    color: 'red',
+    color: "red",
     fontSize: 12,
     letterSpacing: 1,
     marginTop: 15,

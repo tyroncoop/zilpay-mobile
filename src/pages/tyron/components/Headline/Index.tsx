@@ -1,51 +1,51 @@
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
-import { userDomain, userName } from 'app/lib/controller/tyron/user';
-import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import { userDomain, userName } from "app/lib/controller/tyron/user";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Text,
   StyleSheet,
   View,
   Dimensions,
   TouchableOpacity,
-} from 'react-native';
-import ArrowLeft from '../../assets/icons/arrow_left_chrome.svg';
-import ArrowRight from '../../assets/icons/arrow_right_chrome.svg';
-import ArrowRightDark from '../../assets/icons/arrow_right_dark.svg';
+} from "react-native";
+import ArrowLeft from "../../assets/icons/arrow_left_chrome.svg";
+import ArrowRight from "../../assets/icons/arrow_right_chrome.svg";
+import ArrowRightDark from "../../assets/icons/arrow_right_dark.svg";
 
 export type Props = {
   navigation: any;
   data: any;
 };
 
-const Headline: React.FC<Props> = ({navigation, data}) => {
-  const {t} = useTranslation();
+const Headline: React.FC<Props> = ({ navigation, data }) => {
+  const { t } = useTranslation();
   const name = userName.useValue();
   const domain: any = userDomain.useValue();
-  const isDark = tyronThemeDark.useValue()
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
 
   return (
     <>
       <View style={styles.wrapper}>
-        <TouchableOpacity onPress={() => navigation.navigate('Welcome')}>
-          <Text style={styles.txtNav}>{t('HOMEPAGE')}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
+          <Text style={styles.txtNav}>{t("HOMEPAGE")}</Text>
         </TouchableOpacity>
-        {data[0]?.name !== 'homepage' && (
+        {data[0]?.name !== "homepage" && (
           <>
             <Text style={styles.txtNav}>&nbsp;&gt;&nbsp;</Text>
             <TouchableOpacity
               onPress={() => {
-                if (domain === '' || domain === 'did') {
-                  navigation.navigate('DIDxWallet');
+                if (domain === "" || domain === "did") {
+                  navigation.navigate("DIDxWallet");
                 } else {
-                  navigation.navigate('Stake');
+                  navigation.navigate("Stake");
                 }
               }}
             >
               <Text style={styles.txtNav}>
                 {name}
-                {domain !== '' && '.' + domain}
+                {domain !== "" && "." + domain}
               </Text>
             </TouchableOpacity>
             {data.map((val: any, i: number) => {
@@ -66,7 +66,7 @@ const Headline: React.FC<Props> = ({navigation, data}) => {
         )}
       </View>
       <View style={styles.wrapper}>
-        {data[0]?.name !== 'homepage' && (
+        {data[0]?.name !== "homepage" && (
           <>
             {data.map((val: any, i: number) => {
               if (i > 1) {
@@ -102,16 +102,16 @@ export default Headline;
 const stylesDark = StyleSheet.create({
   wrapper: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   txtNav: {
-    color: '#fff',
-    textTransform: 'uppercase',
+    color: "#fff",
+    textTransform: "uppercase",
   },
   arrowWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: 50,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginTop: 10,
   },
 });
@@ -119,16 +119,16 @@ const stylesDark = StyleSheet.create({
 const stylesLight = StyleSheet.create({
   wrapper: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   txtNav: {
-    color: '#000',
-    textTransform: 'uppercase',
+    color: "#000",
+    textTransform: "uppercase",
   },
   arrowWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: 50,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     marginTop: 10,
   },
 });

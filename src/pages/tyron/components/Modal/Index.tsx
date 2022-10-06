@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -13,23 +13,23 @@ import {
   Linking,
   TouchableWithoutFeedback,
   Alert,
-} from 'react-native';
-import EncryptedStorage from 'react-native-encrypted-storage';
-import * as tyron from '../../../../../node_modules/tyron';
-import zilpay from '../../assets/img/zilpay.png';
-import arrowUp from '../../assets/img/dashboard_arrow_up_icon.png';
-import arrowDown from '../../assets/img/dashboard_arrow_down_icon.png';
-import addIco from '../../assets/img/add_icon.png';
-import minusIco from '../../assets/img/minus_icon.png';
-import logOff from '../../assets/img/log_off.png';
-import rightArrow from '../../assets/img/right-arrow.png';
-import {Clipboard} from 'react-native';
-import {ActivityIndicator} from 'react-native';
-import smartContract from '../../util/smartContract';
-import {t} from 'i18next';
+} from "react-native";
+import EncryptedStorage from "react-native-encrypted-storage";
+import * as tyron from "../../../../../node_modules/tyron";
+import zilpay from "../../assets/img/zilpay.png";
+import arrowUp from "../../assets/img/dashboard_arrow_up_icon.png";
+import arrowDown from "../../assets/img/dashboard_arrow_down_icon.png";
+import addIco from "../../assets/img/add_icon.png";
+import minusIco from "../../assets/img/minus_icon.png";
+import logOff from "../../assets/img/log_off.png";
+import rightArrow from "../../assets/img/right-arrow.png";
+import { Clipboard } from "react-native";
+import { ActivityIndicator } from "react-native";
+import smartContract from "../../util/smartContract";
+import { t } from "i18next";
 
-const deviceWidth = Dimensions.get('screen').width;
-const deviceHeight = Dimensions.get('screen').height;
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
 
 export type Props = {
   navigation: any;
@@ -44,21 +44,21 @@ const ModalConnect: React.FC<Props> = ({
   hideModal,
   setLoginState,
 }) => {
-  const [menuActive, setMenuActive] = useState('');
-  const [subMenuActive, setSubMenuActive] = useState('');
+  const [menuActive, setMenuActive] = useState("");
+  const [subMenuActive, setSubMenuActive] = useState("");
   const [isDisconnet, setIsDisconnect] = useState(false);
-  const [zilliqa, setZilliqa] = useState('');
-  const [privateKey, setPrivateKey] = useState('');
-  const [username, setUsername] = useState('');
-  const [address, setAddress] = useState('');
+  const [zilliqa, setZilliqa] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
+  const [username, setUsername] = useState("");
+  const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
 
   // const dispatch = useDispatch();
-  const {getSmartContract} = smartContract();
+  const { getSmartContract } = smartContract();
   const zcrypto = tyron.Util.default.Zcrypto();
-  const net = 'testnet';
+  const net = "testnet";
   // const loginInfo = useSelector((state: any) => state.user.loginInfo);
-  const loginInfo: any = null
+  const loginInfo: any = null;
   const isLogin = loginInfo?.address;
 
   const disconnect = () => {
@@ -72,7 +72,7 @@ const ModalConnect: React.FC<Props> = ({
 
   const selectMenu = (id: string) => {
     if (id === menuActive) {
-      setMenuActive('');
+      setMenuActive("");
     } else {
       setMenuActive(id);
     }
@@ -80,7 +80,7 @@ const ModalConnect: React.FC<Props> = ({
 
   const selectSubMenu = (id: string) => {
     if (id === subMenuActive) {
-      setSubMenuActive('');
+      setSubMenuActive("");
     } else {
       setSubMenuActive(id);
     }
@@ -88,7 +88,7 @@ const ModalConnect: React.FC<Props> = ({
 
   const copyText = (text: string) => {
     Clipboard.setString(text);
-    Alert.alert('Key copied');
+    Alert.alert("Key copied");
   };
 
   const resolveUsername = async () => {
@@ -186,14 +186,14 @@ const ModalConnect: React.FC<Props> = ({
                     <View>
                       <View style={styles.headerWrapper}>
                         <Text style={styles.txtHeader}>
-                          {t('YOU_HAVE_LOGGED_IN_SSI')}
+                          {t("YOU_HAVE_LOGGED_IN_SSI")}
                         </Text>
                       </View>
                       <View style={styles.subEoaWrapper}>
                         {loginInfo?.username && (
                           <TouchableOpacity
                             onPress={() => {
-                              navigation.navigate('DIDxWallet');
+                              navigation.navigate("DIDxWallet");
                               hideModal();
                             }}
                           >
@@ -205,7 +205,7 @@ const ModalConnect: React.FC<Props> = ({
                         <TouchableOpacity
                           onPress={() => {
                             Linking.openURL(
-                              `https://devex.zilliqa.com/address/${loginInfo?.address}?network=https%3A%2F%2Fdev-api.zilliqa.com`,
+                              `https://devex.zilliqa.com/address/${loginInfo?.address}?network=https%3A%2F%2Fdev-api.zilliqa.com`
                             );
                           }}
                         >
@@ -219,21 +219,21 @@ const ModalConnect: React.FC<Props> = ({
                       </View>
                       <View style={styles.subEoaWrapper}>
                         <TouchableOpacity
-                          onPress={() => selectSubMenu('domain')}
+                          onPress={() => selectSubMenu("domain")}
                           style={styles.headerWrapper}
                         >
                           <Text style={styles.txtSubHeader}>
-                            {t('DID_DOMAIN')}
+                            {t("DID_DOMAIN")}
                           </Text>
                           <Image
                             source={
-                              subMenuActive === 'domain' ? arrowUp : arrowDown
+                              subMenuActive === "domain" ? arrowUp : arrowDown
                             }
                           />
                         </TouchableOpacity>
-                        {subMenuActive === 'domain' && (
+                        {subMenuActive === "domain" && (
                           <Text style={styles.txtNoDomain}>
-                            {t('DID_NO_DOMAINS')}
+                            {t("DID_NO_DOMAINS")}
                           </Text>
                         )}
                       </View>
@@ -241,36 +241,36 @@ const ModalConnect: React.FC<Props> = ({
                   )}
                   <View>
                     <TouchableOpacity
-                      onPress={() => selectMenu('eoa')}
+                      onPress={() => selectMenu("eoa")}
                       style={styles.headerWrapper}
                     >
                       <Text style={styles.txtHeader}>
-                        {t('EXTERNAL_WALLETS')}
+                        {t("EXTERNAL_WALLETS")}
                       </Text>
                       <Image
-                        source={menuActive === 'eoa' ? minusIco : addIco}
+                        source={menuActive === "eoa" ? minusIco : addIco}
                       />
                     </TouchableOpacity>
-                    {menuActive === 'eoa' && (
+                    {menuActive === "eoa" && (
                       <>
                         <View style={styles.subEoaWrapper}>
                           <View style={styles.walletHeaderWrapper}>
                             <Image style={styles.zilpayIco} source={zilpay} />
                             <Text style={styles.textWalletHeader}>
-                              {t('ZILLIQA_WALLET')}
+                              {t("ZILLIQA_WALLET")}
                             </Text>
                             <TouchableOpacity
                               onPress={() => setIsDisconnect(true)}
                             >
                               <Text style={styles.txtDisconnect}>
-                                {t('DISCONNECT')}
+                                {t("DISCONNECT")}
                               </Text>
                             </TouchableOpacity>
                           </View>
                           <TouchableOpacity
                             onPress={() => {
                               Linking.openURL(
-                                `https://devex.zilliqa.com/address/${zilliqa}?network=https%3A%2F%2Fdev-api.zilliqa.com`,
+                                `https://devex.zilliqa.com/address/${zilliqa}?network=https%3A%2F%2Fdev-api.zilliqa.com`
                               );
                             }}
                           >
@@ -283,40 +283,40 @@ const ModalConnect: React.FC<Props> = ({
                   {!isLogin ? (
                     <View>
                       <TouchableOpacity
-                        onPress={() => selectMenu('login')}
+                        onPress={() => selectMenu("login")}
                         style={styles.headerWrapper}
                       >
-                        <Text style={styles.txtHeader}>{t('LOG_IN')}</Text>
+                        <Text style={styles.txtHeader}>{t("LOG_IN")}</Text>
                         <Image
-                          source={menuActive === 'login' ? minusIco : addIco}
+                          source={menuActive === "login" ? minusIco : addIco}
                         />
                       </TouchableOpacity>
-                      {menuActive === 'login' && (
+                      {menuActive === "login" && (
                         <>
                           <View style={styles.subEoaWrapper}>
                             <TouchableOpacity
-                              onPress={() => selectSubMenu('existing')}
+                              onPress={() => selectSubMenu("existing")}
                               style={styles.headerWrapper}
                             >
                               <Text style={styles.txtSubHeader}>
-                                {t('EXISTING_USER')}
+                                {t("EXISTING_USER")}
                               </Text>
                               <Image
                                 source={
-                                  subMenuActive === 'existing'
+                                  subMenuActive === "existing"
                                     ? arrowUp
                                     : arrowDown
                                 }
                               />
                             </TouchableOpacity>
-                            {subMenuActive === 'existing' && (
+                            {subMenuActive === "existing" && (
                               <View>
                                 <View style={styles.formWrapper}>
                                   <Text style={styles.txtForm}>
-                                    {t('NFT_USERNAME')}
+                                    {t("NFT_USERNAME")}
                                   </Text>
                                   <View style={styles.loginWrapper}>
-                                    {address === '' ? (
+                                    {address === "" ? (
                                       <TextInput
                                         style={styles.formInput}
                                         value={username}
@@ -327,7 +327,7 @@ const ModalConnect: React.FC<Props> = ({
                                     ) : (
                                       <View style={styles.formInputDis} />
                                     )}
-                                    {loading && username !== '' ? (
+                                    {loading && username !== "" ? (
                                       <ActivityIndicator color="#fff" />
                                     ) : (
                                       <TouchableOpacity
@@ -342,13 +342,13 @@ const ModalConnect: React.FC<Props> = ({
                                     )}
                                   </View>
                                 </View>
-                                <Text style={styles.txtOr}>{t('OR')}</Text>
+                                <Text style={styles.txtOr}>{t("OR")}</Text>
                                 <View style={styles.formWrapper}>
                                   <Text style={styles.txtForm}>
-                                    {t('ADDRESS')}
+                                    {t("ADDRESS")}
                                   </Text>
                                   <View style={styles.loginWrapper}>
-                                    {username === '' ? (
+                                    {username === "" ? (
                                       <TextInput
                                         style={styles.formInput}
                                         value={address}
@@ -359,7 +359,7 @@ const ModalConnect: React.FC<Props> = ({
                                     ) : (
                                       <View style={styles.formInputDis} />
                                     )}
-                                    {loading && address !== '' ? (
+                                    {loading && address !== "" ? (
                                       <ActivityIndicator color="#fff" />
                                     ) : (
                                       <TouchableOpacity
@@ -379,38 +379,38 @@ const ModalConnect: React.FC<Props> = ({
                           </View>
                           <View style={styles.subEoaWrapper}>
                             <TouchableOpacity
-                              onPress={() => selectSubMenu('new')}
+                              onPress={() => selectSubMenu("new")}
                               style={styles.headerWrapper}
                             >
                               <Text style={styles.txtSubHeader}>
-                                {t('NEW_USER_CREATE_SSI')}
+                                {t("NEW_USER_CREATE_SSI")}
                               </Text>
                               <Image
                                 source={
-                                  subMenuActive === 'new' ? arrowUp : arrowDown
+                                  subMenuActive === "new" ? arrowUp : arrowDown
                                 }
                               />
                             </TouchableOpacity>
-                            {subMenuActive === 'new' && (
+                            {subMenuActive === "new" && (
                               <View>
                                 <View style={styles.code}>
                                   <Text style={styles.codeTxt}>
-                                    {t('DEPLOY_NEW_SSI')}
+                                    {t("DEPLOY_NEW_SSI")}
                                   </Text>
                                 </View>
                                 <TouchableOpacity
                                   onPress={() => {
                                     // isLetLogin(true);
-                                    setLoginState('loggedin');
+                                    setLoginState("loggedin");
                                   }}
                                   style={styles.btnNewSsi}
                                 >
                                   <Text style={styles.btnNewSsiTxt}>
-                                    {t('CREATE_SSI')}
+                                    {t("CREATE_SSI")}
                                   </Text>
                                 </TouchableOpacity>
                                 <Text style={styles.txtGas}>
-                                  {t('GAS_AROUND')} 1 ZIL
+                                  {t("GAS_AROUND")} 1 ZIL
                                 </Text>
                               </View>
                             )}
@@ -421,36 +421,36 @@ const ModalConnect: React.FC<Props> = ({
                   ) : (
                     <View>
                       <TouchableOpacity
-                        onPress={() => selectMenu('login')}
+                        onPress={() => selectMenu("login")}
                         style={styles.headerWrapper}
                       >
                         <Text style={styles.txtHeader}>
-                          {t('NEW_USER_CREATE_SSI')}
+                          {t("NEW_USER_CREATE_SSI")}
                         </Text>
                         <Image
-                          source={menuActive === 'login' ? minusIco : addIco}
+                          source={menuActive === "login" ? minusIco : addIco}
                         />
                       </TouchableOpacity>
-                      {menuActive === 'login' && (
+                      {menuActive === "login" && (
                         <View>
                           <View style={styles.code}>
                             <Text style={styles.codeTxt}>
-                              {t('DEPLOY_NEW_SSI')}
+                              {t("DEPLOY_NEW_SSI")}
                             </Text>
                           </View>
                           <TouchableOpacity
                             onPress={() => {
                               // isLetLogin(true);
-                              setLoginState('loggedin');
+                              setLoginState("loggedin");
                             }}
                             style={styles.btnNewSsi}
                           >
                             <Text style={styles.btnNewSsiTxt}>
-                              {t('CREATE_SSI')}
+                              {t("CREATE_SSI")}
                             </Text>
                           </TouchableOpacity>
                           <Text style={styles.txtGas}>
-                            {t('GAS_AROUND')} 1 ZIL
+                            {t("GAS_AROUND")} 1 ZIL
                           </Text>
                         </View>
                       )}
@@ -460,12 +460,12 @@ const ModalConnect: React.FC<Props> = ({
                     <TouchableOpacity
                       onPress={() => {
                         // dispatch(updateLoginInfo(null));
-                        setLoginState('');
+                        setLoginState("");
                       }}
                       style={styles.btnLogOff}
                     >
                       <Image source={logOff} />
-                      <Text style={styles.btnLogOffTxt}>{t('LOG_OFF')}</Text>
+                      <Text style={styles.btnLogOffTxt}>{t("LOG_OFF")}</Text>
                     </TouchableOpacity>
                   )}
                 </ScrollView>
@@ -481,24 +481,24 @@ const ModalConnect: React.FC<Props> = ({
                       onPress={() => copyText(privateKey)}
                       style={styles.btnCopy}
                     >
-                      <Text style={{color: '#fff'}}>copy</Text>
+                      <Text style={{ color: "#fff" }}>copy</Text>
                     </TouchableOpacity>
                   </View>
                   <View style={styles.wrapperKey}>
                     <Text style={styles.txtWhiteBold}>DID:&nbsp;</Text>
                     <Text style={styles.txtWhiteKey}>-</Text>
                     <TouchableOpacity
-                      onPress={() => copyText('')}
+                      onPress={() => copyText("")}
                       style={styles.btnCopy}
                     >
-                      <Text style={{color: '#fff'}}>copy</Text>
+                      <Text style={{ color: "#fff" }}>copy</Text>
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
                     onPress={disconnect}
                     style={styles.btnDisconnect}
                   >
-                    <Text style={{color: '#fff'}}>DISCONNECT</Text>
+                    <Text style={{ color: "#fff" }}>DISCONNECT</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.btnCancel}
@@ -526,36 +526,36 @@ const styles = StyleSheet.create({
   modalView: {
     width: deviceWidth - 30,
     padding: 15,
-    backgroundColor: '#000',
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
+    backgroundColor: "#000",
+    alignSelf: "flex-end",
+    justifyContent: "center",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     paddingTop: 5,
-    marginTop: Platform.OS === 'ios' ? 60 : 30,
+    marginTop: Platform.OS === "ios" ? 60 : 30,
     maxHeight: deviceHeight - 30,
   },
   btnXWrapper: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginBottom: 5,
   },
   btnX: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 20,
   },
   txtHeader: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 16,
     maxWidth: deviceWidth - deviceWidth * 0.3,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   headerWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginVertical: 5,
   },
   subEoaWrapper: {
@@ -563,11 +563,11 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   walletHeaderWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   textWalletHeader: {
-    color: '#fff',
+    color: "#fff",
     marginHorizontal: 10,
     marginBottom: 5,
   },
@@ -576,34 +576,34 @@ const styles = StyleSheet.create({
     height: 20,
   },
   txtDisconnect: {
-    color: '#eb5757',
+    color: "#eb5757",
     fontSize: 12,
     marginBottom: 5,
   },
   txtAddress: {
-    color: 'silver',
+    color: "silver",
     fontSize: 14,
-    textDecorationLine: 'underline',
+    textDecorationLine: "underline",
   },
   btnConnectArConnect: {
     width: 225,
     padding: 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     marginLeft: 10,
     marginVertical: 5,
   },
   btnConnectArConnectTxt: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 12,
     letterSpacing: 1.5,
   },
   txtSubHeader: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
     fontSize: 15,
   },
   formWrapper: {
@@ -611,33 +611,33 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   txtForm: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 12,
   },
   formInput: {
     width: 250,
     height: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     marginTop: 5,
-    color: '#fff',
+    color: "#fff",
     paddingHorizontal: 5,
   },
   formInputDis: {
     width: 250,
     height: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     marginTop: 5,
-    color: '#fff',
+    color: "#fff",
     paddingHorizontal: 5,
   },
   txtOr: {
-    color: '#fff',
+    color: "#fff",
     marginVertical: 15,
     marginLeft: 10,
     fontSize: 12,
@@ -645,29 +645,29 @@ const styles = StyleSheet.create({
   btnContinue: {
     width: 100,
     padding: 5,
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#ffff32',
+    borderColor: "#ffff32",
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     marginLeft: 10,
     marginTop: 10,
   },
   btnContinueTxt: {
-    color: '#ffff32',
-    fontWeight: 'bold',
+    color: "#ffff32",
+    fontWeight: "bold",
   },
   code: {
     padding: 5,
     borderRadius: 5,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     width: deviceWidth - deviceWidth * 0.3,
     marginLeft: 10,
     marginVertical: 5,
-    alignItems: 'center',
+    alignItems: "center",
   },
   codeTxt: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 12,
   },
   btnNewSsi: {
@@ -675,45 +675,45 @@ const styles = StyleSheet.create({
     padding: 3,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#ffff32',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderColor: "#ffff32",
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: 10,
     marginVertical: 5,
   },
   btnNewSsiTxt: {
-    color: '#ffff32',
+    color: "#ffff32",
     letterSpacing: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   txtNoDomain: {
-    color: '#fff',
+    color: "#fff",
     marginLeft: 10,
     fontSize: 12,
     marginVertical: 5,
   },
   txtLoggedInUsername: {
     fontSize: 14,
-    color: '#fff',
+    color: "#fff",
   },
   txtLoggedInAddress: {
     fontSize: 14,
-    color: '#ffff32',
-    textDecorationLine: 'underline',
+    color: "#ffff32",
+    textDecorationLine: "underline",
     marginTop: 5,
   },
   btnLogOff: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   btnLogOffTxt: {
-    color: '#fff',
+    color: "#fff",
     marginLeft: 10,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   txtGas: {
-    color: 'lightgrey',
+    color: "lightgrey",
     fontSize: 10,
     letterSpacing: 2,
     marginLeft: 10,
@@ -721,65 +721,65 @@ const styles = StyleSheet.create({
   },
   titleDisconnect: {
     fontSize: 16,
-    color: '#fff',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 10,
   },
   txtWhiteBold: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   txtWhiteKey: {
-    color: '#fff',
+    color: "#fff",
     maxWidth: deviceWidth - (deviceWidth * 50) / 100,
   },
   wrapperKey: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
   },
   btnCopy: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     height: 30,
     width: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: 10,
   },
   btnDisconnect: {
-    backgroundColor: '#eb5757',
+    backgroundColor: "#eb5757",
     borderRadius: 5,
     height: 30,
     width: (deviceWidth * 40) / 100,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginTop: 30,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   btnCancel: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginBottom: 30,
     marginTop: 10,
   },
   txtCancel: {
-    color: '#fff',
-    textDecorationLine: 'underline',
+    color: "#fff",
+    textDecorationLine: "underline",
   },
   arrowRight: {
     width: 15,
     height: 15,
   },
   arrowBtn: {
-    backgroundColor: '#5d5c5c',
+    backgroundColor: "#5d5c5c",
     padding: 5,
     borderRadius: 50,
   },
   loginWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });

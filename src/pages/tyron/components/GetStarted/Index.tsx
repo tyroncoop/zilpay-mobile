@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -11,30 +11,30 @@ import {
   ScrollView,
   Linking,
   Platform,
-} from 'react-native';
-import cross from '../../assets/img/ic_cross.png';
-import power from '../../assets/img/power_icon.png';
-import arrowUp from '../../assets/img/dashboard_arrow_up_icon.png';
-import arrowDown from '../../assets/img/dashboard_arrow_down_icon.png';
-import infoIcon from '../../assets/img/info_yellow.png';
-import c1 from '../../assets/img/checkpoint_1.png';
-import c2 from '../../assets/img/checkpoint_2.png';
-import c3 from '../../assets/img/checkpoint_3.png';
-import c4 from '../../assets/img/checkpoint_4.png';
-import c5 from '../../assets/img/checkpoint_5.png';
-import c6 from '../../assets/img/checkpoint_6.png';
-import c7 from '../../assets/img/checkpoint_7.png';
-import checkedIcon from '../../assets/img/checkpoint_selected.png';
+} from "react-native";
+import cross from "../../assets/img/ic_cross.png";
+import power from "../../assets/img/power_icon.png";
+import arrowUp from "../../assets/img/dashboard_arrow_up_icon.png";
+import arrowDown from "../../assets/img/dashboard_arrow_down_icon.png";
+import infoIcon from "../../assets/img/info_yellow.png";
+import c1 from "../../assets/img/checkpoint_1.png";
+import c2 from "../../assets/img/checkpoint_2.png";
+import c3 from "../../assets/img/checkpoint_3.png";
+import c4 from "../../assets/img/checkpoint_4.png";
+import c5 from "../../assets/img/checkpoint_5.png";
+import c6 from "../../assets/img/checkpoint_6.png";
+import c7 from "../../assets/img/checkpoint_7.png";
+import checkedIcon from "../../assets/img/checkpoint_selected.png";
 
-const deviceWidth = Dimensions.get('screen').width;
-const deviceHeight = Dimensions.get('screen').height;
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
 
 export type Props = {
   visible: boolean;
   showGetStarted: any;
 };
 
-const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
+const GetStarted: React.FC<Props> = ({ visible, showGetStarted }) => {
   const [active, setActive] = useState(0);
   const [checkedStep, setCheckedStep] = useState(Array());
 
@@ -48,7 +48,7 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
   };
 
   const isChecked = (id: any) => {
-    if (checkedStep.some(val => val === id)) {
+    if (checkedStep.some((val) => val === id)) {
       return true;
     } else {
       return false;
@@ -91,13 +91,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                     <View style={styles.bulletWrapper}>
                       <View style={styles.bullet} />
                       <Text style={styles.stepsListContentTxt2}>
-                        Go to{' '}
+                        Go to{" "}
                         <Text
-                          onPress={() => Linking.openURL('https://zilpay.io')}
+                          onPress={() => Linking.openURL("https://zilpay.io")}
                           style={styles.stepsListContentTxtLink}
                         >
                           zilpay.io
-                        </Text>{' '}
+                        </Text>{" "}
                         and click on GET CHROME EXTENSION. Once you have
                         installed the extension, get into it and click Create to
                         generate a new account.
@@ -114,13 +114,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                'Info',
-                                'Although the words shown at the beginning are 8, your secret phrase is made up of 12 or 24 words. To see the complete list, click between the words in the list and press the down-arrow button repeatedly on your keyboard until you see the total number of words.',
+                                "Info",
+                                "Although the words shown at the beginning are 8, your secret phrase is made up of 12 or 24 words. To see the complete list, click between the words in the list and press the down-arrow button repeatedly on your keyboard until you see the total number of words."
                               )
                             }
                           >
                             <Image
-                              style={{width: 10, height: 10}}
+                              style={{ width: 10, height: 10 }}
                               source={infoIcon}
                             />
                           </TouchableOpacity>
@@ -172,15 +172,15 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                     <View style={styles.bulletWrapper}>
                       <View style={styles.bullet} />
                       <Text style={styles.stepsListContentTxt2}>
-                        Go to{' '}
+                        Go to{" "}
                         <Text
                           onPress={() =>
-                            Linking.openURL('https://arconnect.io')
+                            Linking.openURL("https://arconnect.io")
                           }
                           style={styles.stepsListContentTxtLink}
                         >
                           arconnect.io
-                        </Text>{' '}
+                        </Text>{" "}
                         and click on Download ArConnect. Once you have installed
                         the chrome extension, a new tab will appear where you
                         will be asked to create a password for your new Arweave
@@ -201,13 +201,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                'Info',
-                                'Your SSI uses this wallet for encryption and decryption of data, and soon to make transactions on the permaweb as well!',
+                                "Info",
+                                "Your SSI uses this wallet for encryption and decryption of data, and soon to make transactions on the permaweb as well!"
                               )
                             }
                           >
                             <Image
-                              style={{width: 10, height: 10}}
+                              style={{ width: 10, height: 10 }}
                               source={infoIcon}
                             />
                           </TouchableOpacity>
@@ -262,13 +262,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                'Info',
-                                'Your Zilliqa wallet needs to have at least 70 ZIL since the gas limit to deploy a new contract (contract creation) is 35,000 units of gas at 0.002 ZIL per unit (which is the minimum possible blockchain gas price). However, the actual cost is around 1 ZIL.',
+                                "Info",
+                                "Your Zilliqa wallet needs to have at least 70 ZIL since the gas limit to deploy a new contract (contract creation) is 35,000 units of gas at 0.002 ZIL per unit (which is the minimum possible blockchain gas price). However, the actual cost is around 1 ZIL."
                               )
                             }
                           >
                             <Image
-                              style={{width: 10, height: 10}}
+                              style={{ width: 10, height: 10 }}
                               source={infoIcon}
                             />
                           </TouchableOpacity>
@@ -327,13 +327,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                'Info',
-                                'The recipient of the NFT Username can be your SSI or another address of your choice. Either way, your SSI is the owner of the NFT, which means that your Decentralized Identifier (DID) is the controller of the username.',
+                                "Info",
+                                "The recipient of the NFT Username can be your SSI or another address of your choice. Either way, your SSI is the owner of the NFT, which means that your Decentralized Identifier (DID) is the controller of the username."
                               )
                             }
                           >
                             <Image
-                              style={{width: 10, height: 10}}
+                              style={{ width: 10, height: 10 }}
                               source={infoIcon}
                             />
                           </TouchableOpacity>
@@ -430,13 +430,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                'Info',
-                                'You can have as many DID Services as you wish. If you want to add more services, write down how many you want in the Type amount input box.',
+                                "Info",
+                                "You can have as many DID Services as you wish. If you want to add more services, write down how many you want in the Type amount input box."
                               )
                             }
                           >
                             <Image
-                              style={{width: 10, height: 10}}
+                              style={{ width: 10, height: 10 }}
                               source={infoIcon}
                             />
                           </TouchableOpacity>
@@ -508,13 +508,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                'Info',
-                                'You can have an unlimited amount of guardians. To social recover your account, you need the signatures that correspond to half the amount of guardians + 1 extra signature. As a minimum, you need at least three signatures to execute social recovery.',
+                                "Info",
+                                "You can have an unlimited amount of guardians. To social recover your account, you need the signatures that correspond to half the amount of guardians + 1 extra signature. As a minimum, you need at least three signatures to execute social recovery."
                               )
                             }
                           >
                             <Image
-                              style={{width: 10, height: 10}}
+                              style={{ width: 10, height: 10 }}
                               source={infoIcon}
                             />
                           </TouchableOpacity>
@@ -568,13 +568,13 @@ const GetStarted: React.FC<Props> = ({visible, showGetStarted}) => {
                           <TouchableOpacity
                             onPress={() =>
                               Alert.alert(
-                                'Info',
-                                'You can have an unlimited amount of guardians. To social recover your account, you need the signatures that correspond to half the amount of guardians + 1 extra signature. As a minimum, you need at least three signatures to execute social recovery.',
+                                "Info",
+                                "You can have an unlimited amount of guardians. To social recover your account, you need the signatures that correspond to half the amount of guardians + 1 extra signature. As a minimum, you need at least three signatures to execute social recovery."
                               )
                             }
                           >
                             <Image
-                              style={{width: 10, height: 10}}
+                              style={{ width: 10, height: 10 }}
                               source={infoIcon}
                             />
                           </TouchableOpacity>
@@ -625,26 +625,26 @@ const styles = StyleSheet.create({
     width: deviceWidth - 30,
     maxHeight: deviceHeight - 60,
     padding: 15,
-    backgroundColor: '#000',
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
+    backgroundColor: "#000",
+    alignSelf: "flex-end",
+    justifyContent: "center",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 10,
-    marginTop: Platform.OS === 'ios' ? 60 : 30,
+    marginTop: Platform.OS === "ios" ? 60 : 30,
   },
   icoClose: {
     width: 15,
     height: 15,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   headerWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 15,
   },
   headerTitle: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 20,
     maxWidth: deviceWidth - deviceWidth * 0.4,
   },
@@ -657,23 +657,23 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   stepsHeaderWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     width: deviceWidth - 600,
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   stepsHeaderTitleWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   stepsHeaderTitle: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 15,
     marginLeft: 5,
   },
   stepsListContent: {
     borderLeftWidth: 1,
-    borderLeftColor: '#fff',
+    borderLeftColor: "#fff",
     paddingLeft: 10,
     marginLeft: 15,
     marginTop: 5,
@@ -684,22 +684,22 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   stepsListContentTxt: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 13,
     marginBottom: 5,
   },
   stepsListContentTxt2: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 13,
     marginLeft: 5,
     marginBottom: 5,
   },
   stepsListContentTxtLink: {
-    color: 'yellow',
+    color: "yellow",
     fontSize: 13,
   },
   bulletWrapper: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginLeft: 10,
     marginVertical: 5,
   },
@@ -707,7 +707,7 @@ const styles = StyleSheet.create({
     width: 5,
     height: 5,
     borderRadius: 2.5,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginTop: 7,
   },
 });

@@ -46,7 +46,7 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
     if (searchInput.includes("@")) {
       const [domain_ = "", username = ""] = searchInput.split("@");
       name = username.toLowerCase().replace(".did", "");
-      domain = domain_
+      domain = domain_;
     }
     setLoading(true);
     setSearchInput("");

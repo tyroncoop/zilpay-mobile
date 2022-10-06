@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -6,27 +6,27 @@ import {
   View,
   Image,
   Linking,
-} from 'react-native';
-import {useTranslation} from 'react-i18next';
-import tyronLogo from '../../assets/img/tyron_logo.png';
-import upDown from '../../assets/img/up_down_arrow.png';
-import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
-import { tyronLang } from 'app/lib/controller/tyron/lang';
+} from "react-native";
+import { useTranslation } from "react-i18next";
+import tyronLogo from "../../assets/img/tyron_logo.png";
+import upDown from "../../assets/img/up_down_arrow.png";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import { tyronLang } from "app/lib/controller/tyron/lang";
 
 export type Props = {
   navigation: any;
 };
 
-const Footer: React.FC<Props> = ({navigation}) => {
+const Footer: React.FC<Props> = ({ navigation }) => {
   // const dispatch = useDispatch();
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
   const [showDropdown, setShowDropdown] = useState(false);
-  const language = tyronLang.useValue()
-  const isDark = tyronThemeDark.useValue()
+  const language = tyronLang.useValue();
+  const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
 
   const navigate = (type: string) => {
-    navigation.navigate('Scan', {type});
+    navigation.navigate("Scan", { type });
   };
 
   const changeLanguage = (value: string) => {
@@ -34,29 +34,29 @@ const Footer: React.FC<Props> = ({navigation}) => {
     i18n
       .changeLanguage(value)
       .then(() => tyronLang.set(value))
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   const langDropdown = [
     {
-      key: 'en',
-      name: '🇬🇧 English',
+      key: "en",
+      name: "🇬🇧 English",
     },
     {
-      key: 'es',
-      name: '🇪🇸 Spanish',
+      key: "es",
+      name: "🇪🇸 Spanish",
     },
     {
-      key: 'cn',
-      name: '🇨🇳 Chinese',
+      key: "cn",
+      name: "🇨🇳 Chinese",
     },
     {
-      key: 'id',
-      name: '🇮🇩 Indonesian',
+      key: "id",
+      name: "🇮🇩 Indonesian",
     },
     {
-      key: 'ru',
-      name: '🇷🇺 Russian',
+      key: "ru",
+      name: "🇷🇺 Russian",
     },
   ];
 
@@ -76,7 +76,7 @@ const Footer: React.FC<Props> = ({navigation}) => {
           style={styles.langSelector}
         >
           <Text style={styles.langTxt}>
-            {langDropdown.filter(val_ => val_.key === language)[0]?.name}
+            {langDropdown.filter((val_) => val_.key === language)[0]?.name}
           </Text>
           <Image source={upDown} />
         </TouchableOpacity>
@@ -85,17 +85,17 @@ const Footer: React.FC<Props> = ({navigation}) => {
             {langDropdown.map((val, i) => (
               <TouchableOpacity
                 onPress={() => changeLanguage(val.key)}
-                style={{marginVertical: 3}}
+                style={{ marginVertical: 3 }}
                 key={i}
               >
-                <Text style={{color: '#fff'}}>{val.name}</Text>
+                <Text style={{ color: "#fff" }}>{val.name}</Text>
               </TouchableOpacity>
             ))}
           </View>
         )}
       </View>
       <TouchableOpacity
-        onPress={() => Linking.openURL('http://tyron.network/ssiprotocol/tree')}
+        onPress={() => Linking.openURL("http://tyron.network/ssiprotocol/tree")}
       >
         <Image source={tyronLogo} />
       </TouchableOpacity>
@@ -108,41 +108,41 @@ export default Footer;
 const stylesDark = StyleSheet.create({
   button: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     width: 75,
     height: 35,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 5,
   },
   buttonTxt: {
-    color: '#fff',
-    fontWeight: 'bold',
+    color: "#fff",
+    fontWeight: "bold",
   },
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   langSelector: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignSelf: 'flex-start',
-    alignItems: 'center',
+    alignSelf: "flex-start",
+    alignItems: "center",
     padding: 5,
     marginTop: 20,
   },
   langTxt: {
-    color: '#fff',
+    color: "#fff",
     marginRight: 10,
   },
   langOptWrapper: {
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     padding: 5,
     marginTop: 5,
@@ -152,41 +152,41 @@ const stylesDark = StyleSheet.create({
 const stylesLight = StyleSheet.create({
   button: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     width: 75,
     height: 35,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
     marginVertical: 5,
   },
   buttonTxt: {
-    color: '#000',
-    fontWeight: 'bold',
+    color: "#000",
+    fontWeight: "bold",
   },
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   langSelector: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: "#000",
     borderRadius: 5,
-    alignSelf: 'flex-start',
-    alignItems: 'center',
+    alignSelf: "flex-start",
+    alignItems: "center",
     padding: 5,
     marginTop: 20,
   },
   langTxt: {
-    color: '#000',
+    color: "#000",
     marginRight: 10,
   },
   langOptWrapper: {
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 5,
     padding: 5,
     marginTop: 5,
