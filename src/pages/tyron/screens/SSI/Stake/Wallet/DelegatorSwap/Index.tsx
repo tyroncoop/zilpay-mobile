@@ -4,7 +4,6 @@ import {Image} from 'react-native';
 import {Linking} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import {Text, StyleSheet, View, Dimensions, TextInput} from 'react-native';
-import {useSelector} from 'react-redux';
 import CloseIco from '../../../../../assets/img/ic_cross.png';
 import continueArrow from '../../../../../assets/img/continue_arrow.png';
 import RequestIco from '../../../../../assets/img/swap_request.png';

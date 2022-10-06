@@ -9,7 +9,6 @@ import {
   Image,
   TextInput,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import Headline from '../../components/Headline/Index';
 import DIDLayout from '../../components/Layout/DID/Index';
 import ArrowUp from '../../assets/img/arrow-up.png';

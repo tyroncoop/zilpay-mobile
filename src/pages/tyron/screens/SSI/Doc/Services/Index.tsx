@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import DIDLayout from '../../../../components/Layout/DID/Index';
 import Headline from '../../../../components/Headline/Index';
-import {useSelector} from 'react-redux';
 import instagram from '../../../../assets/img/instagram.png';
 import linkedin from '../../../../assets/img/linkedin.png';
 import discord from '../../../../assets/img/discord.png';

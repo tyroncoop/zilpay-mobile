@@ -11,7 +11,6 @@ import {
   NativeModules,
 } from 'react-native';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-// import {useDispatch} from 'react-redux';
 import {w3cwebsocket as W3cwebsocket} from 'websocket';
 // import Aes from 'react-native-aes-crypto';
 import back from '../assets/img/back.png';

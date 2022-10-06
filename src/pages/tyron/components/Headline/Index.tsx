@@ -9,7 +9,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import ArrowLeft from '../../assets/icons/arrow_left_chrome.svg';
 import ArrowRight from '../../assets/icons/arrow_right_chrome.svg';
 import ArrowRightDark from '../../assets/icons/arrow_right_dark.svg';

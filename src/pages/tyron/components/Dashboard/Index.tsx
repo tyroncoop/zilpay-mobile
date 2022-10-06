@@ -5,7 +5,6 @@ import loggedinIco from '../../assets/img/user_loggedin.png';
 import connectedIco from '../../assets/img/user_connected.png';
 import Sun from '../../assets/icons/sun.svg';
 import Moon from '../../assets/icons/moon.svg';
-// import {useDispatch, useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 

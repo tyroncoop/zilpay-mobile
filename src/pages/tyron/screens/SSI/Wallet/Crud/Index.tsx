@@ -14,7 +14,6 @@ import Headline from '../../../../components/Headline/Index';
 import DIDLayout from '../../../../components/Layout/DID/Index';
 import rightArrow from '../../../../assets/img/right-arrow.png';
 import {useTranslation} from 'react-i18next';
-import {useSelector} from 'react-redux';
 import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 
 const deviceWidth = Dimensions.get('screen').width;

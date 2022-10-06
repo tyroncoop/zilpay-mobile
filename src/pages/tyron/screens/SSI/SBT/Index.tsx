@@ -10,7 +10,6 @@ import {
   Dimensions,
   Animated,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import SearchBar from '../../../components/SearchBar/Index';
 import Footer from '../../../components/Footer/Index';
 import lightning from '../../../assets/img/lightning.jpg';

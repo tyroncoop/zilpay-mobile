@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import DIDLayout from '../../../components/Layout/DID/Index';
 import Headline from '../../../components/Headline/Index';
-import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
 import { userDoc, userName } from 'app/lib/controller/tyron/user';

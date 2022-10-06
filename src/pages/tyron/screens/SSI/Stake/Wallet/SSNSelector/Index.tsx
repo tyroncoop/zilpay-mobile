@@ -5,7 +5,6 @@ import {Image} from 'react-native';
 import {Linking} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import {Text, StyleSheet, View, Dimensions, TextInput} from 'react-native';
-import {useSelector} from 'react-redux';
 import continueArrow from '../../../../../assets/img/continue_arrow.png';
 import Selector from '../../../../../components/Selector/Index';
 

@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
   Alert,
 } from "react-native";
-// import {useDispatch, useSelector} from 'react-redux';
 import { useTranslation } from "react-i18next";
 import search from "../../assets/img/search.png";
 import * as tyron from "../../../../../node_modules/tyron";

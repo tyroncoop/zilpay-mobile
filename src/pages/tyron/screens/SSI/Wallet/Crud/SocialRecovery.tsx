@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import Headline from '../../../../components/Headline/Index';
 import DIDLayout from '../../../../components/Layout/DID/Index';
-import {useSelector} from 'react-redux';
 import {TextInput} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import ContinueArrow from '../../../../assets/icons/continue_arrow.svg';

@@ -9,7 +9,6 @@ import {
   Dimensions,
   Animated,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import Headline from '../../../components/Headline/Index';
 import DIDLayout from '../../../components/Layout/DID/Index';
 

@@ -9,7 +9,6 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import Headline from '../../../../components/Headline/Index';
 import DIDLayout from '../../../../components/Layout/DID/Index';
 import CloseIco from '../../../../assets/img/ic_cross.png';

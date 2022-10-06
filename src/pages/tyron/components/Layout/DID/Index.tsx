@@ -23,7 +23,6 @@ import Modal from '../../../components/Modal/Index';
 import GetStarted from '../../../components/GetStarted/Index';
 import Dashboard from '../../Dashboard/Index';
 import { tyronThemeDark } from 'app/lib/controller/tyron/theme';
-// import {useSelector} from 'react-redux';
 
 const deviceWidth = Dimensions.get('screen').width;
 

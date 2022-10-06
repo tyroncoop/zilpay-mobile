@@ -14,7 +14,6 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from 'react-native';
-// import {useDispatch, useSelector} from 'react-redux';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import * as tyron from '../../../../../node_modules/tyron';
 import zilpay from '../../assets/img/zilpay.png';
