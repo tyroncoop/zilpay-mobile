@@ -78,6 +78,7 @@ const Child: React.FC<Props> = ({ navigation }) => {
                         break;
                       case "github":
                         ico = github;
+                        break;
                       case "instagram":
                         ico = instagram;
                         break;
@@ -86,6 +87,12 @@ const Child: React.FC<Props> = ({ navigation }) => {
                         break;
                       case "twitter":
                         ico = twitter;
+                        break;
+                      case "discord invite":
+                        ico = discord;
+                        break;
+                      default:
+                        ico = other
                         break;
                     }
                     return (
