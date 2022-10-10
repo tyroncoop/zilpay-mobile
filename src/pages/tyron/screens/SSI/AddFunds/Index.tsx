@@ -286,7 +286,7 @@ const Child: React.FC<Props> = ({ navigation }) => {
           )}
         </View>
         <TyronConfirm
-          title=""
+          title="Add Funds"
           visible={popup}
           setPopup={setPopup}
           onConfirm={sendTx}

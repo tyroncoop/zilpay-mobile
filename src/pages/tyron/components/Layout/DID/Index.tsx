@@ -24,7 +24,7 @@ import GetStarted from "../../../components/GetStarted/Index";
 import Dashboard from "../../Dashboard/Index";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import TxModal from "../../TxModal/Index";
-import { showTxModal } from "app/lib/controller/tyron/tx";
+import { showTxModal, txModalMinimized } from "app/lib/controller/tyron/tx";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -39,6 +39,7 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [loginState, setLoginState] = useState("");
   const showModalTx = showTxModal.useValue();
+  const txMinimized = txModalMinimized.useValue();
   const isDark = tyronThemeDark.useValue();
   const lightning_ = isDark ? lightning : lightning_light;
 
@@ -65,9 +66,8 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
             setLoginState={setLoginState}
             setShowConnect={setShowConnect}
           />
-          {showModalTx ? (
-            <TxModal />
-          ) : (
+          {showModalTx && <TxModal />}
+          {txMinimized || !showModalTx ? (
             <>
               <View style={styles.wrapperContent}>
                 <SearchBar navigation={navigation} />
@@ -77,6 +77,8 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
                 <Footer navigation={navigation} />
               </View>
             </>
+          ) : (
+            <></>
           )}
         </ScrollView>
       )}
