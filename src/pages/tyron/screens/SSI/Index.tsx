@@ -27,6 +27,7 @@ import Dashboard from "../../components/Dashboard/Index";
 import { useTranslation } from "react-i18next";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { userName } from "app/lib/controller/tyron/user";
+import ClaimWallet from "./ClaimWallet/Index";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -270,10 +271,10 @@ const SSI: React.FC<Props> = ({ navigation }) => {
             <SearchBar navigation={navigation} />
             <Headline navigation={navigation} data={dataBreadcrumbs} />
             <View style={styles.textHeaderWrapper}>
+              <Text style={styles.txtHeaderYellow}>{name}</Text>
               <Text style={styles.txtHeader}>
                 {t("DECENTRALIZED IDENTITY")}
               </Text>
-              <Text style={styles.txtHeaderYellow}>{name}</Text>
             </View>
             <View>
               <View style={styles.cardWrapper}>
@@ -377,21 +378,7 @@ const SSI: React.FC<Props> = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
               <View style={styles.picker}>
-                <DropDownPicker
-                  listMode="SCROLLVIEW"
-                  open={open}
-                  value={value}
-                  items={items}
-                  multiple={false}
-                  setOpen={setOpen}
-                  setValue={setValue}
-                  placeholder={t("More transactions")}
-                  theme="DARK"
-                  style={{
-                    backgroundColor: "transparent",
-                    borderColor: isDark ? "#fff" : "#000",
-                  }}
-                />
+                <ClaimWallet text="CLAIM DIDxWALLET" />
               </View>
             </View>
           </View>
@@ -416,18 +403,20 @@ const stylesDark = StyleSheet.create({
     marginVertical: 25,
   },
   txtHeader: {
-    fontSize: 10,
+    fontSize: 15,
     color: "#dbe4eb",
-    letterSpacing: 1,
+    letterSpacing: 2,
   },
   txtHeaderYellow: {
     fontSize: 25,
     color: "#ffff32",
     marginVertical: 5,
     letterSpacing: 1,
+    alignSelf: "center",
+    marginBottom: 50,
   },
   textHeaderWrapper: {
-    marginVertical: 40,
+    marginVertical: 20,
     alignSelf: "center",
   },
   xText: {
@@ -504,7 +493,8 @@ const stylesDark = StyleSheet.create({
     color: "#fff",
     width: deviceWidth * 0.6 + 25,
     alignSelf: "center",
-    marginVertical: 30,
+    marginBottom: 70,
+    marginTop: 10,
   },
 });
 
@@ -518,18 +508,20 @@ const stylesLight = StyleSheet.create({
     marginVertical: 25,
   },
   txtHeader: {
-    fontSize: 10,
+    fontSize: 15,
     color: "#000",
-    letterSpacing: 1,
+    letterSpacing: 2,
   },
   txtHeaderYellow: {
     fontSize: 25,
     color: "#ffff32",
     marginVertical: 5,
     letterSpacing: 1,
+    alignSelf: "center",
+    marginBottom: 50,
   },
   textHeaderWrapper: {
-    marginVertical: 40,
+    marginVertical: 20,
     alignSelf: "center",
   },
   xText: {
@@ -606,6 +598,7 @@ const stylesLight = StyleSheet.create({
     color: "#fff",
     width: deviceWidth * 0.6 + 25,
     alignSelf: "center",
-    marginVertical: 30,
+    marginBottom: 70,
+    marginTop: 10,
   },
 });

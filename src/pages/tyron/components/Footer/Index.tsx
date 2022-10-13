@@ -12,6 +12,7 @@ import tyronLogo from "../../assets/img/tyron_logo.png";
 import upDown from "../../assets/img/up_down_arrow.png";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { tyronLang } from "app/lib/controller/tyron/lang";
+import SocialIcon from "../SocialIcon/Index";
 
 export type Props = {
   navigation: any;
@@ -61,45 +62,51 @@ const Footer: React.FC<Props> = ({ navigation }) => {
   ];
 
   return (
-    <View style={styles.container}>
-      {/* <View>
+    <>
+      <View style={styles.container}>
+        {/* <View>
+          <TouchableOpacity
+            onPress={() => navigate('zilpay')}
+            style={styles.button}
+          >
+            <Text style={styles.buttonTxt}>SCAN</Text>
+          </TouchableOpacity>
+        </View> */}
+        <View>
+          <TouchableOpacity
+            onPress={() => setShowDropdown(!showDropdown)}
+            style={styles.langSelector}
+          >
+            <Text style={styles.langTxt}>
+              {langDropdown.filter((val_) => val_.key === language)[0]?.name}
+            </Text>
+            <Image source={upDown} />
+          </TouchableOpacity>
+          {showDropdown && (
+            <View style={styles.langOptWrapper}>
+              {langDropdown.map((val, i) => (
+                <TouchableOpacity
+                  onPress={() => changeLanguage(val.key)}
+                  style={{ marginVertical: 3 }}
+                  key={i}
+                >
+                  <Text style={{ color: "#fff" }}>{val.name}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
         <TouchableOpacity
-          onPress={() => navigate('zilpay')}
-          style={styles.button}
+          style={{ marginRight: -20 }}
+          onPress={() =>
+            Linking.openURL("http://tyron.network/ssiprotocol/tree")
+          }
         >
-          <Text style={styles.buttonTxt}>SCAN</Text>
+          <Image source={tyronLogo} />
         </TouchableOpacity>
-      </View> */}
-      <View>
-        <TouchableOpacity
-          onPress={() => setShowDropdown(!showDropdown)}
-          style={styles.langSelector}
-        >
-          <Text style={styles.langTxt}>
-            {langDropdown.filter((val_) => val_.key === language)[0]?.name}
-          </Text>
-          <Image source={upDown} />
-        </TouchableOpacity>
-        {showDropdown && (
-          <View style={styles.langOptWrapper}>
-            {langDropdown.map((val, i) => (
-              <TouchableOpacity
-                onPress={() => changeLanguage(val.key)}
-                style={{ marginVertical: 3 }}
-                key={i}
-              >
-                <Text style={{ color: "#fff" }}>{val.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
       </View>
-      <TouchableOpacity
-        onPress={() => Linking.openURL("http://tyron.network/ssiprotocol/tree")}
-      >
-        <Image source={tyronLogo} />
-      </TouchableOpacity>
-    </View>
+      <SocialIcon />
+    </>
   );
 };
 
