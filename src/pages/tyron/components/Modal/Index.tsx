@@ -27,6 +27,8 @@ import { Clipboard } from "react-native";
 import { ActivityIndicator } from "react-native";
 import smartContract from "../../util/smartContract";
 import { t } from "i18next";
+import { loginInfo, userDoc } from "app/lib/controller/tyron/user";
+import { keystore } from "app/keystore";
 
 const deviceWidth = Dimensions.get("screen").width;
 const deviceHeight = Dimensions.get("screen").height;
@@ -58,8 +60,14 @@ const ModalConnect: React.FC<Props> = ({
   const zcrypto = tyron.Util.default.Zcrypto();
   const net = "testnet";
   // const loginInfo = useSelector((state: any) => state.user.loginInfo);
-  const loginInfo: any = null;
-  const isLogin = loginInfo?.address;
+  const loginInfo_: any = loginInfo.useValue();
+  const isLogin = loginInfo_?.address;
+
+  const accountState = keystore.account.store.useValue();
+  const account = React.useMemo(
+    () => accountState.identities[accountState.selectedAddress],
+    [accountState]
+  );
 
   const disconnect = () => {
     // EncryptedStorage.removeItem('zilliqa').then(() => {
@@ -92,75 +100,79 @@ const ModalConnect: React.FC<Props> = ({
   };
 
   const resolveUsername = async () => {
-    // setLoading(true);
-    // await tyron.SearchBarUtil.default
-    //   .fetchAddr(net, username, 'did')
-    //   .then(async addr => {
-    //     await tyron.SearchBarUtil.default
-    //       .Resolve(net, addr)
-    //       .then(async (result: any) => {
-    //         const did_controller = zcrypto.toChecksumAddress(result.controller);
-    //         // if (did_controller !== zcrypto.fromBech32Address(zilliqa)) {
-    //         //     setLoading(false)
-    //         //     Alert.alert(`Only ${username}'s DID Controller can log in to ${username}.`)
-    //         // } else {
-    //         const data = {
-    //           address: zcrypto.toChecksumAddress(addr),
-    //           username: username,
-    //           didUpdate: result?.did.slice(-42),
-    //         };
-    //         dispatch(updateLoginInfo(data));
-    //         dispatch(updateDoc(result));
-    //         setLoading(false);
-    //         setUsername('');
-    //         navigation.navigate('DIDxWallet');
-    //         hideModal();
-    //         // }
-    //       });
-    //   })
-    //   .catch(() => {
-    //     setLoading(false);
-    //     Alert.alert('Wrong username');
-    //   });
+    setLoading(true);
+    await tyron.SearchBarUtil.default
+      .fetchAddr(net, username, "did")
+      .then(async (addr) => {
+        await tyron.SearchBarUtil.default
+          .Resolve(net, addr)
+          .then(async (result: any) => {
+            const did_controller = zcrypto.toChecksumAddress(result.controller);
+            if (did_controller !== account.base16) {
+              setLoading(false);
+              Alert.alert(
+                `Only ${username}'s DID Controller can log in to ${username}.`
+              );
+            } else {
+              const data = {
+                address: zcrypto.toChecksumAddress(addr),
+                username: username,
+                didUpdate: result?.did.slice(-42),
+              };
+              loginInfo.set(data);
+              userDoc.set(result);
+              setLoading(false);
+              setUsername("");
+              navigation.navigate("Services");
+              hideModal();
+            }
+          });
+      })
+      .catch(() => {
+        setLoading(false);
+        Alert.alert("Wrong username");
+      });
   };
 
   const resolveAddr = async () => {
-    // const addr = tyron.Address.default.verification(address);
-    // if (addr !== '') {
-    //   try {
-    //     setLoading(true);
-    //     const res_v = await getSmartContract(addr, 'version');
-    //     const version = res_v.result.version;
-    //     const res_c = await getSmartContract(addr, 'controller');
-    //     const controller = zcrypto.toChecksumAddress(res_c.result.controller);
-    //     if (version.slice(0, 7) !== 'xwallet') {
-    //       Alert.alert('Unsupported version.');
-    //       setLoading(false);
-    //       // } else if (controller !== zcrypto.fromBech32Address(zilliqa)) {
-    //       //     Alert.alert(`Only ${username}'s DID Controller can log in to ${username}.`)
-    //       //     setLoading(false)
-    //     } else {
-    //       await tyron.SearchBarUtil.default
-    //         .Resolve(net, address)
-    //         .then(async (result: any) => {
-    //           const data = {
-    //             address: zcrypto.toChecksumAddress(addr),
-    //             username: null,
-    //             didUpdate: result?.did.slice(-42),
-    //           };
-    //           dispatch(updateLoginInfo(data));
-    //           setLoading(false);
-    //           setAddress('');
-    //           setLoading(false);
-    //         });
-    //     }
-    //   } catch (error) {
-    //     setLoading(false);
-    //     Alert.alert('Unsupported.');
-    //   }
-    // } else {
-    //   Alert.alert('Wrong address.');
-    // }
+    const addr = tyron.Address.default.verification(address);
+    if (addr !== "") {
+      try {
+        setLoading(true);
+        const res_v = await getSmartContract(addr, "version");
+        const version = res_v.result.version;
+        const res_c = await getSmartContract(addr, "controller");
+        const controller = zcrypto.toChecksumAddress(res_c.result.controller);
+        if (version.slice(0, 7) !== "xwallet") {
+          Alert.alert("Unsupported version.");
+          setLoading(false);
+        } else if (controller !== account.base16) {
+          Alert.alert(
+            `Only ${username}'s DID Controller can log in to ${username}.`
+          );
+          setLoading(false);
+        } else {
+          await tyron.SearchBarUtil.default
+            .Resolve(net, address)
+            .then(async (result: any) => {
+              const data = {
+                address: zcrypto.toChecksumAddress(addr),
+                username: null,
+                didUpdate: result?.did.slice(-42),
+              };
+              loginInfo.set(data);
+              setLoading(false);
+              setAddress("");
+              setLoading(false);
+            });
+        }
+      } catch (error) {
+        setLoading(false);
+        Alert.alert("Unsupported.");
+      }
+    } else {
+      Alert.alert("Wrong address.");
+    }
   };
 
   useEffect(() => {
@@ -190,7 +202,7 @@ const ModalConnect: React.FC<Props> = ({
                         </Text>
                       </View>
                       <View style={styles.subEoaWrapper}>
-                        {loginInfo?.username && (
+                        {loginInfo_?.username && (
                           <TouchableOpacity
                             onPress={() => {
                               navigation.navigate("DIDxWallet");
@@ -198,21 +210,21 @@ const ModalConnect: React.FC<Props> = ({
                             }}
                           >
                             <Text style={styles.txtLoggedInUsername}>
-                              {loginInfo.username}.did
+                              {loginInfo_.username}.did
                             </Text>
                           </TouchableOpacity>
                         )}
                         <TouchableOpacity
                           onPress={() => {
                             Linking.openURL(
-                              `https://devex.zilliqa.com/address/${loginInfo?.address}?network=https%3A%2F%2Fdev-api.zilliqa.com`
+                              `https://devex.zilliqa.com/address/${loginInfo_?.address}?network=https%3A%2F%2Fdev-api.zilliqa.com`
                             );
                           }}
                         >
                           <Text style={styles.txtLoggedInAddress}>
                             did:tyron:zil...
                             {zcrypto
-                              .toBech32Address(loginInfo?.address)
+                              .toBech32Address(loginInfo_?.address)
                               .slice(-10)}
                           </Text>
                         </TouchableOpacity>
@@ -459,8 +471,9 @@ const ModalConnect: React.FC<Props> = ({
                   {isLogin && (
                     <TouchableOpacity
                       onPress={() => {
-                        // dispatch(updateLoginInfo(null));
+                        loginInfo.set(null);
                         setLoginState("");
+                        hideModal();
                       }}
                       style={styles.btnLogOff}
                     >

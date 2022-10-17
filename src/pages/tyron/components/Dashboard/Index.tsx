@@ -7,6 +7,7 @@ import Sun from "../../assets/icons/sun.svg";
 import Moon from "../../assets/icons/moon.svg";
 import { useTranslation } from "react-i18next";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import { loginInfo } from "app/lib/controller/tyron/user";
 
 export type Props = {
   loginState: string;
@@ -17,11 +18,9 @@ export type Props = {
 
 const Dashboard: React.FC<Props> = ({ setShowMenu, setShowConnect }) => {
   const { t } = useTranslation();
-  // const dispatch = useDispatch();
-  // const loginInfo = useSelector((state: any) => state.user.loginInfo);
-  const loginInfo: any = null;
+  const loginInfo_: any = loginInfo.useValue();
   const [isDark, setIsDark] = tyronThemeDark.use();
-  const isLogin = loginInfo?.address;
+  const isLogin = loginInfo_?.address;
   const styles = isDark ? stylesDark : stylesLight;
 
   return (
