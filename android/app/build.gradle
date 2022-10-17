@@ -83,16 +83,16 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
-def getNpmVersion() {
-	def inputFile = new File("../package.json")
-	def packageJson = new JsonSlurper().parseText(inputFile.text)
-	return packageJson["version"]
-}
-/* calculated from git commits to give sequential integers */
-def getGitVersion() {
-	def process = "git rev-list master --first-parent --count".execute()
-	return process.text.toInteger()
-}
+// def getNpmVersion() {
+// 	def inputFile = new File("../package.json")
+// 	def packageJson = new JsonSlurper().parseText(inputFile.text)
+// 	return packageJson["version"]
+// }
+// /* calculated from git commits to give sequential integers */
+// def getGitVersion() {
+// 	def process = "git rev-list master --first-parent --count".execute()
+// 	return process.text.toInteger()
+// }
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -131,8 +131,8 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
-def userVer = getNpmVersion();
-def googleVer = getGitVersion();
+// def userVer = getNpmVersion();
+// def googleVer = getGitVersion();
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -155,8 +155,8 @@ android {
         applicationId "com.zilpaymobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-		versionCode googleVer
-		versionName userVer
+		// versionCode googleVer
+		// versionName userVer
 		missingDimensionStrategy 'react-native-camera', 'general'
 		multiDexEnabled true
 	}
@@ -207,7 +207,8 @@ android {
             def abi = output.getFilter(OutputFile.ABI)
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+                        // versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+                        versionCodes.get(abi) * 1048576
             }
 
         }
