@@ -1747,14 +1747,7 @@
     tslib "2.3.1"
     uuid "8.3.2"
 
-"@zilliqa-js/proto@^3.0.0":
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/@zilliqa-js/proto/-/proto-3.3.3.tgz#d2b820802c95dc0c7134b43da40d087960f88026"
-  integrity sha512-MGYAPLkxE00rdk30usqMywbdoXFBmfDXe7Ei+4i6EfyzexnwvMnLEIoXOEzM3XxyVf8kzB2js4xqxFMmVph1wg==
-  dependencies:
-    protobufjs "^6.8.8"
-
-"@zilliqa-js/proto@^3.3.4":
+"@zilliqa-js/proto@3.3.4", "@zilliqa-js/proto@^3.3.4":
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/@zilliqa-js/proto/-/proto-3.3.4.tgz#42ad33ba0331918152c5291cd4b6614019296a41"
   integrity sha512-2FwF5tq52irgQ2crMJUE8xcN83XfGvmSv7U9SsVFZHQbbPnteosLuPaXCP1ZcaHR7p28ifbgKibVTAHK8FBMiw==
@@ -7501,10 +7494,10 @@ typescript@^4.7.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
   integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==
 
-tyron@^4.9.0:
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/tyron/-/tyron-4.9.0.tgz#6adf25686fc90c96f4bf0f85f358140e69e48208"
-  integrity sha512-R3/Y6T/wlEObfNpAwAbBipdwgC7q1o4b+jQkhlHHoMhWI/7aBh7w+KNVWy/dPyYTEl1niz46Ef71R9QEtzgQLg==
+tyron@4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/tyron/-/tyron-4.10.0.tgz#6db8474596e2a0dfa7a6646bc3652184214d85c4"
+  integrity sha512-LSzGAP3upHmUn1sQp63AsF/0DiY4bGknaO0gT0UJAijeJP5yL/SsBlh9SPtlklW/ZR9AdrO/XPAAuf4xTCldhg==
   dependencies:
     "@zilliqa-js/zilliqa" "3.3.4"
     hash.js "^1.1.7"

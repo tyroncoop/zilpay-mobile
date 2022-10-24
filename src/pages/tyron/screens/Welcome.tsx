@@ -20,6 +20,8 @@ import Modal from "../components/Modal/Index";
 import GetStarted from "../components/GetStarted/Index";
 import Dashboard from "../components/Dashboard/Index";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import { showTxModal, txModalMinimized } from "app/lib/controller/tyron/tx";
+import TxModal from "../components/TxModal/Index";
 
 export type Props = {
   navigation: any;
@@ -30,6 +32,8 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
   const [showConnect, setShowConnect] = useState(false);
   const [showGetStarted, setShowGetStarted] = useState(false);
   const isDark = tyronThemeDark.useValue();
+  const showModalTx = showTxModal.useValue();
+  const txMinimized = txModalMinimized.useValue();
   const [loginState, setLoginState] = useState("");
   const lightning_ = isDark ? lightning : lightning_light;
 
@@ -48,21 +52,28 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
         hideModal={() => setShowConnect(false)}
         setLoginState={setLoginState}
       />
-      {!showMenu && !showConnect && !showGetStarted && (
+      {showModalTx && <TxModal />}
+      {txMinimized || !showModalTx ? (
         <>
-          <Dashboard
-            loginState={loginState}
-            setShowMenu={setShowMenu}
-            setLoginState={setLoginState}
-            setShowConnect={setShowConnect}
-          />
-          <View>
-            <SearchBar navigation={navigation} />
-          </View>
-          <View>
-            <Footer navigation={navigation} />
-          </View>
+          {!showMenu && !showConnect && !showGetStarted && (
+            <>
+              <Dashboard
+                loginState={loginState}
+                setShowMenu={setShowMenu}
+                setLoginState={setLoginState}
+                setShowConnect={setShowConnect}
+              />
+              <View>
+                <SearchBar navigation={navigation} />
+              </View>
+              <View>
+                <Footer navigation={navigation} />
+              </View>
+            </>
+          )}
         </>
+      ) : (
+        <></>
       )}
     </ImageBackground>
   );
