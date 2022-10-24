@@ -17,13 +17,10 @@ import ContinueArrow from "../../../assets/icons/continue_arrow.svg";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { userName, userResolved } from "app/lib/controller/tyron/user";
 import * as tyron from "../../../../../../node_modules/tyron";
-import { Zilliqa } from "@zilliqa-js/zilliqa";
-import { Long, bytes, units } from "@zilliqa-js/util";
-import { toBech32Address } from "@zilliqa-js/crypto";
-import { keystore } from "app/keystore";
 import { ActivityIndicator } from "react-native";
 import { TyronConfirm } from "app/pages/tyron/components/PopUp";
 import { showTxModal, txId, txStatus } from "app/lib/controller/tyron/tx";
+import { ZilPayBase } from "app/pages/tyron/util/zilpay-base";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -56,35 +53,21 @@ const Child: React.FC<Props> = ({ navigation }) => {
   const [valueSSI, setValueSSI] = useState("");
   const [popup, setPopup] = useState(false);
   const [loading, setLoading] = useState(false);
-  const zutil = tyron.Util.default.Zutil();
   const net = "testnet";
 
   const sendTx = async (privkey: string) => {
     // setLoading(true)
     showTxModal.set(true);
     txStatus.set("loading");
-    const zilliqa = new Zilliqa("https://dev-api.zilliqa.com");
-
-    // let privkey = '4d5eadba6811758c99bb5f2b466d19a3f42fcb396c1402a2874facacda372bd7'
-
-    zilliqa.wallet.addByPrivateKey(privkey);
-
-    const CHAIN_ID = 333;
-    const MSG_VERSION = 1;
-    const VERSION = bytes.pack(CHAIN_ID, MSG_VERSION);
-
-    const myGasPrice = units.toQa("2000", units.Units.Li); // Gas Price that will be used by all transactions
     const contractAddress = resolvedInfo?.addr;
-    const ftAddr = toBech32Address(contractAddress);
-    const amount_ = zutil.units.toQa("1", zutil.units.Units.Zil);
     try {
-      const contract = zilliqa.contracts.at(ftAddr);
-      const tx: any = await contract.call("AddFunds", [], {
-        // amount, gasPrice and gasLimit must be explicitly provided
-        version: VERSION,
-        amount: amount_,
-        gasPrice: myGasPrice,
-        gasLimit: Long.fromNumber(10000),
+      const zilpay = new ZilPayBase();
+      const tx: any = await zilpay.call({
+        contractAddress: contractAddress,
+        transition: "AddFunds",
+        params: [],
+        amount: "1",
+        privkey,
       });
       txId.set(tx.id);
       txStatus.set("confirmed");
