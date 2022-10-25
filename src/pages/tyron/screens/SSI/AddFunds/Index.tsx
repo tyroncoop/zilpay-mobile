@@ -14,6 +14,7 @@ import DIDLayout from "../../../components/Layout/DID/Index";
 import Headline from "../../../components/Headline/Index";
 import { useTranslation } from "react-i18next";
 import ContinueArrow from "../../../assets/icons/continue_arrow.svg";
+import Tick from "../../../assets/icons/tick.svg";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { userName, userResolved } from "app/lib/controller/tyron/user";
 import * as tyron from "../../../../../../node_modules/tyron";
@@ -21,6 +22,8 @@ import { ActivityIndicator } from "react-native";
 import { TyronConfirm } from "app/pages/tyron/components/PopUp";
 import { showTxModal, txId, txStatus } from "app/lib/controller/tyron/tx";
 import { ZilPayBase } from "app/pages/tyron/util/zilpay-base";
+import { keystore } from "app/keystore";
+import { Alert } from "react-native";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -52,8 +55,15 @@ const Child: React.FC<Props> = ({ navigation }) => {
   const [openSSI, setOpenSSI] = useState(false);
   const [valueSSI, setValueSSI] = useState("");
   const [popup, setPopup] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [savedInput, setSavedInput] = useState(false);
+  const [inputCoin, setInputCoin] = useState<any>(0);
   const net = "testnet";
+
+  const accountState = keystore.account.store.useValue();
+  const account = React.useMemo(
+    () => accountState.identities[accountState.selectedAddress],
+    [accountState]
+  );
 
   const sendTx = async (privkey: string) => {
     // setLoading(true)
@@ -66,7 +76,7 @@ const Child: React.FC<Props> = ({ navigation }) => {
         contractAddress: contractAddress,
         transition: "AddFunds",
         params: [],
-        amount: "1",
+        amount: String(inputCoin),
         privkey,
       });
       txId.set(tx.id);
@@ -82,10 +92,23 @@ const Child: React.FC<Props> = ({ navigation }) => {
     // setLoading(false)
   };
 
+  const saveInputCoin = () => {
+    setSavedInput(false);
+    let input = inputCoin;
+    const re = /,/gi;
+    input = input.replace(re, ".");
+    const input_ = Number(input);
+    if (!isNaN(input_)) {
+      setSavedInput(true);
+    } else {
+      Alert.alert("The input is not a number.");
+    }
+  };
+
   const itemsOriginator = [
     { label: t("Select originator"), value: "" },
-    { label: "TYRON", value: "ssi" },
-    { label: "Zilliqa", value: "zilpay" },
+    { label: "xWallet", value: "ssi" },
+    { label: "ZilPay", value: "zilpay" },
   ];
 
   const itemsSSI = [
@@ -112,41 +135,64 @@ const Child: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.txtInfo}>
           {t("You can add funds into X from your SSI or ZilPay.", { name })}
         </Text>
-        {/* <View style={styles.picker}>
+        <View style={styles.pickerCoin}>
           <DropDownPicker
+            zIndex={5000}
+            zIndexInverse={1000}
             listMode="SCROLLVIEW"
-            open={openOriginator}
-            value={valueOriginator}
-            items={itemsOriginator}
+            open={openCoin}
+            value={valueCoin}
+            items={itemsCoin}
             multiple={false}
-            setOpen={setOpenOriginator}
-            setValue={setValueOriginator}
-            placeholder="Select originator"
-            placeholderStyle={{color: '#fff'}}
+            setOpen={setOpenCoin}
+            setValue={setValueCoin}
+            placeholder="Select coin"
+            placeholderStyle={{ color: "#fff" }}
             theme="DARK"
-            style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+            style={{ backgroundColor: "#000", borderColor: "#fff" }}
           />
         </View>
-        {valueOriginator === 'zilpay' && (
+        {valueCoin !== "" && (
+          <View style={styles.picker}>
+            <DropDownPicker
+              zIndex={4000}
+              zIndexInverse={1000}
+              listMode="SCROLLVIEW"
+              open={openOriginator}
+              value={valueOriginator}
+              items={itemsOriginator}
+              multiple={false}
+              setOpen={setOpenOriginator}
+              setValue={setValueOriginator}
+              placeholder="Select originator"
+              placeholderStyle={{ color: "#fff" }}
+              theme="DARK"
+              style={{ backgroundColor: "#000", borderColor: "#fff" }}
+            />
+          </View>
+        )}
+        {valueOriginator === "zilpay" && (
           <View style={styles.wrapperZilpayInfo}>
             <Text style={styles.txtZilpayInfo}>
-              {t('Wallet')}:{' '}
+              {t("Wallet")}:{" "}
               <Text
                 onPress={() =>
                   Linking.openURL(
-                    'https://devex.zilliqa.com/address/zil1pksk4fxxgnwn3ffy7nxrxrgrrpwm2rjl8xaaup?network=https%3A%2F%2Fdev-api.zilliqa.com',
+                    `https://devex.zilliqa.com/address/${account?.bech32}?network=https%3A%2F%2Fdev-api.zilliqa.com`
                   )
                 }
               >
-                zil1pksk4fxxgnwn3ffy7nxrxrgrrpwm2rjl8xaaup
+                {account?.bech32}
               </Text>
             </Text>
             <Text style={styles.txtZilpayInfo}>Balance: -</Text>
           </View>
         )}
-        {valueOriginator === 'ssi' && (
+        {valueOriginator === "ssi" && (
           <View style={styles.pickerSSI}>
             <DropDownPicker
+              zIndex={3000}
+              zIndexInverse={1000}
               listMode="SCROLLVIEW"
               open={openSSI}
               value={valueSSI}
@@ -154,20 +200,17 @@ const Child: React.FC<Props> = ({ navigation }) => {
               multiple={false}
               setOpen={setOpenSSI}
               setValue={setValueSSI}
-              placeholder={t('Log in')}
-              placeholderStyle={{color: '#fff'}}
+              placeholder={t("Log in")}
+              placeholderStyle={{ color: "#fff" }}
               theme="DARK"
-              style={{
-                backgroundColor: 'transparent',
-                borderColor: 'transparent',
-              }}
+              style={{ backgroundColor: "#000", borderColor: "#fff" }}
             />
           </View>
         )}
-        {valueSSI === 'nft' ? (
+        {valueSSI === "nft" ? (
           <View style={styles.wrapperDomain}>
             <TextInput
-              placeholder={t('Type username')}
+              placeholder={t("Type username")}
               placeholderTextColor="#fff"
               style={styles.inputAddress}
             />
@@ -175,10 +218,10 @@ const Child: React.FC<Props> = ({ navigation }) => {
               <ContinueArrow width={30} height={30} />
             </TouchableOpacity>
           </View>
-        ) : valueSSI === 'address' ? (
+        ) : valueSSI === "address" ? (
           <View style={styles.wrapperDomain}>
             <TextInput
-              placeholder={t('Type address')}
+              placeholder={t("Type address")}
               placeholderTextColor="#fff"
               style={styles.inputAddress}
             />
@@ -189,85 +232,52 @@ const Child: React.FC<Props> = ({ navigation }) => {
         ) : (
           <></>
         )}
-        {valueOriginator === 'zilpay' ||
-        (valueOriginator === 'ssi' && valueSSI !== '') ? (
+        {valueOriginator === "zilpay" ||
+        (valueOriginator === "ssi" && valueSSI !== "") ? (
           <View style={styles.selectCoinWrapper}>
             <Text style={styles.txtCoin}>
-              {t('ADD_FUNDS_INTO_TITLE')}{' '}
-              <Text style={{color: '#ffff32'}}>ilhambagas.did</Text>
+              {t("ADD_FUNDS_INTO_TITLE")}{" "}
+              <Text style={{ color: "#ffff32" }}>{name}</Text>
             </Text>
-            <View style={styles.pickerCoin}>
-              <DropDownPicker
-                listMode="SCROLLVIEW"
-                open={openCoin}
-                value={valueCoin}
-                items={itemsCoin}
-                multiple={false}
-                setOpen={setOpenCoin}
-                setValue={setValueCoin}
-                placeholder="Select coin"
-                placeholderStyle={{color: '#fff'}}
-                theme="DARK"
-                style={{
-                  backgroundColor: 'transparent',
-                  borderColor: 'transparent',
-                }}
-              />
-            </View>
           </View>
         ) : (
           <></>
         )}
-        {valueCoin !== '' && (
+        {valueCoin !== "" && valueOriginator !== "" && (
           <View style={styles.coinInputWrapper}>
             <Text style={styles.txtCoinType}>{valueCoin}</Text>
             <TextInput
-              placeholder={t('Type amount')}
+              placeholder={t("Type amount")}
               placeholderTextColor="#fff"
               style={styles.coinInput}
+              onChangeText={(text: string) => setInputCoin(text)}
             />
-            <TouchableOpacity>
-              <ContinueArrow width={30} height={30} />
-            </TouchableOpacity>
+            {!savedInput ? (
+              <TouchableOpacity onPress={saveInputCoin}>
+                <ContinueArrow width={30} height={30} />
+              </TouchableOpacity>
+            ) : (
+              <Tick width={30} height={30} />
+            )}
           </View>
         )}
-        {valueCoin !== '' && (
+        {savedInput && (
           <View>
-            <TouchableOpacity style={styles.btnTransfer}>
+            <TouchableOpacity
+              onPress={() => setPopup(true)}
+              style={styles.btnTransfer}
+            >
               <Text style={styles.btnTransferTxt}>
-                {t('TRANSFER')}{' '}
-                <Text style={{color: '#ffff32', textTransform: 'uppercase'}}>
-                  1 {valueCoin}
-                </Text>{' '}
-                {t('TO')} <Text style={{color: '#ffff32'}}>ilhambagas.did</Text>
+                {t("TRANSFER")}{" "}
+                <Text style={{ color: "#ffff32", textTransform: "uppercase" }}>
+                  {inputCoin} {valueCoin}
+                </Text>{" "}
+                {t("TO")} <Text style={{ color: "#ffff32" }}>{name}</Text>
               </Text>
             </TouchableOpacity>
-            <Text style={styles.txtGas}>{t('GAS_AROUND')} 4-7 zil</Text>
+            <Text style={styles.txtGas}>{t("GAS_AROUND")} 4-7 zil</Text>
           </View>
-        )} */}
-        <View style={{ marginTop: 50 }}>
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <>
-              <TouchableOpacity
-                onPress={() => setPopup(true)}
-                style={styles.btnTransfer}
-              >
-                <Text style={styles.btnTransferTxt}>
-                  {t("TRANSFER")}{" "}
-                  <Text
-                    style={{ color: "#ffff32", textTransform: "uppercase" }}
-                  >
-                    1 ZIL
-                  </Text>{" "}
-                  {t("TO")} <Text style={{ color: "#ffff32" }}>{name}</Text>
-                </Text>
-              </TouchableOpacity>
-              <Text style={styles.txtGas}>{t("GAS_AROUND")} 4-7 zil</Text>
-            </>
-          )}
-        </View>
+        )}
         <TyronConfirm
           title="Add Funds"
           visible={popup}
@@ -304,33 +314,21 @@ const stylesDark = StyleSheet.create({
     fontSize: 16,
   },
   picker: {
-    color: "#fff",
-    width: deviceWidth * 0.6 + 25,
-    marginVertical: 30,
-    zIndex: 4,
-    alignSelf: "center",
-  },
-  pickerSSI: {
-    color: "#fff",
-    width: deviceWidth * 0.6 + 25,
-    zIndex: 3,
-    alignSelf: "center",
-  },
-  pickerDomain: {
-    color: "#fff",
-    width: deviceWidth * 0.3,
-    zIndex: 3,
-  },
-  pickerCoin: {
-    color: "#fff",
     width: deviceWidth * 0.6 + 25,
     marginVertical: 10,
-    alignSelf: "center",
-    zIndex: 3,
+  },
+  pickerSSI: {
+    width: deviceWidth * 0.6 + 25,
+  },
+  pickerDomain: {
+    width: deviceWidth * 0.3,
+  },
+  pickerCoin: {
+    width: deviceWidth * 0.6 + 25,
+    marginTop: 30,
   },
   wrapperZilpayInfo: {
     marginLeft: 10,
-    marginTop: -20,
   },
   txtZilpayInfo: {
     fontSize: 14,
@@ -339,7 +337,6 @@ const stylesDark = StyleSheet.create({
   txtCoin: {
     color: "#fff",
     fontSize: 16,
-    alignSelf: "center",
     zIndex: 1,
   },
   selectCoinWrapper: {
@@ -347,7 +344,6 @@ const stylesDark = StyleSheet.create({
   },
   coinInputWrapper: {
     flexDirection: "row",
-    justifyContent: "center",
     marginBottom: 50,
     alignItems: "center",
   },
@@ -363,7 +359,7 @@ const stylesDark = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#fff",
     borderRadius: 5,
-    width: deviceWidth * 0.3,
+    width: deviceWidth * 0.5,
     color: "#fff",
     paddingHorizontal: 10,
     marginHorizontal: 10,
@@ -449,7 +445,7 @@ const stylesLight = StyleSheet.create({
   },
   txtHeaderYellow: {
     fontSize: 20,
-    color: "#000",
+    color: "silver",
     letterSpacing: 2,
     textAlign: "center",
   },
@@ -458,47 +454,34 @@ const stylesLight = StyleSheet.create({
     alignSelf: "center",
   },
   txtInfo: {
-    color: "#000",
+    color: "#fff",
     textAlign: "center",
     fontSize: 16,
   },
   picker: {
-    color: "#000",
-    width: deviceWidth * 0.6 + 25,
-    marginVertical: 30,
-    zIndex: 4,
-    alignSelf: "center",
-  },
-  pickerSSI: {
-    color: "#000",
-    width: deviceWidth * 0.6 + 25,
-    zIndex: 3,
-    alignSelf: "center",
-  },
-  pickerDomain: {
-    color: "#000",
-    width: deviceWidth * 0.3,
-    zIndex: 3,
-  },
-  pickerCoin: {
-    color: "#000",
     width: deviceWidth * 0.6 + 25,
     marginVertical: 10,
-    alignSelf: "center",
-    zIndex: 3,
+  },
+  pickerSSI: {
+    width: deviceWidth * 0.6 + 25,
+  },
+  pickerDomain: {
+    width: deviceWidth * 0.3,
+  },
+  pickerCoin: {
+    width: deviceWidth * 0.6 + 25,
+    marginTop: 30,
   },
   wrapperZilpayInfo: {
     marginLeft: 10,
-    marginTop: -20,
   },
   txtZilpayInfo: {
     fontSize: 14,
-    color: "#000",
+    color: "#fff",
   },
   txtCoin: {
-    color: "#000",
+    color: "#fff",
     fontSize: 16,
-    alignSelf: "center",
     zIndex: 1,
   },
   selectCoinWrapper: {
@@ -506,12 +489,11 @@ const stylesLight = StyleSheet.create({
   },
   coinInputWrapper: {
     flexDirection: "row",
-    justifyContent: "center",
     marginBottom: 50,
     alignItems: "center",
   },
   txtCoinType: {
-    color: "#000",
+    color: "#fff",
     textTransform: "uppercase",
     backgroundColor: "hsla(0,0%,100%,.075)",
     padding: 10,
@@ -522,8 +504,8 @@ const stylesLight = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#fff",
     borderRadius: 5,
-    width: deviceWidth * 0.3,
-    color: "#000",
+    width: deviceWidth * 0.5,
+    color: "#fff",
     paddingHorizontal: 10,
     marginHorizontal: 10,
     height: 40,
@@ -543,7 +525,7 @@ const stylesLight = StyleSheet.create({
     borderRadius: 5,
   },
   btnTransferTxt: {
-    color: "#000",
+    color: "#fff",
     letterSpacing: 1,
   },
   txtGas: {
@@ -565,7 +547,7 @@ const stylesLight = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 5,
     width: deviceWidth * 0.3,
-    color: "#000",
+    color: "#fff",
     paddingHorizontal: 10,
     marginHorizontal: 10,
     height: 40,
@@ -576,7 +558,7 @@ const stylesLight = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 5,
     width: deviceWidth * 0.5,
-    color: "#000",
+    color: "#fff",
     paddingHorizontal: 10,
     marginHorizontal: 10,
     height: 40,
