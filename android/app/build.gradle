@@ -176,12 +176,16 @@ android {
             keyPassword 'android'
         }
         release {
-            if (project.hasProperty('ZILPAY_UPLOAD_STORE_FILE')) {
-                storeFile file(ZILPAY_UPLOAD_STORE_FILE)
-                storePassword ZILPAY_UPLOAD_STORE_PASSWORD
-                keyAlias ZILPAY_UPLOAD_KEY_ALIAS
-                keyPassword ZILPAY_UPLOAD_KEY_PASSWORD
-            }
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            // if (project.hasProperty('ZILPAY_UPLOAD_STORE_FILE')) {
+            //     storeFile file(ZILPAY_UPLOAD_STORE_FILE)
+            //     storePassword ZILPAY_UPLOAD_STORE_PASSWORD
+            //     keyAlias ZILPAY_UPLOAD_KEY_ALIAS
+            //     keyPassword ZILPAY_UPLOAD_KEY_PASSWORD
+            // }
         }
     }
     buildTypes {
@@ -219,6 +223,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':lottie-react-native')
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 

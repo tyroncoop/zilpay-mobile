@@ -21,6 +21,7 @@ import {
   userResolved,
 } from "app/lib/controller/tyron/user";
 import smartContract from "../../util/smartContract";
+import ThreeDots from "../ThreeDots/Index";
 
 const DeviceWidth = Dimensions.get("screen").width;
 
@@ -233,8 +234,8 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View>
-      <Text style={styles.text}>{t("SEARCH_NFT")}</Text>
       <View style={styles.bar} />
+      <Text style={styles.text}>{t("SEARCH_NFT")}</Text>
       <View style={styles.contentWrapper}>
         <TextInput
           style={styles.input}
@@ -243,7 +244,11 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
         />
         <View style={styles.line} />
         <TouchableOpacity onPress={resolveNft} style={styles.button}>
-          <Image style={styles.searchIco} source={search} />
+          {loading ? (
+            <ThreeDots />
+          ) : (
+            <Image style={styles.searchIco} source={search} />
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.bar} />
@@ -278,7 +283,7 @@ const stylesDark = StyleSheet.create({
   text: {
     color: "#fff",
     fontSize: 14,
-    marginTop: 10,
+    marginBottom: -10,
   },
   input: {
     height: 40,
