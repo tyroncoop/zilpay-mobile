@@ -27,11 +27,17 @@ import { Clipboard } from "react-native";
 import { ActivityIndicator } from "react-native";
 import smartContract from "../../util/smartContract";
 import { t } from "i18next";
-import { loginInfo, userDoc } from "app/lib/controller/tyron/user";
+import {
+  loginInfo,
+  userDoc,
+  userResolved,
+} from "app/lib/controller/tyron/user";
 import { keystore } from "app/keystore";
 import { ZilPayBase } from "../../util/zilpay-base";
 import { showTxModal, txId, txStatus } from "app/lib/controller/tyron/tx";
 import { TyronConfirm } from "../PopUp";
+import { tyronThemeDark } from "app/lib/controller/tyron/theme";
+import { loadingGlobal } from "app/lib/controller/tyron/utils";
 
 const deviceWidth = Dimensions.get("screen").width;
 const deviceHeight = Dimensions.get("screen").height;
@@ -56,8 +62,12 @@ const ModalConnect: React.FC<Props> = ({
   const [privateKey, setPrivateKey] = useState("");
   const [username, setUsername] = useState("");
   const [address, setAddress] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingResolve, setLoadingResolve] = useState(false);
   const [popup, setPopup] = useState(false);
+  const [loadingList, setLoadingList] = useState(false);
+  const [didDomain, setDidDomain] = useState(Array());
+  const [nftUsername, setNftUsername] = useState(Array());
+  const [loading, setLoading] = loadingGlobal.use();
 
   // const dispatch = useDispatch();
   const { getSmartContract } = smartContract();
@@ -67,6 +77,7 @@ const ModalConnect: React.FC<Props> = ({
   const loginInfo_: any = loginInfo.useValue();
   const isLogin = loginInfo_?.address;
 
+  const isDark = tyronThemeDark.useValue();
   const accountState = keystore.account.store.useValue();
   const account = React.useMemo(
     () => accountState.identities[accountState.selectedAddress],
@@ -90,11 +101,54 @@ const ModalConnect: React.FC<Props> = ({
     }
   };
 
-  const selectSubMenu = (id: string) => {
+  const selectSubMenu = async (id: string) => {
     if (id === subMenuActive) {
       setSubMenuActive("");
     } else {
-      setSubMenuActive(id);
+      if (id === "domain") {
+        setLoadingList(true);
+        setSubMenuActive(id);
+        const addr = await tyron.SearchBarUtil.default.fetchAddr(
+          net,
+          loginInfo_?.username,
+          "did"
+        );
+        getSmartContract(addr, "did_domain_dns").then(async (res) => {
+          const key = Object.keys(res.result.did_domain_dns);
+          setDidDomain(key);
+        });
+        setTimeout(() => {
+          setLoadingList(false);
+        }, 1000);
+      } else if (id === "nftUsername") {
+        setLoadingList(true);
+        setSubMenuActive(id);
+        const addr = await tyron.SearchBarUtil.default.fetchAddr(
+          net,
+          "init",
+          "did"
+        );
+        const get_services = await getSmartContract(addr, "services");
+        const services = await tyron.SmartUtil.default.intoMap(
+          get_services.result.services
+        );
+        getSmartContract(services.get("init"), "did_dns").then(async (res) => {
+          const val = Object.values(res.result.did_dns);
+          const key = Object.keys(res.result.did_dns);
+          let list: any = [];
+          for (let i = 0; i < val.length; i += 1) {
+            if (val[i] === loginInfo_?.address.toLowerCase()) {
+              list.push(key[i]);
+            }
+          }
+          setNftUsername(list);
+        });
+        setTimeout(() => {
+          setLoadingList(false);
+        }, 1000);
+      } else {
+        setSubMenuActive(id);
+      }
     }
   };
 
@@ -104,28 +158,29 @@ const ModalConnect: React.FC<Props> = ({
   };
 
   const resolveUsername = async () => {
-    setLoading(true);
+    setLoadingResolve(true);
+    const username_ = username.toLowerCase();
     await tyron.SearchBarUtil.default
-      .fetchAddr(net, username, "did")
+      .fetchAddr(net, username_, "did")
       .then(async (addr) => {
         await tyron.SearchBarUtil.default
           .Resolve(net, addr)
           .then(async (result: any) => {
             const did_controller = zcrypto.toChecksumAddress(result.controller);
             if (did_controller !== account.base16) {
-              setLoading(false);
+              setLoadingResolve(false);
               Alert.alert(
-                `Only ${username}'s DID Controller can log in to ${username}.`
+                `Only ${username_}'s DID Controller can log in to ${username_}.`
               );
             } else {
               const data = {
                 address: zcrypto.toChecksumAddress(addr),
-                username: username,
+                username: username_,
                 didUpdate: result?.did.slice(-42),
               };
               loginInfo.set(data);
               userDoc.set(result);
-              setLoading(false);
+              setLoadingResolve(false);
               setUsername("");
               navigation.navigate("Services");
               hideModal();
@@ -133,28 +188,28 @@ const ModalConnect: React.FC<Props> = ({
           });
       })
       .catch(() => {
-        setLoading(false);
+        setLoadingResolve(false);
         Alert.alert("Wrong username");
       });
   };
 
   const resolveAddr = async () => {
-    const addr = tyron.Address.default.verification(address);
+    const addr = tyron.Address.default.verification(address.toLowerCase());
     if (addr !== "") {
       try {
-        setLoading(true);
+        setLoadingResolve(true);
         const res_v = await getSmartContract(addr, "version");
         const version = res_v.result.version;
         const res_c = await getSmartContract(addr, "controller");
         const controller = zcrypto.toChecksumAddress(res_c.result.controller);
         if (version.slice(0, 7) !== "xwallet") {
           Alert.alert("Unsupported version.");
-          setLoading(false);
+          setLoadingResolve(false);
         } else if (controller !== account.base16) {
           Alert.alert(
             `Only ${username}'s DID Controller can log in to ${username}.`
           );
-          setLoading(false);
+          setLoadingResolve(false);
         } else {
           await tyron.SearchBarUtil.default
             .Resolve(net, address)
@@ -165,13 +220,13 @@ const ModalConnect: React.FC<Props> = ({
                 didUpdate: result?.did.slice(-42),
               };
               loginInfo.set(data);
-              setLoading(false);
+              setLoadingResolve(false);
               setAddress("");
-              setLoading(false);
+              setLoadingResolve(false);
             });
         }
       } catch (error) {
-        setLoading(false);
+        setLoadingResolve(false);
         Alert.alert("Unsupported.");
       }
     } else {
@@ -204,6 +259,98 @@ const ModalConnect: React.FC<Props> = ({
           didUpdate: "",
         };
         loginInfo.set(data);
+      });
+  };
+
+  const resolveDid = async (_username: string, _domain: string) => {
+    hideModal();
+    await tyron.SearchBarUtil.default
+      .fetchAddr(net, _username, "did")
+      .then(async (addr) => {
+        await tyron.SearchBarUtil.default
+          .Resolve(net, addr)
+          .then(async (result: any) => {
+            const did_controller = zcrypto.toChecksumAddress(result.controller);
+            const res = await getSmartContract(addr, "version");
+            userDoc.set({
+              did: result.did,
+              controller: did_controller,
+              version: result.version,
+              doc: result.doc,
+              dkms: result.dkms,
+              guardians: result.guardians,
+            });
+
+            if (_domain === "did") {
+              userResolved.set({
+                name: _username,
+                domain: _domain,
+                addr: addr,
+                status: result.status,
+                version: res.result.version,
+              });
+              navigation.navigate("Services");
+            } else {
+              await tyron.SearchBarUtil.default
+                .fetchAddr(net, _username, _domain)
+                .then(async (domain_addr) => {
+                  const res = await getSmartContract(domain_addr, "version");
+                  userResolved.set({
+                    name: _username,
+                    domain: _domain,
+                    addr: domain_addr,
+                    status: result.status,
+                    version: res.result.version,
+                  });
+                  switch (res.result.version.slice(0, 8).toLowerCase()) {
+                    case "zilstake":
+                      navigation.navigate("Stake");
+                      break;
+                    case ".stake--":
+                      navigation.navigate("Stake");
+                      break;
+                    case "zilxwall":
+                      navigation.navigate("Stake");
+                      break;
+                    case "vcxwalle":
+                      navigation.navigate("SBT");
+                      break;
+                    case "sbtxwall":
+                      navigation.navigate("SBT");
+                      break;
+                    default:
+                      navigation.navigate("Servvices");
+                      setTimeout(() => {
+                        Alert.alert("Unregistered DID Domain.");
+                      }, 1000);
+                  }
+                })
+                .catch(() => {
+                  Alert.alert("Uninitialized DID Domain.");
+                  navigation.navigate("Servvices");
+                });
+            }
+            setTimeout(() => {
+              setLoading(false);
+            }, 1000);
+          })
+          .catch((err) => {
+            if (
+              String(err).includes("did_status") ||
+              String(err).includes(".result") ||
+              String(err).includes("null")
+            ) {
+              Alert.alert("Available in the future.");
+            } else {
+              Alert.alert(String(err));
+            }
+            setLoading(false);
+          });
+      })
+      .catch(() => {
+        Alert.alert("Upgrade required.");
+        navigation.navigate("Services");
+        setLoading(false);
       });
   };
 
@@ -296,9 +443,38 @@ const ModalConnect: React.FC<Props> = ({
                             </TouchableOpacity>
                             {subMenuActive === "nftUsername" && (
                               <View style={styles.wrapperContentSubLoginInfo}>
-                                <Text style={styles.txtNoDomain}>
-                                  No NFT Domain Name is available.
-                                </Text>
+                                {loadingList ? (
+                                  <ActivityIndicator
+                                    style={{ alignSelf: "flex-start" }}
+                                    color={isDark ? "#fff" : "#000"}
+                                  />
+                                ) : (
+                                  <>
+                                    {nftUsername.length > 0 ? (
+                                      <>
+                                        {nftUsername.map((val, i) => (
+                                          <TouchableOpacity
+                                            onPress={() =>
+                                              resolveDid(val, "did")
+                                            }
+                                            style={{ alignSelf: "flex-start" }}
+                                          >
+                                            <Text
+                                              key={i}
+                                              style={{ color: "#fff" }}
+                                            >
+                                              {val}
+                                            </Text>
+                                          </TouchableOpacity>
+                                        ))}
+                                      </>
+                                    ) : (
+                                      <Text style={styles.txtNoDomain}>
+                                        No NFT Domain Name is available.
+                                      </Text>
+                                    )}
+                                  </>
+                                )}
                               </View>
                             )}
                           </View>
@@ -320,9 +496,41 @@ const ModalConnect: React.FC<Props> = ({
                             </TouchableOpacity>
                             {subMenuActive === "domain" && (
                               <View style={styles.wrapperContentSubLoginInfo}>
-                                <Text style={styles.txtNoDomain}>
-                                  {t("DID_NO_DOMAINS")}
-                                </Text>
+                                {loadingList ? (
+                                  <ActivityIndicator
+                                    style={{ alignSelf: "flex-start" }}
+                                    color={isDark ? "#fff" : "#000"}
+                                  />
+                                ) : (
+                                  <>
+                                    {didDomain.length > 0 ? (
+                                      <>
+                                        {didDomain.map((val, i) => (
+                                          <TouchableOpacity
+                                            onPress={() =>
+                                              resolveDid(
+                                                loginInfo_?.username,
+                                                val
+                                              )
+                                            }
+                                            style={{ alignSelf: "flex-start" }}
+                                          >
+                                            <Text
+                                              key={i}
+                                              style={{ color: "#fff" }}
+                                            >
+                                              {val}@
+                                            </Text>
+                                          </TouchableOpacity>
+                                        ))}
+                                      </>
+                                    ) : (
+                                      <Text style={styles.txtNoDomain}>
+                                        {t("DID_NO_DOMAINS")}
+                                      </Text>
+                                    )}
+                                  </>
+                                )}
                               </View>
                             )}
                           </View>
@@ -419,13 +627,13 @@ const ModalConnect: React.FC<Props> = ({
                                             style={styles.formInput}
                                             value={username}
                                             onChangeText={(text: string) =>
-                                              setUsername(text.toLowerCase())
+                                              setUsername(text)
                                             }
                                           />
                                         ) : (
                                           <View style={styles.formInputDis} />
                                         )}
-                                        {loading && username !== "" ? (
+                                        {loadingResolve && username !== "" ? (
                                           <ActivityIndicator color="#fff" />
                                         ) : (
                                           <TouchableOpacity
@@ -451,13 +659,13 @@ const ModalConnect: React.FC<Props> = ({
                                             style={styles.formInput}
                                             value={address}
                                             onChangeText={(text: string) =>
-                                              setAddress(text.toLowerCase())
+                                              setAddress(text)
                                             }
                                           />
                                         ) : (
                                           <View style={styles.formInputDis} />
                                         )}
-                                        {loading && address !== "" ? (
+                                        {loadingResolve && address !== "" ? (
                                           <ActivityIndicator color="#fff" />
                                         ) : (
                                           <TouchableOpacity
@@ -874,10 +1082,10 @@ const styles = StyleSheet.create({
   wrapperContentSubLoginInfo: {
     marginTop: 5,
     marginBottom: 15,
+    marginLeft: 10,
   },
   txtNoDomain: {
     color: "#fff",
-    marginLeft: 10,
     fontSize: 12,
   },
   txtLoggedInUsername: {

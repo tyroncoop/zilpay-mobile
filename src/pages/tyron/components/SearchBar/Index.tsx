@@ -22,6 +22,7 @@ import {
 } from "app/lib/controller/tyron/user";
 import smartContract from "../../util/smartContract";
 import ThreeDots from "../ThreeDots/Index";
+import { loadingGlobal } from "app/lib/controller/tyron/utils";
 
 const DeviceWidth = Dimensions.get("screen").width;
 
@@ -34,7 +35,7 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { getSmartContract } = smartContract();
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = loadingGlobal.use();
   const [searchInput, setSearchInput] = useState("");
   const isDark = tyronThemeDark.useValue();
 
@@ -227,7 +228,7 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
       })
       .catch(() => {
         Alert.alert("Upgrade required.");
-        navigation.navigate("Servvices");
+        navigation.navigate("Services");
         setLoading(false);
       });
   };
@@ -284,6 +285,7 @@ const stylesDark = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     marginBottom: -10,
+    marginTop: 5,
   },
   input: {
     height: 40,
@@ -329,7 +331,8 @@ const stylesLight = StyleSheet.create({
   text: {
     color: "#000",
     fontSize: 14,
-    marginTop: 10,
+    marginBottom: -10,
+    marginTop: 5,
   },
   input: {
     height: 40,
