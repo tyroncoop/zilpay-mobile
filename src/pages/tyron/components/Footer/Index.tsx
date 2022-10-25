@@ -73,15 +73,6 @@ const Footer: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
         </View> */}
         <View>
-          <TouchableOpacity
-            onPress={() => setShowDropdown(!showDropdown)}
-            style={styles.langSelector}
-          >
-            <Text style={styles.langTxt}>
-              {langDropdown.filter((val_) => val_.key === language)[0]?.name}
-            </Text>
-            <Image source={upDown} />
-          </TouchableOpacity>
           {showDropdown && (
             <View style={styles.langOptWrapper}>
               {langDropdown.map((val, i) => (
@@ -95,6 +86,15 @@ const Footer: React.FC<Props> = ({ navigation }) => {
               ))}
             </View>
           )}
+          <TouchableOpacity
+            onPress={() => setShowDropdown(!showDropdown)}
+            style={styles.langSelector}
+          >
+            <Text style={styles.langTxt}>
+              {langDropdown.filter((val_) => val_.key === language)[0]?.name}
+            </Text>
+            <Image source={upDown} />
+          </TouchableOpacity>
         </View>
         <TouchableOpacity
           style={{ marginRight: -20 }}
@@ -131,6 +131,7 @@ const stylesDark = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "flex-end",
   },
   langSelector: {
     flexDirection: "row",
@@ -141,6 +142,7 @@ const stylesDark = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     marginTop: 20,
+    marginBottom: 17,
   },
   langTxt: {
     color: "#fff",
@@ -152,7 +154,7 @@ const stylesDark = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 5,
     padding: 5,
-    marginTop: 5,
+    marginBottom: -10,
   },
 });
 
@@ -175,6 +177,7 @@ const stylesLight = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "flex-end",
   },
   langSelector: {
     flexDirection: "row",
@@ -185,6 +188,7 @@ const stylesLight = StyleSheet.create({
     alignItems: "center",
     padding: 5,
     marginTop: 20,
+    marginBottom: 17,
   },
   langTxt: {
     color: "#000",
@@ -196,6 +200,6 @@ const stylesLight = StyleSheet.create({
     borderColor: "#fff",
     borderRadius: 5,
     padding: 5,
-    marginTop: 5,
+    marginBottom: -10,
   },
 });

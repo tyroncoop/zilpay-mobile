@@ -80,7 +80,7 @@ const stylesDark = StyleSheet.create({
   icoMenuWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 20,
   },
   icoMenu: {
     width: 25,
@@ -132,7 +132,7 @@ const stylesLight = StyleSheet.create({
   icoMenuWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 20,
   },
   icoMenu: {
     width: 25,

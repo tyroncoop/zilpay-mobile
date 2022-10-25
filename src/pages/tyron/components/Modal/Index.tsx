@@ -241,7 +241,7 @@ const ModalConnect: React.FC<Props> = ({
                           {loginInfo_?.username && (
                             <TouchableOpacity
                               onPress={() => {
-                                navigation.navigate("DIDxWallet");
+                                navigation.navigate("Services");
                                 hideModal();
                               }}
                             >
@@ -264,247 +264,357 @@ const ModalConnect: React.FC<Props> = ({
                                 .slice(-10)}
                             </Text>
                           </TouchableOpacity>
-                        </View>
-                        <View style={styles.subEoaWrapper}>
-                          <TouchableOpacity
-                            onPress={() => selectSubMenu("domain")}
-                            style={styles.headerWrapper}
-                          >
-                            <Text style={styles.txtSubHeader}>
-                              {t("DID_DOMAIN")}
-                            </Text>
-                            <Image
-                              source={
-                                subMenuActive === "domain" ? arrowUp : arrowDown
-                              }
-                            />
-                          </TouchableOpacity>
-                          {subMenuActive === "domain" && (
-                            <Text style={styles.txtNoDomain}>
-                              {t("DID_NO_DOMAINS")}
-                            </Text>
+                          {loginInfo_?.username && (
+                            <TouchableOpacity
+                              onPress={() => {
+                                navigation.navigate("DIDxWallet");
+                                hideModal();
+                              }}
+                            >
+                              <Text style={styles.txtLoggedInUsername}>
+                                DIDxWALLET
+                              </Text>
+                            </TouchableOpacity>
                           )}
+                        </View>
+                        <View style={styles.subLogin}>
+                          <View style={styles.subLoginInfo}>
+                            <TouchableOpacity
+                              onPress={() => selectSubMenu("nftUsername")}
+                              style={styles.headerWrapper}
+                            >
+                              <Text style={styles.txtSubHeader2}>
+                                {t("NFT USERNAMES")}
+                              </Text>
+                              <Image
+                                source={
+                                  subMenuActive === "nftUsername"
+                                    ? arrowUp
+                                    : arrowDown
+                                }
+                              />
+                            </TouchableOpacity>
+                            {subMenuActive === "nftUsername" && (
+                              <View style={styles.wrapperContentSubLoginInfo}>
+                                <Text style={styles.txtNoDomain}>
+                                  No NFT Domain Name is available.
+                                </Text>
+                              </View>
+                            )}
+                          </View>
+                          <View style={styles.subLoginInfo}>
+                            <TouchableOpacity
+                              onPress={() => selectSubMenu("domain")}
+                              style={styles.headerWrapper}
+                            >
+                              <Text style={styles.txtSubHeader2}>
+                                {t("DID_DOMAIN")}
+                              </Text>
+                              <Image
+                                source={
+                                  subMenuActive === "domain"
+                                    ? arrowUp
+                                    : arrowDown
+                                }
+                              />
+                            </TouchableOpacity>
+                            {subMenuActive === "domain" && (
+                              <View style={styles.wrapperContentSubLoginInfo}>
+                                <Text style={styles.txtNoDomain}>
+                                  {t("DID_NO_DOMAINS")}
+                                </Text>
+                              </View>
+                            )}
+                          </View>
                         </View>
                       </View>
                     )}
-                    <View>
-                      <TouchableOpacity
-                        onPress={() => selectMenu("eoa")}
-                        style={styles.headerWrapper}
-                      >
-                        <Text style={styles.txtHeader}>
-                          {t("EXTERNAL_WALLETS")}
-                        </Text>
-                        <Image
-                          source={menuActive === "eoa" ? minusIco : addIco}
-                        />
-                      </TouchableOpacity>
-                      {menuActive === "eoa" && (
-                        <>
-                          <View style={styles.subEoaWrapper}>
-                            <View style={styles.walletHeaderWrapper}>
-                              <Image style={styles.zilpayIco} source={zilpay} />
-                              <Text style={styles.textWalletHeader}>
-                                {t("ZILLIQA_WALLET")}
-                              </Text>
-                              <TouchableOpacity
-                                onPress={() => setIsDisconnect(true)}
-                              >
-                                <Text style={styles.txtDisconnect}>
-                                  {t("DISCONNECT")}
-                                </Text>
-                              </TouchableOpacity>
-                            </View>
-                            <TouchableOpacity
-                              onPress={() => {
-                                Linking.openURL(
-                                  `https://devex.zilliqa.com/address/${zilliqa}?network=https%3A%2F%2Fdev-api.zilliqa.com`
-                                );
-                              }}
-                            >
-                              <Text style={styles.txtAddress}>{zilliqa}</Text>
-                            </TouchableOpacity>
-                          </View>
-                        </>
-                      )}
-                    </View>
                     {!isLogin ? (
-                      <View>
-                        <TouchableOpacity
-                          onPress={() => selectMenu("login")}
-                          style={styles.headerWrapper}
-                        >
-                          <Text style={styles.txtHeader}>{t("LOG_IN")}</Text>
-                          <Image
-                            source={menuActive === "login" ? minusIco : addIco}
-                          />
-                        </TouchableOpacity>
-                        {menuActive === "login" && (
-                          <>
-                            <View style={styles.subEoaWrapper}>
-                              <TouchableOpacity
-                                onPress={() => selectSubMenu("existing")}
-                                style={styles.headerWrapper}
-                              >
-                                <Text style={styles.txtSubHeader}>
-                                  {t("EXISTING_USER")}
-                                </Text>
-                                <Image
-                                  source={
-                                    subMenuActive === "existing"
-                                      ? arrowUp
-                                      : arrowDown
-                                  }
-                                />
-                              </TouchableOpacity>
-                              {subMenuActive === "existing" && (
-                                <View>
-                                  <View style={styles.formWrapper}>
-                                    <Text style={styles.txtForm}>
-                                      {t("NFT_USERNAME")}
-                                    </Text>
-                                    <View style={styles.loginWrapper}>
-                                      {address === "" ? (
-                                        <TextInput
-                                          style={styles.formInput}
-                                          value={username}
-                                          onChangeText={(text: string) =>
-                                            setUsername(text.toLowerCase())
-                                          }
-                                        />
-                                      ) : (
-                                        <View style={styles.formInputDis} />
-                                      )}
-                                      {loading && username !== "" ? (
-                                        <ActivityIndicator color="#fff" />
-                                      ) : (
-                                        <TouchableOpacity
-                                          onPress={resolveUsername}
-                                          style={styles.arrowBtn}
-                                        >
-                                          <Image
-                                            style={styles.arrowRight}
-                                            source={rightArrow}
-                                          />
-                                        </TouchableOpacity>
-                                      )}
-                                    </View>
-                                  </View>
-                                  <Text style={styles.txtOr}>{t("OR")}</Text>
-                                  <View style={styles.formWrapper}>
-                                    <Text style={styles.txtForm}>
-                                      {t("ADDRESS")}
-                                    </Text>
-                                    <View style={styles.loginWrapper}>
-                                      {username === "" ? (
-                                        <TextInput
-                                          style={styles.formInput}
-                                          value={address}
-                                          onChangeText={(text: string) =>
-                                            setAddress(text.toLowerCase())
-                                          }
-                                        />
-                                      ) : (
-                                        <View style={styles.formInputDis} />
-                                      )}
-                                      {loading && address !== "" ? (
-                                        <ActivityIndicator color="#fff" />
-                                      ) : (
-                                        <TouchableOpacity
-                                          onPress={resolveAddr}
-                                          style={styles.arrowBtn}
-                                        >
-                                          <Image
-                                            style={styles.arrowRight}
-                                            source={rightArrow}
-                                          />
-                                        </TouchableOpacity>
-                                      )}
-                                    </View>
-                                  </View>
-                                </View>
-                              )}
-                            </View>
-                            <View style={styles.subEoaWrapper}>
-                              <TouchableOpacity
-                                onPress={() => selectSubMenu("new")}
-                                style={styles.headerWrapper}
-                              >
-                                <Text style={styles.txtSubHeader}>
-                                  {t("NEW_USER_CREATE_SSI")}
-                                </Text>
-                                <Image
-                                  source={
-                                    subMenuActive === "new"
-                                      ? arrowUp
-                                      : arrowDown
-                                  }
-                                />
-                              </TouchableOpacity>
-                              {subMenuActive === "new" && (
-                                <View>
-                                  <View style={styles.code}>
-                                    <Text style={styles.codeTxt}>
-                                      {t("DEPLOY_NEW_SSI")}
-                                    </Text>
-                                  </View>
+                      <>
+                        <View>
+                          <TouchableOpacity
+                            onPress={() => selectMenu("eoa")}
+                            style={styles.headerWrapper}
+                          >
+                            <Text style={styles.txtHeader}>
+                              {t("EXTERNAL_WALLETS")}
+                            </Text>
+                            <Image
+                              source={menuActive === "eoa" ? minusIco : addIco}
+                            />
+                          </TouchableOpacity>
+                          {menuActive === "eoa" && (
+                            <>
+                              <View style={styles.subEoaWrapper}>
+                                <View style={styles.walletHeaderWrapper}>
+                                  <Image
+                                    style={styles.zilpayIco}
+                                    source={zilpay}
+                                  />
+                                  <Text style={styles.textWalletHeader}>
+                                    {t("ZILLIQA_WALLET")}
+                                  </Text>
                                   <TouchableOpacity
-                                    onPress={() => {
-                                      setPopup(true);
-                                      hideModal();
-                                    }}
-                                    style={styles.btnNewSsi}
+                                    onPress={() => setIsDisconnect(true)}
                                   >
-                                    <Text style={styles.btnNewSsiTxt}>
-                                      {t("CREATE_SSI")}
+                                    <Text style={styles.txtDisconnect}>
+                                      {t("DISCONNECT")}
                                     </Text>
                                   </TouchableOpacity>
-                                  <Text style={styles.txtGas}>
-                                    {t("GAS_AROUND")} 1 ZIL
-                                  </Text>
                                 </View>
-                              )}
-                            </View>
-                          </>
-                        )}
-                      </View>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    Linking.openURL(
+                                      `https://devex.zilliqa.com/address/${account.bech32}?network=https%3A%2F%2Fdev-api.zilliqa.com`
+                                    );
+                                  }}
+                                >
+                                  <Text style={styles.txtAddress}>
+                                    {account.bech32}
+                                  </Text>
+                                </TouchableOpacity>
+                              </View>
+                            </>
+                          )}
+                        </View>
+                        <View>
+                          <TouchableOpacity
+                            onPress={() => selectMenu("login")}
+                            style={styles.headerWrapper}
+                          >
+                            <Text style={styles.txtHeader}>{t("LOG_IN")}</Text>
+                            <Image
+                              source={
+                                menuActive === "login" ? minusIco : addIco
+                              }
+                            />
+                          </TouchableOpacity>
+                          {menuActive === "login" && (
+                            <>
+                              <View style={styles.subEoaWrapper}>
+                                <TouchableOpacity
+                                  onPress={() => selectSubMenu("existing")}
+                                  style={styles.headerWrapper}
+                                >
+                                  <Text style={styles.txtSubHeader}>
+                                    {t("EXISTING_USER")}
+                                  </Text>
+                                  <Image
+                                    source={
+                                      subMenuActive === "existing"
+                                        ? arrowUp
+                                        : arrowDown
+                                    }
+                                  />
+                                </TouchableOpacity>
+                                {subMenuActive === "existing" && (
+                                  <View>
+                                    <View style={styles.formWrapper}>
+                                      <Text style={styles.txtForm}>
+                                        {t("NFT_USERNAME")}
+                                      </Text>
+                                      <View style={styles.loginWrapper}>
+                                        {address === "" ? (
+                                          <TextInput
+                                            style={styles.formInput}
+                                            value={username}
+                                            onChangeText={(text: string) =>
+                                              setUsername(text.toLowerCase())
+                                            }
+                                          />
+                                        ) : (
+                                          <View style={styles.formInputDis} />
+                                        )}
+                                        {loading && username !== "" ? (
+                                          <ActivityIndicator color="#fff" />
+                                        ) : (
+                                          <TouchableOpacity
+                                            onPress={resolveUsername}
+                                            style={styles.arrowBtn}
+                                          >
+                                            <Image
+                                              style={styles.arrowRight}
+                                              source={rightArrow}
+                                            />
+                                          </TouchableOpacity>
+                                        )}
+                                      </View>
+                                    </View>
+                                    <Text style={styles.txtOr}>{t("OR")}</Text>
+                                    <View style={styles.formWrapper}>
+                                      <Text style={styles.txtForm}>
+                                        {t("ADDRESS")}
+                                      </Text>
+                                      <View style={styles.loginWrapper}>
+                                        {username === "" ? (
+                                          <TextInput
+                                            style={styles.formInput}
+                                            value={address}
+                                            onChangeText={(text: string) =>
+                                              setAddress(text.toLowerCase())
+                                            }
+                                          />
+                                        ) : (
+                                          <View style={styles.formInputDis} />
+                                        )}
+                                        {loading && address !== "" ? (
+                                          <ActivityIndicator color="#fff" />
+                                        ) : (
+                                          <TouchableOpacity
+                                            onPress={resolveAddr}
+                                            style={styles.arrowBtn}
+                                          >
+                                            <Image
+                                              style={styles.arrowRight}
+                                              source={rightArrow}
+                                            />
+                                          </TouchableOpacity>
+                                        )}
+                                      </View>
+                                    </View>
+                                  </View>
+                                )}
+                              </View>
+                              <View style={styles.subEoaWrapper}>
+                                <TouchableOpacity
+                                  onPress={() => selectSubMenu("new")}
+                                  style={styles.headerWrapper}
+                                >
+                                  <Text style={styles.txtSubHeader}>
+                                    {t("NEW_USER_CREATE_SSI")}
+                                  </Text>
+                                  <Image
+                                    source={
+                                      subMenuActive === "new"
+                                        ? arrowUp
+                                        : arrowDown
+                                    }
+                                  />
+                                </TouchableOpacity>
+                                {subMenuActive === "new" && (
+                                  <View>
+                                    <View style={styles.code}>
+                                      <Text style={styles.codeTxt}>
+                                        {t("DEPLOY_NEW_SSI")}:
+                                      </Text>
+                                    </View>
+                                    <View style={styles.btnNewSsiWrapper}>
+                                      <TouchableOpacity
+                                        onPress={() => {
+                                          setPopup(true);
+                                          hideModal();
+                                        }}
+                                        style={styles.btnNewSsi}
+                                      >
+                                        <Text style={styles.btnNewSsiTxt}>
+                                          {t("CREATE_SSI")}
+                                        </Text>
+                                      </TouchableOpacity>
+                                      <Text style={styles.txtGas}>
+                                        {t("GAS_AROUND")} 1 ZIL
+                                      </Text>
+                                    </View>
+                                  </View>
+                                )}
+                              </View>
+                            </>
+                          )}
+                        </View>
+                      </>
                     ) : (
-                      <View>
-                        <TouchableOpacity
-                          onPress={() => selectMenu("login")}
-                          style={styles.headerWrapper}
-                        >
-                          <Text style={styles.txtHeader}>
-                            {t("NEW_USER_CREATE_SSI")}
-                          </Text>
-                          <Image
-                            source={menuActive === "login" ? minusIco : addIco}
-                          />
-                        </TouchableOpacity>
-                        {menuActive === "login" && (
-                          <View>
-                            <View style={styles.code}>
-                              <Text style={styles.codeTxt}>
-                                {t("DEPLOY_NEW_SSI")}
-                              </Text>
-                            </View>
-                            <TouchableOpacity
-                              onPress={() => {
-                                setPopup(true);
-                                hideModal();
+                      <>
+                        <View>
+                          <TouchableOpacity
+                            onPress={() => selectMenu("login")}
+                            style={styles.headerWrapper}
+                          >
+                            <Text
+                              style={{
+                                ...styles.txtHeader,
+                                textTransform: "none",
                               }}
-                              style={styles.btnNewSsi}
                             >
-                              <Text style={styles.btnNewSsiTxt}>
-                                {t("CREATE_SSI")}
-                              </Text>
-                            </TouchableOpacity>
-                            <Text style={styles.txtGas}>
-                              {t("GAS_AROUND")} 1 ZIL
+                              {t("NEW_SSI")}
                             </Text>
-                          </View>
-                        )}
-                      </View>
+                            <Image
+                              source={
+                                menuActive === "login" ? minusIco : addIco
+                              }
+                            />
+                          </TouchableOpacity>
+                          {menuActive === "login" && (
+                            <View>
+                              <View style={styles.code}>
+                                <Text style={styles.codeTxt}>
+                                  {t("DEPLOY_NEW_SSI")}
+                                </Text>
+                              </View>
+                              <View style={styles.btnNewSsiWrapper}>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    setPopup(true);
+                                    hideModal();
+                                  }}
+                                  style={styles.btnNewSsi}
+                                >
+                                  <Text style={styles.btnNewSsiTxt}>
+                                    {t("CREATE_SSI")}
+                                  </Text>
+                                </TouchableOpacity>
+                                <Text style={styles.txtGas}>
+                                  {t("GAS_AROUND")} 1 ZIL
+                                </Text>
+                              </View>
+                            </View>
+                          )}
+                        </View>
+                        <View>
+                          <TouchableOpacity
+                            onPress={() => selectMenu("eoa")}
+                            style={styles.headerWrapper}
+                          >
+                            <Text style={styles.txtHeader}>
+                              {t("EXTERNAL_WALLETS")}
+                            </Text>
+                            <Image
+                              source={menuActive === "eoa" ? minusIco : addIco}
+                            />
+                          </TouchableOpacity>
+                          {menuActive === "eoa" && (
+                            <>
+                              <View style={styles.subEoaWrapper}>
+                                <View style={styles.walletHeaderWrapper}>
+                                  <Image
+                                    style={styles.zilpayIco}
+                                    source={zilpay}
+                                  />
+                                  <Text style={styles.textWalletHeader}>
+                                    {t("ZILLIQA_WALLET")}
+                                  </Text>
+                                  <TouchableOpacity
+                                    onPress={() => setIsDisconnect(true)}
+                                  >
+                                    <Text style={styles.txtDisconnect}>
+                                      {t("DISCONNECT")}
+                                    </Text>
+                                  </TouchableOpacity>
+                                </View>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    Linking.openURL(
+                                      `https://devex.zilliqa.com/address/${zilliqa}?network=https%3A%2F%2Fdev-api.zilliqa.com`
+                                    );
+                                  }}
+                                >
+                                  <Text style={styles.txtAddress}>
+                                    {zilliqa}
+                                  </Text>
+                                </TouchableOpacity>
+                              </View>
+                            </>
+                          )}
+                        </View>
+                      </>
                     )}
                     {isLogin && (
                       <TouchableOpacity
@@ -620,6 +730,13 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginVertical: 5,
   },
+  subLogin: {
+    marginVertical: 20,
+  },
+  subLoginInfo: {
+    marginLeft: 15,
+    marginVertical: -5,
+  },
   walletHeaderWrapper: {
     flexDirection: "row",
     alignItems: "center",
@@ -663,6 +780,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     fontSize: 15,
+    textTransform: "none",
+  },
+  txtSubHeader2: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 12,
+    textTransform: "uppercase",
   },
   formWrapper: {
     marginLeft: 10,
@@ -717,20 +841,23 @@ const styles = StyleSheet.create({
   },
   code: {
     padding: 5,
-    borderRadius: 5,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    width: deviceWidth - deviceWidth * 0.3,
     marginLeft: 10,
     marginVertical: 5,
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   codeTxt: {
     color: "#fff",
     fontSize: 12,
   },
+  btnNewSsiWrapper: {
+    width: deviceWidth - deviceWidth * 0.6,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+  },
   btnNewSsi: {
-    width: deviceWidth - deviceWidth * 0.3,
-    padding: 3,
+    width: deviceWidth - deviceWidth * 0.6,
+    padding: 5,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#ffff32",
@@ -744,11 +871,14 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textAlign: "center",
   },
+  wrapperContentSubLoginInfo: {
+    marginTop: 5,
+    marginBottom: 15,
+  },
   txtNoDomain: {
     color: "#fff",
     marginLeft: 10,
     fontSize: 12,
-    marginVertical: 5,
   },
   txtLoggedInUsername: {
     fontSize: 14,
@@ -759,10 +889,12 @@ const styles = StyleSheet.create({
     color: "#ffff32",
     textDecorationLine: "underline",
     marginTop: 5,
+    marginBottom: 10,
   },
   btnLogOff: {
     flexDirection: "row",
-    marginTop: 10,
+    marginTop: 20,
+    marginBottom: 10,
     alignItems: "center",
   },
   btnLogOffTxt: {

@@ -52,17 +52,29 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
         hideModal={() => setShowConnect(false)}
         setLoginState={setLoginState}
       />
-      {showModalTx && <TxModal />}
+      <View>
+        {txMinimized || !showModalTx ? (
+          <>
+            {!showMenu && !showConnect && !showGetStarted && (
+              <>
+                <Dashboard
+                  loginState={loginState}
+                  setShowMenu={setShowMenu}
+                  setLoginState={setLoginState}
+                  setShowConnect={setShowConnect}
+                />
+              </>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
+        {showModalTx && <TxModal />}
+      </View>
       {txMinimized || !showModalTx ? (
         <>
           {!showMenu && !showConnect && !showGetStarted && (
             <>
-              <Dashboard
-                loginState={loginState}
-                setShowMenu={setShowMenu}
-                setLoginState={setLoginState}
-                setShowConnect={setShowConnect}
-              />
               <View>
                 <SearchBar navigation={navigation} />
               </View>
