@@ -25,6 +25,7 @@ import Dashboard from "../../Dashboard/Index";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import TxModal from "../../TxModal/Index";
 import { showTxModal, txModalMinimized } from "app/lib/controller/tyron/tx";
+import { loadingGlobal } from "app/lib/controller/tyron/utils";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -42,6 +43,7 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
   const txMinimized = txModalMinimized.useValue();
   const isDark = tyronThemeDark.useValue();
   const lightning_ = isDark ? lightning : lightning_light;
+  const loading = loadingGlobal.useValue();
 
   return (
     <ImageBackground source={lightning_} style={styles.container}>
@@ -71,11 +73,13 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
             <>
               <View style={styles.wrapperContent}>
                 <SearchBar navigation={navigation} />
-                {child}
+                {!loading && child}
               </View>
-              <View>
-                <Footer navigation={navigation} />
-              </View>
+              {!loading && (
+                <View>
+                  <Footer navigation={navigation} />
+                </View>
+              )}
             </>
           ) : (
             <></>

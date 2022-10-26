@@ -39,6 +39,7 @@ import Dyoutube from "../../../../assets/icons/d_youtube.svg";
 import { useTranslation } from "react-i18next";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { userDoc, userName } from "app/lib/controller/tyron/user";
+import { keystore } from "app/keystore";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -99,7 +100,7 @@ const Child: React.FC<Props> = ({ navigation }) => {
     <Dwhatsapp width={30} />
   );
   const youtubeIco = isDark ? <Lyoutube width={30} /> : <Dyoutube width={30} />;
-  const net = "mainnet";
+  const net = "testnet";
   let available = false;
 
   const checkIsCommonLink = (id: string) => {
@@ -109,6 +110,12 @@ const Child: React.FC<Props> = ({ navigation }) => {
       return false;
     }
   };
+
+  const accountState = keystore.account.store.useValue();
+  const account = React.useMemo(
+    () => accountState.identities[accountState.selectedAddress],
+    [accountState]
+  );
 
   const socialDropdown = [
     "Discord Invite",
@@ -265,6 +272,14 @@ const Child: React.FC<Props> = ({ navigation }) => {
               <Text style={{ color: "#fff" }}>No data yet</Text>
             </View>
           )}
+          {doc?.controller === account?.base16 && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Update")}
+              style={styles.btnUpdate}
+            >
+              <Text style={styles.txt}>{t("UPDATE SOCIAL TREE")}</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
@@ -290,8 +305,8 @@ const stylesDark = StyleSheet.create({
     marginTop: 50,
   },
   donateBtn: {
-    width: (deviceWidth * 40) / 100,
-    padding: 10,
+    width: (deviceWidth * 50) / 100,
+    padding: 30,
     backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderWidth: 1,
     borderColor: "#fff",
@@ -303,8 +318,9 @@ const stylesDark = StyleSheet.create({
     alignSelf: "center",
   },
   serviceBtn: {
-    width: (deviceWidth * 40) / 100,
+    width: (deviceWidth * 50) / 100,
     padding: 10,
+    paddingVertical: 30,
     borderWidth: 1,
     borderRadius: 5,
     alignItems: "center",
@@ -317,15 +333,16 @@ const stylesDark = StyleSheet.create({
     marginLeft: 10,
   },
   plusIco: {
-    width: 20,
-    height: 20,
+    width: 30,
+    height: 30,
     backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: 10,
+    borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
   },
   plus: {
     color: "#fff",
+    fontSize: 20,
   },
   noDataWrapper: {
     padding: 5,
@@ -351,7 +368,20 @@ const stylesDark = StyleSheet.create({
   },
   commonIco: {
     marginHorizontal: 20,
-    marginBottom: -10,
+  },
+  btnUpdate: {
+    width: deviceWidth * 0.5,
+    borderWidth: 1,
+    borderColor: "#fff",
+    borderRadius: 5,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    marginTop: 50,
+  },
+  txt: {
+    color: "#fff",
   },
 });
 
@@ -374,8 +404,8 @@ const stylesLight = StyleSheet.create({
     marginTop: 50,
   },
   donateBtn: {
-    width: (deviceWidth * 40) / 100,
-    padding: 10,
+    width: (deviceWidth * 50) / 100,
+    padding: 30,
     backgroundColor: "rgba(255, 255, 255, 0.1)",
     borderWidth: 1,
     borderColor: "#fff",
@@ -387,8 +417,9 @@ const stylesLight = StyleSheet.create({
     alignSelf: "center",
   },
   serviceBtn: {
-    width: (deviceWidth * 40) / 100,
+    width: (deviceWidth * 50) / 100,
     padding: 10,
+    paddingVertical: 30,
     borderWidth: 1,
     borderRadius: 5,
     alignItems: "center",
@@ -401,8 +432,8 @@ const stylesLight = StyleSheet.create({
     marginLeft: 10,
   },
   plusIco: {
-    width: 20,
-    height: 20,
+    width: 30,
+    height: 30,
     backgroundColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 10,
     alignItems: "center",
@@ -410,6 +441,7 @@ const stylesLight = StyleSheet.create({
   },
   plus: {
     color: "#fff",
+    fontSize: 20,
   },
   noDataWrapper: {
     padding: 5,
@@ -435,6 +467,19 @@ const stylesLight = StyleSheet.create({
   },
   commonIco: {
     marginHorizontal: 20,
-    marginBottom: -10,
+  },
+  btnUpdate: {
+    width: deviceWidth * 0.5,
+    borderWidth: 1,
+    borderColor: "#fff",
+    borderRadius: 5,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    marginTop: 50,
+  },
+  txt: {
+    color: "#000",
   },
 });
