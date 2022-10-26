@@ -7,6 +7,10 @@ import { operationKeyPair } from "./dkms";
 const zutil = tyron.Util.default.Zutil();
 
 export class ZilPayBase {
+  async zilpay() {
+    const zilliqa = new Zilliqa("https://dev-api.zilliqa.com");
+    return zilliqa;
+  }
   async call(data: any) {
     const zilliqa = new Zilliqa("https://dev-api.zilliqa.com");
 

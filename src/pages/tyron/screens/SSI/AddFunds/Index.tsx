@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -7,7 +7,6 @@ import {
   Dimensions,
   Linking,
   TextInput,
-  Image,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import DIDLayout from "../../../components/Layout/DID/Index";
@@ -16,80 +15,262 @@ import { useTranslation } from "react-i18next";
 import ContinueArrow from "../../../assets/icons/continue_arrow.svg";
 import Tick from "../../../assets/icons/tick.svg";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
-import { userName, userResolved } from "app/lib/controller/tyron/user";
-import * as tyron from "../../../../../../node_modules/tyron";
+import {
+  loginInfo,
+  userName,
+  userResolved,
+} from "app/lib/controller/tyron/user";
 import { ActivityIndicator } from "react-native";
 import { TyronConfirm } from "app/pages/tyron/components/PopUp";
 import { showTxModal, txId, txStatus } from "app/lib/controller/tyron/tx";
 import { ZilPayBase } from "app/pages/tyron/util/zilpay-base";
-import { keystore } from "app/keystore";
 import { Alert } from "react-native";
+import OriginatorAddress from "app/pages/tyron/components/OriginatorAddress/Index";
+import { donation, originatorAddress } from "app/lib/controller/tyron/utils";
+import WalletInfo from "app/pages/tyron/components/WalletInfo/Index";
+import wallet from "app/pages/tyron/util/wallet";
+import Donate from "app/pages/tyron/components/Donate/Index";
+import * as tyron from "../../../../../../node_modules/tyron";
+import smartContract from "app/pages/tyron/util/smartContract";
 
 const deviceWidth = Dimensions.get("screen").width;
 
 export type Props = {
   navigation: any;
+  type?: string;
+  coin?: string;
 };
 
-const AddFunds: React.FC<Props> = ({ navigation }) => {
+const AddFunds: React.FC<Props> = ({ navigation, type, coin }) => {
   return (
     <DIDLayout
       navigation={navigation}
-      child={<Child navigation={navigation} />}
+      child={<Child navigation={navigation} coin={coin} type={type} />}
     />
   );
 };
 
 export default AddFunds;
 
-const Child: React.FC<Props> = ({ navigation }) => {
+const Child: React.FC<any> = ({ navigation, coin, type }) => {
+  let coin_: string = "";
+  if (coin !== undefined) {
+    coin_ = coin;
+  }
+  const { getSmartContract } = smartContract();
+  const { checkBalance } = wallet();
   const { t } = useTranslation();
   const name = userName.useValue();
   const resolvedInfo = userResolved.useValue();
   const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
-  const [openOriginator, setOpenOriginator] = useState(false);
-  const [valueOriginator, setValueOriginator] = useState("");
   const [openCoin, setOpenCoin] = useState(false);
-  const [valueCoin, setValueCoin] = useState("");
-  const [openSSI, setOpenSSI] = useState(false);
-  const [valueSSI, setValueSSI] = useState("");
+  const [valueCoin, setValueCoin] = useState(coin_);
   const [popup, setPopup] = useState(false);
   const [savedInput, setSavedInput] = useState(false);
+  const [loadingInfoBal, setLoadingInfoBal] = useState(false);
   const [inputCoin, setInputCoin] = useState<any>(0);
   const net = "testnet";
+  const originatorAddress_: any = originatorAddress.useValue();
+  const originator_address: any = originatorAddress.useValue();
+  const donation_ = donation.useValue();
+  const loginInfo_ = loginInfo.useValue();
+  const username = resolvedInfo?.name;
+  const domain = resolvedInfo?.domain;
 
-  const accountState = keystore.account.store.useValue();
-  const account = React.useMemo(
-    () => accountState.identities[accountState.selectedAddress],
-    [accountState]
-  );
+  let recipient: string;
+  if (type === "buy") {
+    recipient = loginInfo_.address;
+  } else {
+    recipient = resolvedInfo?.addr!;
+  }
 
-  const sendTx = async (privkey: string) => {
-    // setLoading(true)
-    showTxModal.set(true);
-    txStatus.set("loading");
-    const contractAddress = resolvedInfo?.addr;
+  const handleSubmit = async (privkey: string) => {
     try {
-      const zilpay = new ZilPayBase();
-      const tx: any = await zilpay.call({
-        contractAddress: contractAddress,
-        transition: "AddFunds",
-        params: [],
-        amount: String(inputCoin),
-        privkey,
-      });
-      txId.set(tx.id);
-      txStatus.set("confirmed");
-      Linking.openURL(
-        `https://v2.viewblock.io/zilliqa/tx/${tx.id}?network=${net}`
-      );
-      // setLoading(false)
-    } catch (err) {
-      console.log("@@@", err);
+      if (originator_address?.value !== null) {
+        const zilpay = new ZilPayBase();
+        const _currency = tyron.Currency.default.tyron(valueCoin, inputCoin);
+        const txID = _currency.txID;
+        const amount = _currency.amount;
+
+        showTxModal.set(true);
+        txStatus.set("loading");
+        switch (originator_address?.value!) {
+          case "zilliqa":
+            switch (txID) {
+              case "SendFunds":
+                const tx: any = await zilpay.call({
+                  contractAddress: recipient,
+                  transition: "AddFunds",
+                  params: [],
+                  amount: String(inputCoin),
+                  privkey,
+                });
+                txId.set(tx.id);
+                txStatus.set("confirmed");
+                Linking.openURL(
+                  `https://v2.viewblock.io/zilliqa/tx/${tx.id}?network=${net}`
+                );
+                break;
+              default:
+                {
+                  const init_addr = await tyron.SearchBarUtil.default.fetchAddr(
+                    net,
+                    "init",
+                    "did"
+                  );
+                  const services = await getSmartContract(
+                    init_addr!,
+                    "services"
+                  );
+                  const services_ = await tyron.SmartUtil.default.intoMap(
+                    services.result.services
+                  );
+                  const token_addr = services_.get(valueCoin.toLowerCase());
+
+                  const tx_params = await tyron.TyronZil.default.AddFunds(
+                    recipient,
+                    String(amount)
+                  );
+
+                  if (token_addr !== undefined) {
+                    // toast.info(
+                    //     `${t(
+                    //         'You’re about to transfer'
+                    //     )} ${input} ${currency}`,
+                    //     {
+                    //         position: 'top-center',
+                    //         autoClose: 6000,
+                    //         hideProgressBar: false,
+                    //         closeOnClick: true,
+                    //         pauseOnHover: true,
+                    //         draggable: true,
+                    //         progress: undefined,
+                    //         theme: toastTheme(isLight),
+                    //         toastId: 6,
+                    //     }
+                    // )
+                    const tx: any = await zilpay.call({
+                      contractAddress: token_addr,
+                      transition: txID,
+                      params: tx_params as unknown as Record<string, unknown>[],
+                      amount: "0",
+                      privkey,
+                    });
+                    txId.set(tx.id);
+                    txStatus.set("confirmed");
+                    Linking.openURL(
+                      `https://v2.viewblock.io/zilliqa/tx/${tx.id}?network=${net}`
+                    );
+                  } else {
+                    throw new Error("Token not supported yet.");
+                  }
+                }
+                break;
+            }
+            break;
+          default: {
+            const addr = originator_address?.value;
+            let beneficiary: tyron.TyronZil.Beneficiary;
+            if (type === "buy") {
+              beneficiary = {
+                constructor: tyron.TyronZil.BeneficiaryConstructor.Recipient,
+                addr: recipient,
+              };
+            } else {
+              await tyron.SearchBarUtil.default
+                .Resolve(net, addr!)
+                .then(async (res: any) => {
+                  if (Number(res?.version.slice(8, 11)) < 5.6) {
+                    beneficiary = {
+                      constructor:
+                        tyron.TyronZil.BeneficiaryConstructor.Recipient,
+                      addr: recipient,
+                    };
+                  } else {
+                    beneficiary = {
+                      constructor:
+                        tyron.TyronZil.BeneficiaryConstructor.NftUsername,
+                      username: username,
+                      domain: domain,
+                    };
+                  }
+                })
+                .catch((err) => {
+                  beneficiary = {
+                    constructor:
+                      tyron.TyronZil.BeneficiaryConstructor.NftUsername,
+                    username: username,
+                    domain: domain,
+                  };
+                });
+            }
+            let _amount = "0";
+            if (donation_ !== null) {
+              _amount = String(donation_);
+              const tyron_ = await tyron.Donation.default.tyron(donation_);
+              let tx_params = Array();
+              switch (txID) {
+                case "SendFunds":
+                  tx_params = await tyron.TyronZil.default.SendFunds(
+                    addr!,
+                    "AddFunds",
+                    beneficiary!,
+                    String(amount),
+                    tyron_
+                  );
+                  break;
+                default:
+                  tx_params = await tyron.TyronZil.default.Transfer(
+                    addr!,
+                    valueCoin.toLowerCase(),
+                    beneficiary!,
+                    String(amount),
+                    tyron_
+                  );
+                  break;
+              }
+
+              // toast.info(
+              //     `${t(
+              //         'You’re about to transfer'
+              //     )} ${input} ${currency}`,
+              //     {
+              //         position: 'top-center',
+              //         autoClose: 6000,
+              //         hideProgressBar: false,
+              //         closeOnClick: true,
+              //         pauseOnHover: true,
+              //         draggable: true,
+              //         progress: undefined,
+              //         theme: toastTheme(isLight),
+              //         toastId: 7,
+              //     }
+              // )
+              const tx: any = await zilpay.call({
+                contractAddress: originator_address?.value!,
+                transition: txID,
+                params: tx_params as unknown as Record<string, unknown>[],
+                amount: _amount,
+                privkey,
+              });
+              txId.set(tx.id);
+              txStatus.set("confirmed");
+              Linking.openURL(
+                `https://v2.viewblock.io/zilliqa/tx/${tx.id}?network=${net}`
+              );
+            }
+          }
+        }
+      }
+    } catch (error) {
       txStatus.set("rejected");
+      // updateModalTxMinimized(false)
+      // updateModalTx(true)
+      Alert.alert(String(error));
     }
-    // setLoading(false)
+    originatorAddress.set(null);
+    donation.set(null);
   };
 
   const saveInputCoin = () => {
@@ -99,22 +280,43 @@ const Child: React.FC<Props> = ({ navigation }) => {
     input = input.replace(re, ".");
     const input_ = Number(input);
     if (!isNaN(input_)) {
-      setSavedInput(true);
+      handleSave();
     } else {
       Alert.alert("The input is not a number.");
     }
   };
 
-  const itemsOriginator = [
-    { label: t("Select originator"), value: "" },
-    { label: "xWallet", value: "ssi" },
-    { label: "ZilPay", value: "zilpay" },
-  ];
+  const onChangeInputCoin = (val: string) => {
+    setSavedInput(false);
+    setInputCoin(val);
+  };
 
-  const itemsSSI = [
-    { label: t("NFT Username"), value: "nft" },
-    { label: t("Address"), value: "address" },
-  ];
+  const handleSave = async () => {
+    const isEnough = await checkBalance(
+      valueCoin,
+      inputCoin,
+      setLoadingInfoBal
+    );
+    if (inputCoin === 0) {
+      Alert.alert("The amount cannot be zero.");
+    } else if (!isEnough) {
+      Alert.alert("Insufficient balance.");
+    } else {
+      setSavedInput(true);
+    }
+  };
+
+  const renderSubmit = () => {
+    if (originatorAddress_?.value !== "zilliqa") {
+      if (donation_ !== null) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  };
 
   const itemsCoin = [
     { label: t("Select coin"), value: "" },
@@ -122,6 +324,15 @@ const Child: React.FC<Props> = ({ navigation }) => {
     { label: "$SI", value: "$si" },
     { label: "ZIL", value: "zil" },
   ];
+
+  useEffect(() => {
+    originatorAddress.set(null);
+    setSavedInput(false);
+  }, [valueCoin]);
+
+  useEffect(() => {
+    setSavedInput(false);
+  }, [originatorAddress_]);
 
   return (
     <View style={styles.wrapper}>
@@ -152,137 +363,69 @@ const Child: React.FC<Props> = ({ navigation }) => {
             style={{ backgroundColor: "#000", borderColor: "#fff" }}
           />
         </View>
-        {valueCoin !== "" && (
-          <View style={styles.picker}>
-            <DropDownPicker
-              zIndex={4000}
-              zIndexInverse={1000}
-              listMode="SCROLLVIEW"
-              open={openOriginator}
-              value={valueOriginator}
-              items={itemsOriginator}
-              multiple={false}
-              setOpen={setOpenOriginator}
-              setValue={setValueOriginator}
-              placeholder="Select originator"
-              placeholderStyle={{ color: "#fff" }}
-              theme="DARK"
-              style={{ backgroundColor: "#000", borderColor: "#fff" }}
-            />
-          </View>
-        )}
-        {valueOriginator === "zilpay" && (
-          <View style={styles.wrapperZilpayInfo}>
-            <Text style={styles.txtZilpayInfo}>
-              {t("Wallet")}:{" "}
-              <Text
-                onPress={() =>
-                  Linking.openURL(
-                    `https://devex.zilliqa.com/address/${account?.bech32}?network=https%3A%2F%2Fdev-api.zilliqa.com`
-                  )
-                }
-              >
-                {account?.bech32}
+        {valueCoin !== "" && <OriginatorAddress />}
+        {originatorAddress_?.value && (
+          <>
+            <WalletInfo coin={valueCoin} />
+            <View style={styles.selectCoinWrapper}>
+              <Text style={styles.txtCoin}>
+                {t("ADD_FUNDS_INTO_TITLE")}{" "}
+                <Text style={{ color: "#ffff32" }}>{name}</Text>
               </Text>
-            </Text>
-            <Text style={styles.txtZilpayInfo}>Balance: -</Text>
-          </View>
-        )}
-        {valueOriginator === "ssi" && (
-          <View style={styles.pickerSSI}>
-            <DropDownPicker
-              zIndex={3000}
-              zIndexInverse={1000}
-              listMode="SCROLLVIEW"
-              open={openSSI}
-              value={valueSSI}
-              items={itemsSSI}
-              multiple={false}
-              setOpen={setOpenSSI}
-              setValue={setValueSSI}
-              placeholder={t("Log in")}
-              placeholderStyle={{ color: "#fff" }}
-              theme="DARK"
-              style={{ backgroundColor: "#000", borderColor: "#fff" }}
-            />
-          </View>
-        )}
-        {valueSSI === "nft" ? (
-          <View style={styles.wrapperDomain}>
-            <TextInput
-              placeholder={t("Type username")}
-              placeholderTextColor="#fff"
-              style={styles.inputAddress}
-            />
-            <TouchableOpacity>
-              <ContinueArrow width={30} height={30} />
-            </TouchableOpacity>
-          </View>
-        ) : valueSSI === "address" ? (
-          <View style={styles.wrapperDomain}>
-            <TextInput
-              placeholder={t("Type address")}
-              placeholderTextColor="#fff"
-              style={styles.inputAddress}
-            />
-            <TouchableOpacity>
-              <ContinueArrow width={30} height={30} />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <></>
-        )}
-        {valueOriginator === "zilpay" ||
-        (valueOriginator === "ssi" && valueSSI !== "") ? (
-          <View style={styles.selectCoinWrapper}>
-            <Text style={styles.txtCoin}>
-              {t("ADD_FUNDS_INTO_TITLE")}{" "}
-              <Text style={{ color: "#ffff32" }}>{name}</Text>
-            </Text>
-          </View>
-        ) : (
-          <></>
-        )}
-        {valueCoin !== "" && valueOriginator !== "" && (
-          <View style={styles.coinInputWrapper}>
-            <Text style={styles.txtCoinType}>{valueCoin}</Text>
-            <TextInput
-              placeholder={t("Type amount")}
-              placeholderTextColor="#fff"
-              style={styles.coinInput}
-              onChangeText={(text: string) => setInputCoin(text)}
-            />
-            {!savedInput ? (
-              <TouchableOpacity onPress={saveInputCoin}>
-                <ContinueArrow width={30} height={30} />
-              </TouchableOpacity>
-            ) : (
-              <Tick width={30} height={30} />
+            </View>
+            <View style={styles.coinInputWrapper}>
+              <Text style={styles.txtCoinType}>{valueCoin}</Text>
+              <TextInput
+                placeholder={t("Type amount")}
+                placeholderTextColor="#fff"
+                style={styles.coinInput}
+                onChangeText={(text: string) => onChangeInputCoin(text)}
+              />
+              {loadingInfoBal ? (
+                <ActivityIndicator color={isDark ? "#fff" : "#000"} />
+              ) : !savedInput ? (
+                <TouchableOpacity onPress={saveInputCoin}>
+                  <ContinueArrow width={30} height={30} />
+                </TouchableOpacity>
+              ) : (
+                <Tick width={30} height={30} />
+              )}
+            </View>
+            {savedInput && (
+              <>
+                {originatorAddress_?.value !== "zilliqa" && <Donate />}
+                {renderSubmit() && (
+                  <View>
+                    <TouchableOpacity
+                      onPress={() => setPopup(true)}
+                      style={styles.btnTransfer}
+                    >
+                      <Text style={styles.btnTransferTxt}>
+                        {t("TRANSFER")}{" "}
+                        <Text
+                          style={{
+                            color: "#ffff32",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          {inputCoin} {valueCoin}
+                        </Text>{" "}
+                        {t("TO")}{" "}
+                        <Text style={{ color: "#ffff32" }}>{name}</Text>
+                      </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.txtGas}>{t("GAS_AROUND")} 1-2 zil</Text>
+                  </View>
+                )}
+              </>
             )}
-          </View>
-        )}
-        {savedInput && (
-          <View>
-            <TouchableOpacity
-              onPress={() => setPopup(true)}
-              style={styles.btnTransfer}
-            >
-              <Text style={styles.btnTransferTxt}>
-                {t("TRANSFER")}{" "}
-                <Text style={{ color: "#ffff32", textTransform: "uppercase" }}>
-                  {inputCoin} {valueCoin}
-                </Text>{" "}
-                {t("TO")} <Text style={{ color: "#ffff32" }}>{name}</Text>
-              </Text>
-            </TouchableOpacity>
-            <Text style={styles.txtGas}>{t("GAS_AROUND")} 4-7 zil</Text>
-          </View>
+          </>
         )}
         <TyronConfirm
           title="Add Funds"
           visible={popup}
           setPopup={setPopup}
-          onConfirm={sendTx}
+          onConfirm={handleSubmit}
         />
       </View>
     </View>
@@ -362,7 +505,7 @@ const stylesDark = StyleSheet.create({
     width: deviceWidth * 0.5,
     color: "#fff",
     paddingHorizontal: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     height: 40,
   },
   buttonContinue: {
@@ -371,16 +514,16 @@ const stylesDark = StyleSheet.create({
     borderRadius: 5,
   },
   btnTransfer: {
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
     borderWidth: 1,
-    borderColor: "#fff",
+    borderColor: "#ffff32",
     alignSelf: "center",
     padding: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginTop: 50,
   },
   btnTransferTxt: {
-    color: "#fff",
+    color: "#ffff32",
     letterSpacing: 1,
   },
   txtGas: {
@@ -394,7 +537,7 @@ const stylesDark = StyleSheet.create({
   wrapperDomain: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    marginTop: 10,
   },
   inputDomain: {
     backgroundColor: "transparent",
@@ -404,7 +547,7 @@ const stylesDark = StyleSheet.create({
     width: deviceWidth * 0.3,
     color: "#fff",
     paddingHorizontal: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     height: 40,
   },
   inputAddress: {
@@ -415,7 +558,7 @@ const stylesDark = StyleSheet.create({
     width: deviceWidth * 0.5,
     color: "#fff",
     paddingHorizontal: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     height: 40,
   },
   button: {
@@ -507,7 +650,7 @@ const stylesLight = StyleSheet.create({
     width: deviceWidth * 0.5,
     color: "#fff",
     paddingHorizontal: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     height: 40,
   },
   buttonContinue: {
@@ -516,16 +659,16 @@ const stylesLight = StyleSheet.create({
     borderRadius: 5,
   },
   btnTransfer: {
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
     borderWidth: 1,
-    borderColor: "#fff",
+    borderColor: "#ffff32",
     alignSelf: "center",
     padding: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginTop: 50,
   },
   btnTransferTxt: {
-    color: "#fff",
+    color: "#ffff32",
     letterSpacing: 1,
   },
   txtGas: {
@@ -539,7 +682,7 @@ const stylesLight = StyleSheet.create({
   wrapperDomain: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    marginTop: 10,
   },
   inputDomain: {
     backgroundColor: "transparent",
@@ -549,7 +692,7 @@ const stylesLight = StyleSheet.create({
     width: deviceWidth * 0.3,
     color: "#fff",
     paddingHorizontal: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     height: 40,
   },
   inputAddress: {
@@ -560,7 +703,7 @@ const stylesLight = StyleSheet.create({
     width: deviceWidth * 0.5,
     color: "#fff",
     paddingHorizontal: 10,
-    marginHorizontal: 10,
+    marginRight: 10,
     height: 40,
   },
   button: {
