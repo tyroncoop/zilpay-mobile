@@ -22,6 +22,8 @@ import Dashboard from "../components/Dashboard/Index";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { showTxModal, txModalMinimized } from "app/lib/controller/tyron/tx";
 import TxModal from "../components/TxModal/Index";
+import ModalBuyNft from "../components/Modal/BuyNft/Index";
+import { modalBuyNft } from "app/lib/controller/tyron/modal";
 
 export type Props = {
   navigation: any;
@@ -30,6 +32,7 @@ export type Props = {
 const Welcome: React.FC<Props> = ({ navigation }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showConnect, setShowConnect] = useState(false);
+  const [showBuy, setShowBuy] = modalBuyNft.use();
   const [showGetStarted, setShowGetStarted] = useState(false);
   const isDark = tyronThemeDark.useValue();
   const showModalTx = showTxModal.useValue();
@@ -52,10 +55,15 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
         hideModal={() => setShowConnect(false)}
         setLoginState={setLoginState}
       />
+      <ModalBuyNft
+        navigation={navigation}
+        visible={showBuy}
+        hideModal={() => setShowBuy(false)}
+      />
       <View>
         {txMinimized || !showModalTx ? (
           <>
-            {!showMenu && !showConnect && !showGetStarted && (
+            {!showMenu && !showConnect && !showGetStarted && !showBuy && (
               <>
                 <Dashboard
                   loginState={loginState}
@@ -73,7 +81,7 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
       </View>
       {txMinimized || !showModalTx ? (
         <>
-          {!showMenu && !showConnect && !showGetStarted && (
+          {!showMenu && !showConnect && !showGetStarted && !showBuy && (
             <>
               <View>
                 <SearchBar navigation={navigation} />

@@ -26,6 +26,8 @@ import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import TxModal from "../../TxModal/Index";
 import { showTxModal, txModalMinimized } from "app/lib/controller/tyron/tx";
 import { loadingGlobal } from "app/lib/controller/tyron/utils";
+import ModalBuyNft from "../../Modal/BuyNft/Index";
+import { modalBuyNft } from "app/lib/controller/tyron/modal";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -39,6 +41,7 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
   const [showConnect, setShowConnect] = useState(false);
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [loginState, setLoginState] = useState("");
+  const [showBuy, setShowBuy] = modalBuyNft.use();
   const showModalTx = showTxModal.useValue();
   const txMinimized = txModalMinimized.useValue();
   const isDark = tyronThemeDark.useValue();
@@ -60,7 +63,12 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
         hideModal={() => setShowConnect(false)}
         setLoginState={setLoginState}
       />
-      {!showMenu && !showConnect && !showGetStarted && (
+      <ModalBuyNft
+        navigation={navigation}
+        visible={showBuy}
+        hideModal={() => setShowBuy(false)}
+      />
+      {!showMenu && !showConnect && !showGetStarted && !showBuy && (
         <ScrollView>
           <Dashboard
             loginState={loginState}

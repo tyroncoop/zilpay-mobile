@@ -23,6 +23,7 @@ import {
 import smartContract from "../../util/smartContract";
 import ThreeDots from "../ThreeDots/Index";
 import { loadingGlobal } from "app/lib/controller/tyron/utils";
+import { modalBuyNft } from "app/lib/controller/tyron/modal";
 
 const DeviceWidth = Dimensions.get("screen").width;
 
@@ -127,14 +128,18 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
               userName.set(name);
               navigation.navigate("Services");
             } catch (error) {
-              Alert.alert("Username available to buy");
+              userName.set(name);
+              userDomain.set(domain);
+              modalBuyNft.set(true);
             }
           }
           setLoading(false);
         })
         .catch(() => {
           setLoading(false);
-          Alert.alert("Username available to buy");
+          userName.set(name);
+          userDomain.set(domain);
+          modalBuyNft.set(true);
         });
     } else {
       setLoading(false);
