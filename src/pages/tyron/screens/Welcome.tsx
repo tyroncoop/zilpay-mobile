@@ -63,7 +63,7 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
       <View>
         {txMinimized || !showModalTx ? (
           <>
-            {!showMenu && !showConnect && !showGetStarted && !showBuy && (
+            {!showMenu && !showGetStarted && !showBuy && (
               <>
                 <Dashboard
                   loginState={loginState}
@@ -81,11 +81,13 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
       </View>
       {txMinimized || !showModalTx ? (
         <>
-          {!showMenu && !showConnect && !showGetStarted && !showBuy && (
+          {!showMenu && !showGetStarted && !showBuy && (
             <>
-              <View>
-                <SearchBar navigation={navigation} />
-              </View>
+              {!showConnect && (
+                <View>
+                  <SearchBar navigation={navigation} />
+                </View>
+              )}
               <View>
                 <Footer navigation={navigation} />
               </View>

@@ -68,7 +68,7 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
         visible={showBuy}
         hideModal={() => setShowBuy(false)}
       />
-      {!showMenu && !showConnect && !showGetStarted && !showBuy && (
+      {!showMenu && !showGetStarted && !showBuy && (
         <ScrollView>
           <Dashboard
             loginState={loginState}
@@ -79,14 +79,18 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
           {showModalTx && <TxModal />}
           {txMinimized || !showModalTx ? (
             <>
-              <View style={styles.wrapperContent}>
-                <SearchBar navigation={navigation} />
-                {!loading && child}
-              </View>
-              {!loading && (
-                <View>
-                  <Footer navigation={navigation} />
-                </View>
+              {!showConnect && (
+                <>
+                  <View style={styles.wrapperContent}>
+                    <SearchBar navigation={navigation} />
+                    {!loading && child}
+                  </View>
+                  {!loading && (
+                    <View>
+                      <Footer navigation={navigation} />
+                    </View>
+                  )}
+                </>
               )}
             </>
           ) : (
