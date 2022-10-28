@@ -82,7 +82,7 @@ const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
               {!showConnect && (
                 <>
                   <View style={styles.wrapperContent}>
-                    <SearchBar navigation={navigation} />
+                    <SearchBar navigation={navigation} isHome={false} />
                     {!loading && child}
                   </View>
                   {!loading && (

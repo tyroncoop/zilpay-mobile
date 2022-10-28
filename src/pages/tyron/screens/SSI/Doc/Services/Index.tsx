@@ -326,7 +326,7 @@ const stylesDark = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 50,
+    marginTop: 20,
   },
   txtBtn: {
     color: "#fff",
@@ -352,6 +352,7 @@ const stylesDark = StyleSheet.create({
     marginTop: 50,
   },
   wrapperContent: {
+    marginTop: 30,
     marginBottom: 100,
     alignSelf: "center",
   },
@@ -425,7 +426,7 @@ const stylesLight = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 50,
+    marginTop: 20,
   },
   txtBtn: {
     color: "#000",
@@ -451,6 +452,7 @@ const stylesLight = StyleSheet.create({
     marginTop: 50,
   },
   wrapperContent: {
+    marginTop: 30,
     marginBottom: 100,
     alignSelf: "center",
   },

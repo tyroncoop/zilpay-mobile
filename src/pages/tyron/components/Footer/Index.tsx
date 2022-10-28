@@ -155,6 +155,8 @@ const stylesDark = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginBottom: -10,
+    position: "absolute",
+    bottom: 70,
   },
 });
 
@@ -201,5 +203,7 @@ const stylesLight = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginBottom: -10,
+    position: "absolute",
+    bottom: 70,
   },
 });

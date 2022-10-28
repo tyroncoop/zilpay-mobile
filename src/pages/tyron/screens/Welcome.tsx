@@ -85,7 +85,7 @@ const Welcome: React.FC<Props> = ({ navigation }) => {
             <>
               {!showConnect && (
                 <View>
-                  <SearchBar navigation={navigation} />
+                  <SearchBar navigation={navigation} isHome={true} />
                 </View>
               )}
               <View>

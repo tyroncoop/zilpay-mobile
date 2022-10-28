@@ -31,9 +31,11 @@ const Headline: React.FC<Props> = ({ navigation, data }) => {
         <TouchableOpacity onPress={() => navigation.navigate("Welcome")}>
           <Text style={styles.txtNav}>{t("HOMEPAGE")}</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.wrapper}>
         {data[0]?.name !== "homepage" && (
           <>
-            <Text style={styles.txtNav}>&nbsp;&gt;&nbsp;</Text>
+            <Text style={styles.txtNav}>&nbsp;|&nbsp;</Text>
             <TouchableOpacity
               onPress={() => {
                 if (domain === "" || domain === "did") {

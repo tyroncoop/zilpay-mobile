@@ -22,21 +22,23 @@ import {
 } from "app/lib/controller/tyron/user";
 import smartContract from "../../util/smartContract";
 import ThreeDots from "../ThreeDots/Index";
-import { loadingGlobal } from "app/lib/controller/tyron/utils";
+import { loadingGlobal, showSearch } from "app/lib/controller/tyron/utils";
 import { modalBuyNft } from "app/lib/controller/tyron/modal";
 
 const DeviceWidth = Dimensions.get("screen").width;
 
 export type Props = {
   navigation: any;
+  isHome: boolean;
 };
 
-const SearchBar: React.FC<Props> = ({ navigation }) => {
+const SearchBar: React.FC<Props> = ({ navigation, isHome }) => {
   const zcrypto = tyron.Util.default.Zcrypto();
   const { t } = useTranslation();
   const { getSmartContract } = smartContract();
 
   const [loading, setLoading] = loadingGlobal.use();
+  const [showSearch_, setShowSearch_] = showSearch.use();
   const [searchInput, setSearchInput] = useState("");
   const isDark = tyronThemeDark.useValue();
 
@@ -215,6 +217,7 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
                 });
             }
             setTimeout(() => {
+              setShowSearch_(false);
               setLoading(false);
             }, 1000);
           })
@@ -237,6 +240,17 @@ const SearchBar: React.FC<Props> = ({ navigation }) => {
         setLoading(false);
       });
   };
+
+  if (!showSearch_ && !isHome) {
+    return (
+      <TouchableOpacity
+        onPress={() => setShowSearch_(true)}
+        style={styles.showSearch}
+      >
+        <Image style={styles.searchIco} source={search} />
+      </TouchableOpacity>
+    );
+  }
 
   return (
     <View>
@@ -321,6 +335,16 @@ const stylesDark = StyleSheet.create({
     backgroundColor: "#fff",
     marginHorizontal: 10,
   },
+  showSearch: {
+    padding: 10,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#fff",
+    alignSelf: "flex-end",
+    marginBottom: 20,
+    marginTop: 10,
+  },
 });
 
 const stylesLight = StyleSheet.create({
@@ -372,5 +396,15 @@ const stylesLight = StyleSheet.create({
     height: 25,
     backgroundColor: "#fff",
     marginHorizontal: 10,
+  },
+  showSearch: {
+    padding: 10,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#fff",
+    alignSelf: "flex-end",
+    marginBottom: 20,
+    marginTop: 10,
   },
 });

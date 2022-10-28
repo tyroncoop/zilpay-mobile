@@ -268,7 +268,7 @@ const SSI: React.FC<Props> = ({ navigation }) => {
             setShowConnect={setShowConnect}
           />
           <View style={styles.wrapperContent}>
-            <SearchBar navigation={navigation} />
+            <SearchBar navigation={navigation} isHome={false} />
             <Headline navigation={navigation} data={dataBreadcrumbs} />
             <View style={styles.textHeaderWrapper}>
               <Text style={styles.txtHeaderYellow}>{name}</Text>

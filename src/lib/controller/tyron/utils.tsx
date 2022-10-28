@@ -11,3 +11,4 @@ export const loadingGlobal = newRidgeState<boolean>(false);
 export const donation = newRidgeState<number | null>(null);
 export const extraZil = newRidgeState<number | null>(null);
 export const zilBal = newRidgeState<number | null>(null);
+export const showSearch = newRidgeState<boolean>(false);
