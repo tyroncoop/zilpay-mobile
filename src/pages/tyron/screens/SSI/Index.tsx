@@ -28,6 +28,7 @@ import { useTranslation } from "react-i18next";
 import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { userName } from "app/lib/controller/tyron/user";
 import ClaimWallet from "./ClaimWallet/Index";
+import { modalConnect } from "app/lib/controller/tyron/modal";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -38,7 +39,7 @@ export type Props = {
 const SSI: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const [showMenu, setShowMenu] = useState(false);
-  const [showConnect, setShowConnect] = useState(false);
+  const [showConnect, setShowConnect] = modalConnect.use();
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [loginState, setLoginState] = useState("");
   const [open, setOpen] = useState(false);

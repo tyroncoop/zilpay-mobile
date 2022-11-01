@@ -23,7 +23,7 @@ import { tyronThemeDark } from "app/lib/controller/tyron/theme";
 import { showTxModal, txModalMinimized } from "app/lib/controller/tyron/tx";
 import TxModal from "../components/TxModal/Index";
 import ModalBuyNft from "../components/Modal/BuyNft/Index";
-import { modalBuyNft } from "app/lib/controller/tyron/modal";
+import { modalBuyNft, modalConnect } from "app/lib/controller/tyron/modal";
 
 export type Props = {
   navigation: any;
@@ -31,7 +31,7 @@ export type Props = {
 
 const Welcome: React.FC<Props> = ({ navigation }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showConnect, setShowConnect] = useState(false);
+  const [showConnect, setShowConnect] = modalConnect.use();
   const [showBuy, setShowBuy] = modalBuyNft.use();
   const [showGetStarted, setShowGetStarted] = useState(false);
   const isDark = tyronThemeDark.useValue();

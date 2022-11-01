@@ -27,7 +27,7 @@ import TxModal from "../../TxModal/Index";
 import { showTxModal, txModalMinimized } from "app/lib/controller/tyron/tx";
 import { loadingGlobal } from "app/lib/controller/tyron/utils";
 import ModalBuyNft from "../../Modal/BuyNft/Index";
-import { modalBuyNft } from "app/lib/controller/tyron/modal";
+import { modalBuyNft, modalConnect } from "app/lib/controller/tyron/modal";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -38,7 +38,7 @@ export type Props = {
 
 const DIDLayout: React.FC<Props> = ({ navigation, child }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showConnect, setShowConnect] = useState(false);
+  const [showConnect, setShowConnect] = modalConnect.use();
   const [showGetStarted, setShowGetStarted] = useState(false);
   const [loginState, setLoginState] = useState("");
   const [showBuy, setShowBuy] = modalBuyNft.use();
