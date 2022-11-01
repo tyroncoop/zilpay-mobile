@@ -38,6 +38,7 @@ import SBTPublic from 'app/pages/tyron/screens/SSI/SBT/Wallet/Public';
 import SBTPrivate from 'app/pages/tyron/screens/SSI/SBT/Wallet/Private';
 
 import { DApp } from 'types';
+import DIDDomains from 'app/pages/tyron/screens/SSI/Wallet/NFT/DIDDomains/Index';
 
 
 const Stack = createStackNavigator();
@@ -124,6 +125,11 @@ export const tyronNav: React.FC = () => {
         options={{headerShown: false}}
         name="DIDSocialRecovery"
         component={DIDSocialRecovery}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="DIDDomains"
+        component={DIDDomains}
       />
       <Stack.Screen
         options={{headerShown: false}}

@@ -148,6 +148,7 @@ const Child: React.FC<Props> = ({ navigation }) => {
         <View>
           <View style={styles.cardWrapper}>
             <TouchableOpacity
+              onPress={() => navigation.navigate("DIDDomains")}
               onLongPress={() =>
                 !!flipRotation1 ? flipToBack(1) : flipToFront(1)
               }
