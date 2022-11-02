@@ -139,7 +139,7 @@ const OriginatorAddress: React.FC<Props> = () => {
   return (
     <View>
       <Text style={styles.textSource}>{t("Source of funds")}:</Text>
-      <View style={styles.picker}>
+      <View style={openOriginator ? styles.picker2 : styles.picker}>
         <DropDownPicker
           zIndex={4000}
           zIndexInverse={1000}
@@ -210,6 +210,11 @@ const stylesDark = StyleSheet.create({
   picker: {
     width: deviceWidth * 0.6 + 25,
     marginVertical: 10,
+  },
+  picker2: {
+    width: deviceWidth * 0.6 + 25,
+    marginVertical: 10,
+    height: 150,
   },
   pickerSSI: {
     width: deviceWidth * 0.6 + 25,
@@ -360,6 +365,11 @@ const stylesLight = StyleSheet.create({
   picker: {
     width: deviceWidth * 0.6 + 25,
     marginVertical: 10,
+  },
+  picker2: {
+    width: deviceWidth * 0.6 + 25,
+    marginVertical: 10,
+    height: 150,
   },
   pickerSSI: {
     width: deviceWidth * 0.6 + 25,

@@ -39,6 +39,7 @@ import SBTPrivate from 'app/pages/tyron/screens/SSI/SBT/Wallet/Private';
 
 import { DApp } from 'types';
 import DIDDomains from 'app/pages/tyron/screens/SSI/Wallet/NFT/DIDDomains/Index';
+import StakeAddFunds from 'app/pages/tyron/screens/SSI/Stake/AddFunds/Index';
 
 
 const Stack = createStackNavigator();
@@ -135,6 +136,11 @@ export const tyronNav: React.FC = () => {
         options={{headerShown: false}}
         name="Stake"
         component={Stake}
+      />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="StakeAddFunds"
+        component={StakeAddFunds}
       />
       <Stack.Screen
         options={{headerShown: false}}

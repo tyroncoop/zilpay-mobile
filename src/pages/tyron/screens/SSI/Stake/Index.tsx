@@ -183,7 +183,7 @@ const Stake: React.FC<Props> = ({ navigation }) => {
             <View style={styles.content}>
               <View style={styles.cardWrapper}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("Doc")}
+                  onPress={() => navigation.navigate("StakeAddFunds")}
                   onLongPress={() =>
                     !!flipRotationDid ? flipToBack("did") : flipToFront("did")
                   }

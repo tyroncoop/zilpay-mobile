@@ -23,6 +23,7 @@ import {
   domainLegend,
   domainLegend2,
   donation,
+  loadingGlobal,
   txName,
 } from "app/lib/controller/tyron/utils";
 import { userResolved } from "app/lib/controller/tyron/user";
@@ -36,6 +37,7 @@ import {
 } from "app/lib/controller/tyron/tx";
 import { Linking } from "react-native";
 import { TyronConfirm } from "app/pages/tyron/components/PopUp";
+import smartContract from "app/pages/tyron/util/smartContract";
 
 const deviceWidth = Dimensions.get("screen").width;
 
@@ -56,6 +58,7 @@ export default DIDDomains;
 
 const Child: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
+  const { getSmartContract } = smartContract();
   const zcrypto = tyron.Util.default.Zcrypto();
   const isDark = tyronThemeDark.useValue();
   const styles = isDark ? stylesDark : stylesLight;
@@ -64,7 +67,6 @@ const Child: React.FC<Props> = ({ navigation }) => {
   const [popup1, setPopup1] = useState(false);
   const [popup2, setPopup2] = useState(false);
   const [popup3, setPopup3] = useState(false);
-  const [legend2, setLegend2] = useState("save");
 
   const net = "testnet";
   const resolvedInfo = userResolved.useValue();
@@ -137,14 +139,11 @@ const Child: React.FC<Props> = ({ navigation }) => {
               Linking.openURL(
                 `https://v2.viewblock.io/zilliqa/tx/${deploy[0].id}?network=${net}`
               );
-              console.log("@@@", deploy[0]);
               const txn = await tyron.Init.default.contract(deploy[0].id, net);
               let addr = "0x" + txn;
-              console.log("###", addr);
               addr = zcrypto.toChecksumAddress(addr);
               domainAddr.set(addr);
               domainLegend2.set("saved");
-              setLegend2("saved");
             } else if (tx.isRejected()) {
               txStatus.set("failed");
               setTimeout(() => {
@@ -165,6 +164,189 @@ const Child: React.FC<Props> = ({ navigation }) => {
     } else {
       Alert.alert("Some data is missing.");
     }
+  };
+
+  const handleDeployVC = async (privkey: string) => {
+    if (resolvedInfo !== null && net !== null) {
+      const zilpay = new ZilPayBase();
+      txId.set("");
+      txStatus.set("loading");
+      txModalMinimized.set(false);
+      showTxModal.set(true);
+      let tx = await tyron.Init.default.transaction(net);
+      console.log("#", "okok");
+      await zilpay
+        .deployDomainBetaVC(net, name, didDomain, privkey)
+        .then(async (deploy: any) => {
+          txId.set(deploy[0].id);
+          txStatus.set("submitted");
+          try {
+            tx = await tx.confirm(deploy[0].id);
+            if (tx.isConfirmed()) {
+              txStatus.set("confirmed");
+              donation.set(null);
+              Linking.openURL(
+                `https://v2.viewblock.io/zilliqa/tx/${deploy[0].id}?network=${net}`
+              );
+              const txn = await tyron.Init.default.contract(deploy[0].id, net);
+              let addr = "0x" + txn;
+              addr = zcrypto.toChecksumAddress(addr);
+              domainAddr.set(addr);
+              domainLegend2.set("saved");
+            } else if (tx.isRejected()) {
+              txStatus.set("failed");
+              setTimeout(() => {
+                Alert.alert(t("Transaction failed."));
+              }, 1000);
+            }
+          } catch (err) {
+            showTxModal.set(false);
+            Alert.alert(String(err));
+          }
+        })
+        .catch(() => {
+          txStatus.set("rejected");
+          txModalMinimized.set(false);
+          showTxModal.set(true);
+          Alert.alert("Review deployment");
+        });
+    } else {
+      Alert.alert("Some data is missing.");
+    }
+  };
+
+  const handleSubmit = async (privkey: string) => {
+    try {
+      let did_key =
+        "0x000000000000000000000000000000000000000000000000000000000000000000";
+      let encrypted = "null";
+      // await connect().then(async () => {
+      //     const arConnect = $arconnect.getState()
+      //     if (arConnect) {
+      //         const result = await operationKeyPair({
+      //             arConnect: arConnect,
+      //             id: didDomain,
+      //             addr: resolvedInfo?.addr,
+      //         })
+      //         did_key = result.element.key.key
+      //         encrypted = result.element.key.encrypted
+      //     }
+      // })
+      //@todo-x-check: continue after the user select arconnect or rejects: tested action below only run after connect(),
+      // but when reject arconnect atm we reload the page so can't continue
+      if (resolvedInfo !== null && donation_ !== null) {
+        const zilpay = new ZilPayBase();
+        const txID = "Dns";
+        const addr = zcrypto.toChecksumAddress(input);
+        let tyron_: tyron.TyronZil.TransitionValue;
+        tyron_ = await tyron.Donation.default.tyron(donation_);
+
+        const tx_params = await tyron.TyronZil.default.Dns(
+          addr,
+          didDomain,
+          did_key,
+          encrypted,
+          tyron_
+        );
+        const _amount = String(donation_);
+        txId.set("");
+        txStatus.set("loading");
+        txModalMinimized.set(false);
+        showTxModal.set(true);
+        let tx = await tyron.Init.default.transaction(net);
+        await zilpay
+          .call({
+            contractAddress: resolvedInfo?.addr!,
+            transition: txID,
+            params: tx_params as unknown as Record<string, unknown>[],
+            amount: _amount,
+            privkey,
+          })
+          .then(async (res) => {
+            txId.set(res.id!);
+            txStatus.set("submitted");
+            try {
+              tx = await tx.confirm(res.id!);
+              if (tx.isConfirmed()) {
+                txStatus.set("confirmed");
+                donation.set(null);
+                Linking.openURL(
+                  `https://v2.viewblock.io/zilliqa/tx/${res.id}?network=${net}`
+                );
+                // update prev is needed here?: yes, it would be better to use global navigation
+                // we already use navigate() on resolveDid() and that's enough
+
+                domainInput.set("");
+                domainLegend.set("save");
+                domainLegend2.set("save");
+                txName.set("");
+                resolveDid(name, didDomain);
+              } else if (tx.isRejected()) {
+                txStatus.set("failed");
+                setTimeout(() => {
+                  Alert.alert(t("Transaction failed."));
+                }, 1000);
+              }
+            } catch (err) {
+              showTxModal.set(false);
+              Alert.alert(String(err));
+            }
+          })
+          .catch((error) => {
+            txStatus.set("rejected");
+            txModalMinimized.set(false);
+            showTxModal.set(true);
+            Alert.alert(String(error));
+          });
+      }
+    } catch (error) {
+      Alert.alert(String(error));
+    }
+  };
+
+  const resolveDid = async (_username: string, _domain: string) => {
+    console.log("1");
+    loadingGlobal.set(true);
+    const domainId = "0x" + (await tyron.Util.default.HashString(_username));
+    await tyron.SearchBarUtil.default
+      .fetchAddr(net, domainId, _domain)
+      .then(async (addr) => {
+        console.log("2", addr);
+        const res = await getSmartContract(addr, "version");
+        loadingGlobal.set(false);
+        userResolved.set({
+          name: _username,
+          domain: _domain,
+          addr: addr,
+          version: res?.result?.version,
+        });
+        console.log("3", res?.result);
+        console.log("3", res?.result?.version?.slice(0, 8).toLowerCase());
+        switch (res?.result?.version?.slice(0, 8).toLowerCase()) {
+          case "zilstake":
+            navigation.navigate("Stake");
+            break;
+          case ".stake--":
+            navigation.navigate("Stake");
+            break;
+          case "zilxwall":
+            navigation.navigate("Stake");
+            break;
+          case "vcxwalle":
+            navigation.navigate("SBT");
+            break;
+          case "sbtxwall":
+            navigation.navigate("SBT");
+            break;
+          default:
+            navigation.navigate("Services");
+            break;
+        }
+      })
+      .catch((err) => {
+        Alert.alert(String(err));
+        loadingGlobal.set(false);
+      });
   };
 
   const dataHeadline = [
@@ -228,7 +410,10 @@ const Child: React.FC<Props> = ({ navigation }) => {
                         {domainLegend2_ === "save" ? (
                           <>
                             {val === "ZIL Staking xWallet" ? (
-                              <TouchableOpacity style={styles.btnZil}>
+                              <TouchableOpacity
+                                onPress={() => setPopup2(true)}
+                                style={styles.btnZil}
+                              >
                                 <Text style={styles.txtBtnZil}>
                                   New ZILxWallet
                                 </Text>
@@ -248,7 +433,10 @@ const Child: React.FC<Props> = ({ navigation }) => {
                           <View>
                             <Donate />
                             {donation_ !== null && (
-                              <TouchableOpacity style={styles.btnSaveDomain}>
+                              <TouchableOpacity
+                                onPress={() => setPopup3(true)}
+                                style={styles.btnSaveDomain}
+                              >
                                 <Text style={styles.txtBtnSaveDomain}>
                                   Save{" "}
                                   <Text style={{ color: "#ffff32" }}>
@@ -329,6 +517,18 @@ const Child: React.FC<Props> = ({ navigation }) => {
         visible={popup1}
         setPopup={setPopup1}
         onConfirm={handleDeploy}
+      />
+      <TyronConfirm
+        title="Deploy Domain"
+        visible={popup2}
+        setPopup={setPopup2}
+        onConfirm={handleDeployVC}
+      />
+      <TyronConfirm
+        title="Save Domain"
+        visible={popup3}
+        setPopup={setPopup3}
+        onConfirm={handleSubmit}
       />
     </View>
   );
