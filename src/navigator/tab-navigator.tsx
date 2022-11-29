@@ -12,19 +12,25 @@ import { useTheme } from '@react-navigation/native';
 
 import HomeIconSVG from 'app/assets/icons/home.svg';
 import TimerIconSVG from 'app/assets/icons/timer.svg';
+import TyronIconSVG from 'app/assets/icons/tyron_selected.svg';
+import TyronLightIconSVG from 'app/assets/icons/tyron_light.svg';
+import TyronDarkIconSVG from 'app/assets/icons/tyron_dark.svg';
 import BrowserIconSVG from 'app/assets/icons/browser.svg';
 import SettingsIconSVG from 'app/assets/icons/settings.svg';
 
 import HomePage from 'app/pages/home';
 import { browserNav, BrwoserStackParamList } from 'app/navigator/browser';
+import { tyronNav } from 'app/navigator/tyron';
 import { SettingsPage } from 'app/pages/settings';
 import { HistoryPage } from 'app/pages/history';
+// import { Tyron } from 'app/pages/tyron';
 
 import I18n from 'app/lib/i18n';
 
 export type TabStackParamList = {
   Home: undefined;
   History: undefined;
+  Tyron: undefined;
   Browser: BrwoserStackParamList;
   Settings: undefined;
 };
@@ -67,6 +73,24 @@ export const TabNavigator: React.FC = () => {
           tabBarLabel: I18n.t('history'),
           tabBarIcon: ({ color }) => (
             <TimerIconSVG fill={color} />
+          )
+        }}
+      />
+      <TabStack.Screen
+        name="Tyron"
+        component={tyronNav}
+        options={{
+          tabBarLabel: 'TYRON',
+          tabBarIcon: ({ color }) => (
+            <>
+              {color === '#8E8EAE' ? (
+                <TyronLightIconSVG />
+              ) : color === '#666666' ? (
+                <TyronDarkIconSVG />
+              ) : (
+                <TyronIconSVG />
+              )}
+            </>
           )
         }}
       />
